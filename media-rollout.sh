@@ -166,7 +166,7 @@ function _nzbhydra2()
         | cut -d\" -f2 \
         | awk -F 'tag/' '{print $2}' )"
 
-    local _NH_TAG="https://github.com/theotherp/nzbhydra2/releases/tag/${_NH_VER}"
+    local _NH_TAG="${_NH_ADDY}/tag/${_NH_VER}"
 
     local _NH_RLS="$(curl -s ${_NH_ADDY}/tag/${_NH_VER} \
         | grep linux \
@@ -178,6 +178,16 @@ function _nzbhydra2()
 
     unzip ${_NH_RLS}
     rm ${_NH_RLS}
+
+    local _NH_USR_OLD="User=ubuntu"
+    local _NH_GRP_OLD="Group=vboxsf"
+    local _NH_EXC_OLD="ExecStart=/home/nzbhydra/nzbhydra2/nzbhydra2 --nobrowser"
+
+    cp systemd/nzbhydra2.service /lib/systemd/system/nzbhydra2.service
+
+    sed -i 's/User=ubuntu.*/User=hydra/' /lib/systemd/system/nzbhydra2.service
+    sed -i 's/Group=vboxsf.*/Group=hydra/' /lib/systemd/system/nzbhydra2.service
+    sed -i 's/ExecStart=\/home\/nzbhydra\/nzbhydra2\/nzbhydra2 --nobrowser.*/ExecStart=\/usr\/bin\/python \/opt\/nzbhydra2\/nzbhydra2wrapper.py --nobrowser --datafolder \/home\/hydra\/.nzbhydra2_data/' /lib/systemd/system/nzbhydra2.service
 
     sudo chown -R hydra:hydra /opt/nzbhydra2/
 
