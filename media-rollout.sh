@@ -148,7 +148,11 @@ function _APT_WORK()
 
 function _sabnzbd()
 {
-    apt install sabnzbdplus python-sabyenc par2-tbb
+    apt install \
+        sabnzbdplus \
+        python-sabyenc \
+        par2-tbb \
+        -y
     systemctl daemon-reload
     systemctl enable sabnzbdplus.service
     chown -R sabnzbd:downloads /${_MEDIA_PATH:-storage}/downloads/*
