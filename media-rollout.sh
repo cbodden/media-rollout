@@ -17,8 +17,11 @@
 #       CREATED: 11/23/2019 03:40:08 PM EST
 #      REVISION: 1
 #===============================================================================
+##########################################
+#### EDITS ONLY IN THIS SECTION BELOW ####
+##########################################
 
-set -o nounset
+
 
 mkdir -p \
     /storage/books \
@@ -30,6 +33,50 @@ mkdir -p \
     /storage/downloads/incomplete
 
 
+
+##################################################
+#### END OF EDITs SECTION - DO NOT EDIT BELOW ####
+##################################################
+
+function main()
+{
+    LC_ALL=C
+    LANG=C
+
+    ## check for sudo
+    local _R_UID="0"
+    if [ "${UID}" -ne "${_R_UID}" ]
+    then
+        printf "%s\n" \
+            "${RED}. . .Needs sudo. . .${CLR}"
+
+        exit 1
+    fi
+
+    # if $SHELL == /bin/bash have some default sets
+    case "$(echo $SHELL 2>/dev/null)" in
+        '/bin/bash')
+            set -o nounset
+            set -o pipefail
+            set -e
+            set -u
+            ;;
+    esac
+
+    trap 'echo "${NAME}: Ouch! Quitting." 1>&2 ; exit 1' 1 2 3 9 15
+
+    readonly RED=$(tput setaf 1)
+    readonly BLU=$(tput setaf 4)
+    readonly GRN=$(tput setaf 40)
+    readonly CLR=$(tput sgr0)
+}
+
+function _pause()
+{
+    printf "%s\n" \
+        "${GRN}. . . .Press enter to continue. . . .${CLR}"
+    read -p "$*"
+}
 
 function _USERS_GROUPS()
 {
