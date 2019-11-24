@@ -117,7 +117,7 @@ function _APT_WORK()
         curl \
         git-core \
         gnupg ca-certificates \
-        libchromat-tools \
+        libchromaprint-tools \
         mediainfo \
         openjdk-11-jre-headless \
         sqlite3 \
