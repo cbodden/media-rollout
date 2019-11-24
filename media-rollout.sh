@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+# ******** NOT READY FOR USE - THERE BE DRAGONS AHEAD *********
+
 #===============================================================================
 #          FILE: media_rollout.sh
 #         USAGE: ./media_rollout.sh
