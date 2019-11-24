@@ -174,25 +174,26 @@ function _sabnzbd()
         python-sabyenc \
         par2-tbb \
         -y
-            systemctl daemon-reload
-            systemctl enable sabnzbdplus.service
-            chown -R sabnzbd:downloads /${_PATH}/downloads/*
-        }
 
-    function _sabnzbd_configure()
-    {
-        mkdir -p ${_SAB_HOME}
-        wget ${_GIT_PATH}/config_files/sabnzbd.ini -O ${_SAB_HOME}/sabnzbd.ini
+    systemctl daemon-reload
+    systemctl enable sabnzbdplus.service
+    chown -R sabnzbd:downloads /${_PATH}/downloads/*
+}
 
-        sed -i "s|^api_key =.*|api_key = ${_API_GEN}|g" path
-        sed -i "s|^host =.*|host = ${_IP}|g" path
-        sed -i "s|^download_dir =.*|download_dir = ${_PATH}/download/incomplete|g" path
-        sed -i "s|^nzb_key =.*|nzb_key = ${_API_GEN}|g" path
-        sed -i "s|^complete_dir =.*|complete_dir = ${_PATH}/download/complete|g" path
-        sed -i "s|^username =.*|username = ${_UNAME}|g" sabnzbd.ini
-        sed -i "s|^password =.*|password = ${_PWORD}|g" sabnzbd.ini
-        sed -i "s|^host_whitelist =.*|host_whitelist = $(hostname),|g" sabnzbd.ini
-    }
+function _sabnzbd_configure()
+{
+    mkdir -p ${_SAB_HOME}
+    wget ${_GIT_PATH}/config_files/sabnzbd.ini -O ${_SAB_HOME}/sabnzbd.ini
+
+    sed -i "s|^api_key =.*|api_key = ${_API_GEN}|g" path
+    sed -i "s|^host =.*|host = ${_IP}|g" path
+    sed -i "s|^download_dir =.*|download_dir = ${_PATH}/download/incomplete|g" path
+    sed -i "s|^nzb_key =.*|nzb_key = ${_API_GEN}|g" path
+    sed -i "s|^complete_dir =.*|complete_dir = ${_PATH}/download/complete|g" path
+    sed -i "s|^username =.*|username = ${_UNAME}|g" sabnzbd.ini
+    sed -i "s|^password =.*|password = ${_PWORD}|g" sabnzbd.ini
+    sed -i "s|^host_whitelist =.*|host_whitelist = $(hostname),|g" sabnzbd.ini
+}
 
 function _nzbhydra2()
 {
@@ -217,10 +218,6 @@ function _nzbhydra2()
 
     unzip ${_NH_RLS}
     rm ${_NH_RLS}
-
-    local _NH_USR_OLD="User=ubuntu"
-    local _NH_GRP_OLD="Group=vboxsf"
-    local _NH_EXC_OLD="ExecStart=/home/nzbhydra/nzbhydra2/nzbhydra2 --nobrowser"
 
     cp systemd/nzbhydra2.service /lib/systemd/system/nzbhydra2.service
 
