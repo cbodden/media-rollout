@@ -215,6 +215,24 @@ function _lidarr()
     tar -xzvf ${_LR_DLD_PATH##*/}
     sudo chown -R lidarr:lidarr /opt/Lidarr/
 
+    tee /etc/systemd/system/lidarr.service <<-EOF
+    [Unit]
+    Description=Lidarr Daemon
+    After=syslog.target network.target
+
+    [Service]
+    User=lidarr
+    Group=lidarr
+    Type=simple
+    ExecStart=/usr/bin/mono /opt/Lidarr/Lidarr.exe -nobrowser
+    TimeoutStopSec=20
+    KillMode=process
+    Restart=on-failure
+
+    [Install]
+    WantedBy=multi-user.target
+    EOF
+
     systemctl daemon-reload
     systemctl enable lidarr.service
 }
@@ -223,6 +241,25 @@ function _sonarr()
 {
     apt install nzbdrone
     chown -R sonarr:sonarr /opt/NzbDrone/
+
+    tee /lib/systemd/system/sonarr.service <<-EOF
+    [Unit]
+    Description=Sonarr Daemon
+    After=network.target
+
+    [Service]
+    User=sonarr
+    Group=sonarr
+
+    Type=simple
+    ExecStart=/usr/bin/mono /opt/NzbDrone/NzbDrone.exe -nobrowser
+    TimeoutStopSec=20
+    KillMode=process
+    Restart=on-failure
+
+    [Install]
+    WantedBy=multi-user.target
+    EOF
 
     systemctl daemon-reload
     systemctl enable sonarr.service
