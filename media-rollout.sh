@@ -173,7 +173,7 @@ function _nzbhydra2()
         | cut -d\" -f2 \
         | awk -F "${_NH_VER}/" '{print $2}' )"
 
-    wget ${_NH_ADDY}/download/${_NH_VER}/${_NH_RLS} -O /opt/${_NH_RLS}
+    wget ${_NH_ADDY}/download/${_NH_VER}/${_NH_RLS} -O /opt/nzbhydra2/${_NH_RLS}
 
     unzip ${_NH_RLS}
     rm ${_NH_RLS}
