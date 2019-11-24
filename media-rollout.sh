@@ -54,7 +54,7 @@ _CONFIG_PWORD=""
 function main()
 {
     LC_ALL=C
-    LANG=C
+    LANG=c
 
     readonly RED=$(tput setaf 1)
     readonly BLU=$(tput setaf 4)
@@ -110,7 +110,7 @@ function _pause()
 
 function _USERS_GROUPS()
 {
-    getent group downloads ||  groupadd downloads
+    getent group downloads || groupadd downloads
 
     local _USERS="sabnzbd hydra lidarr sonarr radarr lazylibrarian"
     for ITER in ${_USERS}
@@ -360,8 +360,21 @@ function _lazylibrarian()
     update-rc.d lazylibrarian defaults
 }
 
+function _plex()
+{
+    curl $(curl -s https://plex.tv/api/downloads/5.json \
+        | grep -m1 -ioe 'https://[^\"]*' \
+        | awk '/amd64/&&/debian/') \
+        -o /tmp/temp.deb
+    dpkg -i /tmp/temp.deb
+    }
+
 function _finish()
 {
+    rm /opt/Lidarr*.tar.gz
+    rm /opt/Radarr*.tar.gz
+    rm /tmp/temp.deb
+
     clear
     printf "%s\n" \
         "Services now setup to run on :" \
@@ -370,7 +383,8 @@ function _finish()
         "Lidarr        @ ${_IP}:8686" \
         "Sonarr        @ ${_IP}:8989" \
         "Radarr        @ ${_IP}:7878" \
-        "LazyLibrarian @ ${_IP}:5299" "" ""
+        "LazyLibrarian @ ${_IP}:5299" \
+        "Plex          @ ${_IP}:32400" "" ""
 
     printf "%s\n" \
         "Services are not started by default and are started by running :" \
@@ -386,7 +400,18 @@ function _finish()
         "SABnzbd                  - install a downloader" \
         "NZBHydra2                - install an indexer" \
         "Sonarr, Lidarr, & Radarr - fill in the indexer and downloader" \
-        "LazyLibrarian            - fill in an indexer and downloader" "" ""
+        "LazyLibrarian            - fill in an indexer and downloader" \
+        "Plex                     - add your libraries" "" ""
+
+    printf "%s\n" \
+        "These are the paths configured for storage / downloading :" \
+        "/${_PATH}/movies" \
+        "/${_PATH}/music" \
+        "/${_PATH}/tv" \
+        "/${_PATH}/books" \
+        "/${_PATH}/downloads" \
+        "/${_PATH}/downloads/complete" \
+        "/${_PATH}/downloadsincomplete" "" ""
 }
 
 main
@@ -399,4 +424,5 @@ _lidarr
 _sonarr
 _radarr
 _lazylibrarian
+_plex
 _finish
