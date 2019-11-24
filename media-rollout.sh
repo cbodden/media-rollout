@@ -7,7 +7,7 @@
 #                LazyLibrarian
 #       OPTIONS: none yet
 #  REQUIREMENTS: fresh ubuntu 18.04 install
-#          BUGS: possibly ?
+#          BUGS: untested
 #         NOTES: this will be updated decently often
 #        AUTHOR: Cesar Bodden (), cesar@pissedoffadmins.com
 #  ORGANIZATION: pissedoffadmins.com
