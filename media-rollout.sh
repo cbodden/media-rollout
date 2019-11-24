@@ -56,6 +56,11 @@ function main()
     LC_ALL=C
     LANG=C
 
+    readonly RED=$(tput setaf 1)
+    readonly BLU=$(tput setaf 4)
+    readonly GRN=$(tput setaf 40)
+    readonly CLR=$(tput sgr0)
+
     ## check for sudo
     local _R_UID="0"
     if [ "${UID}" -ne "${_R_UID}" ]
@@ -77,11 +82,6 @@ function main()
     esac
 
     trap 'echo "${NAME}: Ouch! Quitting." 1>&2 ; exit 1' 1 2 3 9 15
-
-    readonly RED=$(tput setaf 1)
-    readonly BLU=$(tput setaf 4)
-    readonly GRN=$(tput setaf 40)
-    readonly CLR=$(tput sgr0)
 
     readonly _IP=${_MEDIA_IP:-$(awk '{print $1}' <(hostname -I))}
     readonly _PATH=${_MEDIA_PATH:-storage}
