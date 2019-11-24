@@ -37,6 +37,16 @@ _MEDIA_PATH=""
 #  change ip here:
 _MEDIA_IP=""
 
+## this setting is for the username for all the services.
+## by default all the usernames will be set to "admin"
+## unless changed below
+_CONFIG_UNAME=""
+
+## this setting is for the password for all the services.
+## by default all the passwords will be set to "admin"
+## unless changed below
+_CONFIG_PWORD=""
+
 ##################################################
 #### END OF EDITs SECTION - DO NOT EDIT BELOW ####
 ##################################################
@@ -74,6 +84,14 @@ function main()
     readonly CLR=$(tput sgr0)
 
     readonly _IP=${_MEDIA_IP:-$(awk '{print $1}' <(hostname -I))}
+    readonly _PATH=${_MEDIA_PATH:-storage}
+
+    readonly _UNAME=${_CONFIG_UNAME:-admin}
+    readonly _PWORD=${_CONFIG_PWORD:-admin}
+
+    readonly _API_GEN="$(head /dev/urandom \
+        | tr -dc a-f0-9 \
+        | head -c 32 )"
 }
 
 function _pause()
@@ -99,7 +117,7 @@ function _USERS_GROUPS()
     local _DRV="books downloads/complete downloads/incomplete movies music tv"
     for ITER in ${_DRV}
     do
-        mkdir -p /${_MEDIA_PATH:-storage}/${ITER}
+        mkdir -p /${_PATH}/${ITER}
     done
 }
 
@@ -155,7 +173,21 @@ function _sabnzbd()
         -y
     systemctl daemon-reload
     systemctl enable sabnzbdplus.service
-    chown -R sabnzbd:downloads /${_MEDIA_PATH:-storage}/downloads/*
+    chown -R sabnzbd:downloads /${_PATH}/downloads/*
+}
+
+function _sabnzbd_configure()
+{
+wget file
+
+sed -i "s|^api_key =.*|api_key = ${_API_GEN}|g" path
+sed -i "s|^host =.*|host = ${_IP}|g" path
+sed -i "s|^download_dir =.*|download_dir = ${_PATH}/download/incomplete|g" path
+sed -i "s|^nzb_key =.*|nzb_key = ${_API_GEN}|g" path
+sed -i "s|^complete_dir =.*|complete_dir = ${_PATH}/download/complete|g" path
+sed -i "s|^username =.*|username = ${_UNAME}|g" sabnzbd.ini
+sed -i "s|^password =.*|password = ${_PWORD}|g" sabnzbd.ini
+
 }
 
 function _nzbhydra2()
@@ -235,7 +267,7 @@ function _lidarr()
     WantedBy=multi-user.target
 EOF
 
-    chown -R lidarr:downloads /${_MEDIA_PATH:-storage}/music
+    chown -R lidarr:downloads /${_PATH}/music
     systemctl daemon-reload
     systemctl enable lidarr.service
 }
@@ -264,7 +296,7 @@ function _sonarr()
     WantedBy=multi-user.target
 EOF
 
-    chown -R sonarr:downloads /${_MEDIA_PATH:-storage}/tv
+    chown -R sonarr:downloads /${_PATH}/tv
     systemctl daemon-reload
     systemctl enable sonarr.service
 }
@@ -306,7 +338,7 @@ function _radarr()
     WantedBy=multi-user.target
 EOF
 
-    chown -R radarr:downloads /${_MEDIA_PATH:-storage}/movies
+    chown -R radarr:downloads /${_PATH}/movies
     systemctl daemon-reload
     systemctl enable radarr.service
 }
@@ -320,7 +352,7 @@ function _lazylibrarian()
     sed -i 's/RUN_AS=$USER.*/RUN_AS=lazylibrarian/' /etc/default/lazylibrarian
     cp LazyLibrarian/init/lazylibrarian.initd /etc/init.d/lazylibrarian
 
-    chown -R lazylibrarian:downloads /${_MEDIA_PATH:-storage}/books
+    chown -R lazylibrarian:downloads /${_PATH}/books
     chmod a+x /etc/init.d/lazylibrarian
     update-rc.d lazylibrarian defaults
 }
