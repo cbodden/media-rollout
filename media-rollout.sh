@@ -311,4 +311,9 @@ function _lazylibrarian()
     cd /opt/
     sudo git clone https://github.com/DobyTang/LazyLibrarian.git
     sudo chown -R lazylibrarian:lazylibrarian /opt/LazyLibrarian/
+    cp LazyLibrarian/init/lazylibrarian.default /etc/default/lazylibrarian
+    sed -i 's/RUN_AS=$USER.*/RUN_AS=lazylibrarian/' /etc/default/lazylibrarian
+    cp LazyLibrarian/init/lazylibrarian.initd /etc/init.d/lazylibrarian
+    chmod a+x /etc/init.d/lazylibrarian
+    update-rc.d lazylibrarian defaults
 }
