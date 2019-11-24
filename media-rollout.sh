@@ -59,7 +59,7 @@ function main()
     # if $SHELL == /bin/bash have some default sets
     case "$(echo $SHELL 2>/dev/null)" in
         '/bin/bash')
-            set -o nounset
+            # set -o nounset
             set -o pipefail
             set -e
             set -u
@@ -320,3 +320,14 @@ function _lazylibrarian()
     chmod a+x /etc/init.d/lazylibrarian
     update-rc.d lazylibrarian defaults
 }
+
+
+main
+_USERS_GROUPS
+_APT_WORK
+_sabnzbd
+_nzbhydra2
+_lidarr
+_sonarr
+_radarr
+_lazylibrarian
