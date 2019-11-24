@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# ******** NOT READY FOR USE - THERE BE DRAGONS AHEAD *********
-
 #===============================================================================
 #          FILE: media_rollout.sh
 #         USAGE: ./media_rollout.sh
@@ -88,7 +86,7 @@ function _pause()
 
 function _USERS_GROUPS()
 {
-    getent group downloads || sudo groupadd downloads
+    getent group downloads ||  groupadd downloads
 
     local _USERS="sabnzbd hydra lidarr sonarr radarr lazylibrarian"
     for ITER in ${_USERS}
@@ -136,13 +134,13 @@ function _APT_WORK()
         --recv-keys 0xA236C58F409091A18ACA53CBEBFF6B99D9B78493
 
     echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main"\
-        | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+        |  tee /etc/apt/sources.list.d/mono-official-stable.list
 
     echo "deb http://download.mono-project.com/repo/debian jessie main" \
-        | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+        |  tee /etc/apt/sources.list.d/mono-xamarin.list
 
     echo "deb http://apt.sonarr.tv/ master main" \
-        | sudo tee /etc/apt/sources.list.d/sonarr.list
+        |  tee /etc/apt/sources.list.d/sonarr.list
 
     apt update -y
     apt install mono-devel -y
@@ -189,7 +187,7 @@ function _nzbhydra2()
     sed -i 's/Group=vboxsf.*/Group=hydra/' /lib/systemd/system/nzbhydra2.service
     sed -i 's/ExecStart=\/home\/nzbhydra\/nzbhydra2\/nzbhydra2 --nobrowser.*/ExecStart=\/usr\/bin\/python \/opt\/nzbhydra2\/nzbhydra2wrapper.py --nobrowser --datafolder \/home\/hydra\/.nzbhydra2_data/' /lib/systemd/system/nzbhydra2.service
 
-    sudo chown -R hydra:hydra /opt/nzbhydra2/
+    chown -R hydra:hydra /opt/nzbhydra2/
 
     systemctl daemon-reload
     systemctl enable nzbhydra2.service
@@ -213,7 +211,7 @@ function _lidarr()
     wget ${_LR_ADDY}/download/${_LR_DLD_PATH}
 
     tar -xzvf ${_LR_DLD_PATH##*/}
-    sudo chown -R lidarr:lidarr /opt/Lidarr/
+    chown -R lidarr:lidarr /opt/Lidarr/
 
     cat <<-EOF >/etc/systemd/system/lidarr.service
     [Unit]
@@ -282,7 +280,7 @@ function _radarr()
     wget ${_RD_ADDY}/download/${_RD_DLD_PATH}
 
     tar -xzvf ${_RD_DLD_PATH##*/}
-    sudo chown -R radarr:radarr /opt/Radarr
+    chown -R radarr:radarr /opt/Radarr
 
     cat <<- EOF >/lib/systemd/system/radarr.service
     [Unit]
@@ -302,15 +300,15 @@ function _radarr()
     WantedBy=multi-user.target
 EOF
 
-    sudo systemctl daemon-reload
-    sudo systemctl enable radarr.service
+    systemctl daemon-reload
+    systemctl enable radarr.service
 }
 
 function _lazylibrarian()
 {
     cd /opt/
-    sudo git clone https://github.com/DobyTang/LazyLibrarian.git
-    sudo chown -R lazylibrarian:lazylibrarian /opt/LazyLibrarian/
+    git clone https://github.com/DobyTang/LazyLibrarian.git
+    chown -R lazylibrarian:lazylibrarian /opt/LazyLibrarian/
     cp LazyLibrarian/init/lazylibrarian.default /etc/default/lazylibrarian
     sed -i 's/RUN_AS=$USER.*/RUN_AS=lazylibrarian/' /etc/default/lazylibrarian
     cp LazyLibrarian/init/lazylibrarian.initd /etc/init.d/lazylibrarian
