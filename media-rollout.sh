@@ -187,6 +187,7 @@ sed -i "s|^nzb_key =.*|nzb_key = ${_API_GEN}|g" path
 sed -i "s|^complete_dir =.*|complete_dir = ${_PATH}/download/complete|g" path
 sed -i "s|^username =.*|username = ${_UNAME}|g" sabnzbd.ini
 sed -i "s|^password =.*|password = ${_PWORD}|g" sabnzbd.ini
+sed -i "s|^host_whitelist =.*|host_whitelist = $(hostname),|g" sabnzbd.ini
 
 }
 
