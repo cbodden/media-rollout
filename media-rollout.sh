@@ -372,6 +372,8 @@ function _finish()
         "Radarr        @ ${_IP}:7878" \
         "LazyLibrarian @ ${_IP}:5299"
 
+    printf "%s\n" "" "" ""
+
     printf "%s\n" \
         "You should now fill in the rest :" \
         "SABnzbd   - install a downloader" \
