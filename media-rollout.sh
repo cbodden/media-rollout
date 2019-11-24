@@ -65,6 +65,7 @@ function main()
     local _R_UID="0"
     if [ "${UID}" -ne "${_R_UID}" ]
     then
+        clear
         printf "%s\n" \
             "${RED}. . .Needs sudo. . .${CLR}"
 
@@ -95,6 +96,8 @@ function main()
 
     readonly _GIT_PATH="https://github.com/cbodden/media-rollout/blob/master"
     readonly _SAB_HOME="/home/sabnzbd/.sabnzbd"
+
+    clear
 }
 
 function _pause()
