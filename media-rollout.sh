@@ -21,18 +21,22 @@
 #### EDITS ONLY IN THIS SECTION BELOW ####
 ##########################################
 
+## this is for the paths that will be used as permanent storage for
+## all the media
+## if not set it will use "/storage" by default
+## this will expand to:
+## /storage/books, /storage/downloads, /storage/movies,
+## /storage/music, /storage/tv, /storage/downloads/complete,
+## and /storage/downloads/incomplete
+#  change main path here:
+_MEDIA_PATH="/storage"
 
-
-mkdir -p \
-    /storage/books \
-    /storage/downloads \
-    /storage/movies \
-    /storage/music \
-    /storage/tv \
-    /storage/downloads/complete \
-    /storage/downloads/incomplete
-
-
+## this setting is for the ip address that will be assigned to
+## all the services installed.
+## this can not be set to: 127.0.0.1 or 0.0.0.0
+## if left blank the systems ip address will be used
+#  change ip here:
+_MEDIA_IP=""
 
 ##################################################
 #### END OF EDITs SECTION - DO NOT EDIT BELOW ####
@@ -89,6 +93,19 @@ function _USERS_GROUPS()
         adduser --system ${ITER} --ingroup ${ITER}
         usermod -a -G downloads ${ITER}
     done
+
+mkdir -p \
+    /storage/books \
+    /storage/downloads \
+    /storage/movies \
+    /storage/music \
+    /storage/tv \
+    /storage/downloads/complete \
+    /storage/downloads/incomplete
+
+
+
+
 }
 
 function _APT_WORK()
