@@ -21,15 +21,16 @@
 #### EDITS ONLY IN THIS SECTION BELOW ####
 ##########################################
 
-## this is for the paths that will be used as permanent storage for
-## all the media
+## this is for the paths that will be used
+## as permanent storage for all the media
 ## if not set it will use "/storage" by default
 ## this will expand to:
 ## /storage/books, /storage/downloads, /storage/movies,
 ## /storage/music, /storage/tv, /storage/downloads/complete,
 ## and /storage/downloads/incomplete
+## leave off leading and trailing slashes
 #  change main path here:
-_MEDIA_PATH="/storage"
+_MEDIA_PATH=""
 
 ## this setting is for the ip address that will be assigned to
 ## all the services installed.
@@ -79,6 +80,7 @@ function _pause()
 {
     printf "%s\n" \
         "${GRN}. . . .Press enter to continue. . . .${CLR}"
+
     read -p "$*"
 }
 
@@ -86,7 +88,7 @@ function _USERS_GROUPS()
 {
     getent group downloads || sudo groupadd downloads
 
-    _USERS="sabnzbd hydra lidarr sonarr radarr lazylibrarian"
+    local _USERS="sabnzbd hydra lidarr sonarr radarr lazylibrarian"
     for ITER in ${_USERS}
     do
         addgroup ${ITER}
@@ -94,18 +96,13 @@ function _USERS_GROUPS()
         usermod -a -G downloads ${ITER}
     done
 
-mkdir -p \
-    /storage/books \
-    /storage/downloads \
-    /storage/movies \
-    /storage/music \
-    /storage/tv \
-    /storage/downloads/complete \
-    /storage/downloads/incomplete
+    local _DRV="books downloads/complete downloads/incomplete movies music tv"
+    for ITER in ${_DRV}
+    do
+        mkdir -p /${_MEDIA_PATH:-storage}/${ITER}
+    done
 
-
-
-
+    _IP=${_MEDIA_IP:-$(awk '{print $1}' <(hostname -I))}
 }
 
 function _APT_WORK()
