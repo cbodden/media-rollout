@@ -150,7 +150,8 @@ function _sabnzbd()
 {
     apt install sabnzbdplus python-sabyenc par2-tbb
     systemctl daemon-reload
-    systemctl start sabnzbdplus.service
+    systemctl enable sabnzbdplus.service
+    chown -R sabnzbd:downloads /${_MEDIA_PATH:-storage}/downloads/*
 }
 
 function _nzbhydra2()
@@ -188,7 +189,6 @@ function _nzbhydra2()
     sed -i 's/ExecStart=\/home\/nzbhydra\/nzbhydra2\/nzbhydra2 --nobrowser.*/ExecStart=\/usr\/bin\/python \/opt\/nzbhydra2\/nzbhydra2wrapper.py --nobrowser --datafolder \/home\/hydra\/.nzbhydra2_data/' /lib/systemd/system/nzbhydra2.service
 
     chown -R hydra:hydra /opt/nzbhydra2/
-
     systemctl daemon-reload
     systemctl enable nzbhydra2.service
 }
@@ -231,6 +231,7 @@ function _lidarr()
     WantedBy=multi-user.target
 EOF
 
+    chown -R lidarr:downloads /${_MEDIA_PATH:-storage}/music
     systemctl daemon-reload
     systemctl enable lidarr.service
 }
@@ -259,6 +260,7 @@ function _sonarr()
     WantedBy=multi-user.target
 EOF
 
+    chown -R sonarr:downloads /${_MEDIA_PATH:-storage}/tv
     systemctl daemon-reload
     systemctl enable sonarr.service
 }
@@ -300,6 +302,7 @@ function _radarr()
     WantedBy=multi-user.target
 EOF
 
+    chown -R radarr:downloads /${_MEDIA_PATH:-storage}/movies
     systemctl daemon-reload
     systemctl enable radarr.service
 }
@@ -312,6 +315,8 @@ function _lazylibrarian()
     cp LazyLibrarian/init/lazylibrarian.default /etc/default/lazylibrarian
     sed -i 's/RUN_AS=$USER.*/RUN_AS=lazylibrarian/' /etc/default/lazylibrarian
     cp LazyLibrarian/init/lazylibrarian.initd /etc/init.d/lazylibrarian
+
+    chown -R lazylibrarian:downloads /${_MEDIA_PATH:-storage}/books
     chmod a+x /etc/init.d/lazylibrarian
     update-rc.d lazylibrarian defaults
 }
