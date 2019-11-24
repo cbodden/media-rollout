@@ -12,9 +12,9 @@
 #  REQUIREMENTS: fresh ubuntu 18.04 install
 #          BUGS: untested
 #         NOTES: this will be updated decently often
-#        AUTHOR: Cesar Bodden (), cesar@pissedoffadmins.com
+#        AUTHOR: cesar@pissedoffadmins.com
 #  ORGANIZATION: pissedoffadmins.com
-#       CREATED: 11/23/2019 03:40:08 PM EST
+#       CREATED: 11/23/2019
 #      REVISION: 1
 #===============================================================================
 ##########################################
@@ -74,6 +74,8 @@ function main()
     readonly BLU=$(tput setaf 4)
     readonly GRN=$(tput setaf 40)
     readonly CLR=$(tput sgr0)
+
+    readonly _IP=${_MEDIA_IP:-$(awk '{print $1}' <(hostname -I))}
 }
 
 function _pause()
@@ -101,8 +103,6 @@ function _USERS_GROUPS()
     do
         mkdir -p /${_MEDIA_PATH:-storage}/${ITER}
     done
-
-    _IP=${_MEDIA_IP:-$(awk '{print $1}' <(hostname -I))}
 }
 
 function _APT_WORK()
@@ -135,7 +135,7 @@ function _APT_WORK()
         --keyserver keyserver.ubuntu.com \
         --recv-keys 0xA236C58F409091A18ACA53CBEBFF6B99D9B78493
 
-    echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" \
+    echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main"\
         | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
 
     echo "deb http://download.mono-project.com/repo/debian jessie main" \
@@ -153,42 +153,36 @@ function _sabnzbd()
     apt install sabnzbdplus python-sabyenc par2-tbb
     systemctl daemon-reload
     systemctl start sabnzbdplus.service
+}
 
+function _nzbhydra2()
+{
+    mkdir /opt/nzbhydra2
+    cd /opt/nzbhydra2
 
-#### nzbhydra2 ####
+    local _NH_ADDY="https://github.com/theotherp/nzbhydra2/releases"
 
-mkdir /opt/nzbhydra2
-cd /opt/nzbhydra2
+    local _NH_VER="$(curl -s ${_NH_ADDY}/latest \
+        | cut -d\" -f2 \
+        | awk -F 'tag/' '{print $2}' )"
 
-## nzbhydra version and latest file
-#  releases addy
-_NH_ADDY="https://github.com/theotherp/nzbhydra2/releases"
+    local _NH_TAG="https://github.com/theotherp/nzbhydra2/releases/tag/${_NH_VER}"
 
-#  get the version number
-_NH_VER="$(curl -s ${_NH_ADDY}/latest \
-    | cut -d\" -f2 \
-    | awk -F 'tag/' '{print $2}' )"
+    local _NH_RLS="$(curl -s ${_NH_ADDY}/tag/${_NH_VER} \
+        | grep linux \
+        | head -n 1 \
+        | cut -d\" -f2 \
+        | awk -F "${_NH_VER}/" '{print $2}' )"
 
-#  tag addy
-_NH_TAG="https://github.com/theotherp/nzbhydra2/releases/tag/${_NH_VER}"
+    wget ${_NH_ADDY}/download/${_NH_VER}/${_NH_RLS} -O /opt/${_NH_RLS}
 
-#  get the tagged release name
-_NH_RLS="$(curl -s ${_NH_ADDY}/tag/${_NH_VER} \
-    | grep linux \
-    | head -n 1 \
-    | cut -d\" -f2 \
-    | awk -F "${_NH_VER}/" '{print $2}' )"
+    unzip ${_NH_RLS}
+    rm ${_NH_RLS}
 
-#  download the tagged release to /opt
-wget ${_NH_ADDY}/download/${_NH_VER}/${_NH_RLS} -O /opt/${_NH_RLS}
+    sudo chown -R hydra:hydra /opt/nzbhydra2/
 
-unzip ${_NH_RLS}
-rm ${_NH_RLS}
-
-sudo chown -R hydra:hydra /opt/nzbhydra2/
-
-systemctl daemon-reload
-systemctl enable nzbhydra2.service
+    systemctl daemon-reload
+    systemctl enable nzbhydra2.service
 }
 
 
@@ -196,28 +190,23 @@ function _lidarr()
 {
     cd /opt/
 
-## lidarr version and latest file (pre-release, this code will change)
-#  releases addy
-_LR_ADDY="https://github.com/lidarr/Lidarr/releases"
+    _LR_ADDY="https://github.com/lidarr/Lidarr/releases"
 
-#  release path
-_LR_RLS_PATH="$(curl -s ${_LR_ADDY} \
-    | grep "linux.tar.gz" \
-    | head -n 1 \
-    | cut -d\" -f2 )"
+    _LR_RLS_PATH="$(curl -s ${_LR_ADDY} \
+        | grep "linux.tar.gz" \
+        | head -n 1 \
+        | cut -d\" -f2 )"
 
-#  get the download path
-_LR_DLD_PATH="$(echo ${_LR_RLS_PATH} \
-    | cut -d'/' -f6-7 )"
+    _LR_DLD_PATH="$(echo ${_LR_RLS_PATH} \
+        | cut -d'/' -f6-7 )"
 
-#  download the release to /opt
-wget ${_LR_ADDY}/download/${_LR_DLD_PATH}
+    wget ${_LR_ADDY}/download/${_LR_DLD_PATH}
 
-tar -xzvf ${_LR_DLD_PATH##*/}
-sudo chown -R lidarr:lidarr /opt/Lidarr/
+    tar -xzvf ${_LR_DLD_PATH##*/}
+    sudo chown -R lidarr:lidarr /opt/Lidarr/
 
-systemctl daemon-reload
-systemctl enable lidarr.service
+    systemctl daemon-reload
+    systemctl enable lidarr.service
 }
 
 function _sonarr()
@@ -233,28 +222,23 @@ function _radarr()
 {
     cd /opt/
 
-## radarr version and latest file (pre-release, this code will change)
-#  releases addy
-_RD_ADDY="https://github.com/Radarr/Radarr/releases"
+    _RD_ADDY="https://github.com/Radarr/Radarr/releases"
 
-#  release path
-_RD_RLS_PATH="$(curl -s ${_RD_ADDY} \
-    | grep "linux.tar.gz" \
-    | head -n 1 \
-    | cut -d\" -f2 )"
+    _RD_RLS_PATH="$(curl -s ${_RD_ADDY} \
+        | grep "linux.tar.gz" \
+        | head -n 1 \
+        | cut -d\" -f2 )"
 
-#  get the download path
-_RD_DLD_PATH="$(echo ${_RD_RLS_PATH} \
-    | cut -d'/' -f6-7 )"
+    _RD_DLD_PATH="$(echo ${_RD_RLS_PATH} \
+        | cut -d'/' -f6-7 )"
 
-#  download the release to /opt
-wget ${_RD_ADDY}/download/${_RD_DLD_PATH}
+    wget ${_RD_ADDY}/download/${_RD_DLD_PATH}
 
-tar -xzvf ${_RD_DLD_PATH##*/}
-sudo chown -R radarr:radarr /opt/Radarr
+    tar -xzvf ${_RD_DLD_PATH##*/}
+    sudo chown -R radarr:radarr /opt/Radarr
 
-sudo systemctl daemon-reload
-sudo systemctl enable radarr.service
+    sudo systemctl daemon-reload
+    sudo systemctl enable radarr.service
 }
 
 function _lazylibrarian()
