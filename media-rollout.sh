@@ -360,13 +360,34 @@ function _lazylibrarian()
     update-rc.d lazylibrarian defaults
 }
 
+function _finish()
+{
+    clear
+    printf "%s\n" \
+        "Services now setup to run on :" \
+        "SABnzbd       @ ${_IP}:8080" \
+        "NZBHydra2     @ ${_IP}:5076" \
+        "Lidarr        @ ${_IP}:8686" \
+        "Sonarr        @ ${_IP}:8989" \
+        "Radarr        @ ${_IP}:7878" \
+        "LazyLibrarian @ ${_IP}:5299"
+
+    printf "%s\n" \
+        "You should now fill in the rest :" \
+        "SABnzbd   - install a downloader" \
+        "NZBHydra2 - install an indexer" \
+        "Sonarr, Lidarr, & Radarr - fill in the indexer and downloader" \
+        "LazyLibrarian - fill in an indexer and downloader"
+}
 
 main
 _USERS_GROUPS
 _APT_WORK
 _sabnzbd
+#_sabnzbd_configure
 _nzbhydra2
 _lidarr
 _sonarr
 _radarr
 _lazylibrarian
+_finish
