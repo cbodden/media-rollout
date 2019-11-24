@@ -54,7 +54,7 @@ _CONFIG_PWORD=""
 function main()
 {
     LC_ALL=C
-    LANG=c
+    LANG=C
 
     readonly RED=$(tput setaf 1)
     readonly BLU=$(tput setaf 4)
