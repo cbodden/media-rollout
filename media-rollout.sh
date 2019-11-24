@@ -13,7 +13,7 @@
 #        AUTHOR: cesar@pissedoffadmins.com
 #  ORGANIZATION: pissedoffadmins.com
 #       CREATED: 11/23/2019
-#      REVISION: 1
+#      REVISION: 3
 #===============================================================================
 ##########################################
 #### EDITS ONLY IN THIS SECTION BELOW ####
@@ -92,6 +92,9 @@ function main()
     readonly _API_GEN="$(head /dev/urandom \
         | tr -dc a-f0-9 \
         | head -c 32 )"
+
+    readonly _GIT_PATH="https://github.com/cbodden/media-rollout/blob/master"
+    readonly _SAB_HOME="/home/sabnzbd/.sabnzbd"
 }
 
 function _pause()
@@ -171,25 +174,25 @@ function _sabnzbd()
         python-sabyenc \
         par2-tbb \
         -y
-    systemctl daemon-reload
-    systemctl enable sabnzbdplus.service
-    chown -R sabnzbd:downloads /${_PATH}/downloads/*
-}
+            systemctl daemon-reload
+            systemctl enable sabnzbdplus.service
+            chown -R sabnzbd:downloads /${_PATH}/downloads/*
+        }
 
-function _sabnzbd_configure()
-{
-wget file
+    function _sabnzbd_configure()
+    {
+        mkdir -p ${_SAB_HOME}
+        wget ${_GIT_PATH}/config_files/sabnzbd.ini -O ${_SAB_HOME}/sabnzbd.ini
 
-sed -i "s|^api_key =.*|api_key = ${_API_GEN}|g" path
-sed -i "s|^host =.*|host = ${_IP}|g" path
-sed -i "s|^download_dir =.*|download_dir = ${_PATH}/download/incomplete|g" path
-sed -i "s|^nzb_key =.*|nzb_key = ${_API_GEN}|g" path
-sed -i "s|^complete_dir =.*|complete_dir = ${_PATH}/download/complete|g" path
-sed -i "s|^username =.*|username = ${_UNAME}|g" sabnzbd.ini
-sed -i "s|^password =.*|password = ${_PWORD}|g" sabnzbd.ini
-sed -i "s|^host_whitelist =.*|host_whitelist = $(hostname),|g" sabnzbd.ini
-
-}
+        sed -i "s|^api_key =.*|api_key = ${_API_GEN}|g" path
+        sed -i "s|^host =.*|host = ${_IP}|g" path
+        sed -i "s|^download_dir =.*|download_dir = ${_PATH}/download/incomplete|g" path
+        sed -i "s|^nzb_key =.*|nzb_key = ${_API_GEN}|g" path
+        sed -i "s|^complete_dir =.*|complete_dir = ${_PATH}/download/complete|g" path
+        sed -i "s|^username =.*|username = ${_UNAME}|g" sabnzbd.ini
+        sed -i "s|^password =.*|password = ${_PWORD}|g" sabnzbd.ini
+        sed -i "s|^host_whitelist =.*|host_whitelist = $(hostname),|g" sabnzbd.ini
+    }
 
 function _nzbhydra2()
 {
