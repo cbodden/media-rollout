@@ -16,3 +16,5 @@ MMM  M'  "MMM""""YUMMMMMMMP"`  MMM YMM   ""`
 
 
 This script rolls out and a configures a default for : SABnzbd, NZBHydra2, Lidarr, Sonarr, Radarr, and LazyLibrarian
+
+THIS IS STILL UNUSABLE - YOU ARE WARNED
