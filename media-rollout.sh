@@ -370,16 +370,14 @@ function _finish()
         "Lidarr        @ ${_IP}:8686" \
         "Sonarr        @ ${_IP}:8989" \
         "Radarr        @ ${_IP}:7878" \
-        "LazyLibrarian @ ${_IP}:5299"
-
-    printf "%s\n" "" "" ""
+        "LazyLibrarian @ ${_IP}:5299" "" ""
 
     printf "%s\n" \
         "You should now fill in the rest :" \
-        "SABnzbd   - install a downloader" \
-        "NZBHydra2 - install an indexer" \
+        "SABnzbd                  - install a downloader" \
+        "NZBHydra2                - install an indexer" \
         "Sonarr, Lidarr, & Radarr - fill in the indexer and downloader" \
-        "LazyLibrarian - fill in an indexer and downloader"
+        "LazyLibrarian            - fill in an indexer and downloader" "" ""
 }
 
 main
