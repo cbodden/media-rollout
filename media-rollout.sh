@@ -373,6 +373,15 @@ function _finish()
         "LazyLibrarian @ ${_IP}:5299" "" ""
 
     printf "%s\n" \
+        "Services are not started by default and are started by running :" \
+        "sudo systemctl start sabnzbdplus.service" \
+        "sudo systemctl start nzbhydra2.service" \
+        "sudo systemctl start lidarr.service" \
+        "sudo systemctl start sonarr.service" \
+        "sudo systemctl start radarr.service" \
+        "sudo systemctl start lazylibrarian.service" "" ""
+
+    printf "%s\n" \
         "You should now fill in the rest :" \
         "SABnzbd                  - install a downloader" \
         "NZBHydra2                - install an indexer" \
