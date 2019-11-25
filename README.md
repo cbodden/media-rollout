@@ -17,14 +17,14 @@ Media Rollout
 ====
 
 This script installs the following services :
-– SABnzbd (https://sabnzbd.org/)
-– NZBHydra2 (https://github.com/theotherp/nzbhydra2)
-– Lidarr (https://lidarr.audio/)
-– Sonarr (https://sonarr.tv/)
-– Radarr (https://radarr.video/)
-– LazyLibrarian (https://github.com/DobyTang/LazyLibrarian)
-– Plex Media Server (https://www.plex.tv/)
-– Tautulli (https://tautulli.com/)
+SABnzbd (https://sabnzbd.org/)
+NZBHydra2 (https://github.com/theotherp/nzbhydra2)
+Lidarr (https://lidarr.audio/)
+Sonarr (https://sonarr.tv/)
+Radarr (https://radarr.video/)
+LazyLibrarian (https://github.com/DobyTang/LazyLibrarian)
+Plex Media Server (https://www.plex.tv/)
+Tautulli (https://tautulli.com/)
 
 
 Usage
