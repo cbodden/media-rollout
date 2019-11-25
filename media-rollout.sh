@@ -197,15 +197,19 @@ function _sabnzbd()
 
 function _sabnzbd_configure()
 {
-    mkdir -p ${_SAB_HOME}
+    mkdir -p ${_SAB_HOME}/admin ${_SAB_HOME}/logs
+    touch \
+        ${_SAB_HOME}/admin/history1.db \
+        ${_SAB_HOME}/logs/sabnzbd.error.log \
+        ${_SAB_HOME}/logs/sabnzbd.log
+
     cp ${PROGDIR}/config_files/sabnzbd.ini ${_SAB_HOME}/
-    #wget ${_GIT_PATH}/config_files/sabnzbd.ini -O ${_SAB_HOME}/sabnzbd.ini
 
     sed -i "s|^api_key =.*|api_key = ${_API_GEN}|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^host =.*|host = ${_IP}|g" ${_SAB_HOME}/sabnzbd.ini
-    sed -i "s|^download_dir =.*|download_dir = ${_PATH}/download/incomplete|g" ${_SAB_HOME}/sabnzbd.ini
+    sed -i "s|^download_dir =.*|download_dir = /${_PATH}/download/incomplete|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^nzb_key =.*|nzb_key = ${_API_GEN}|g" ${_SAB_HOME}/sabnzbd.ini
-    sed -i "s|^complete_dir =.*|complete_dir = ${_PATH}/download/complete|g" ${_SAB_HOME}/sabnzbd.ini
+    sed -i "s|^complete_dir =.*|complete_dir = /${_PATH}/download/complete|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^username =.*|username = ${_UNAME}|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^password =.*|password = ${_PWORD}|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^host_whitelist =.*|host_whitelist = $(hostname),|g" ${_SAB_HOME}/sabnzbd.ini
