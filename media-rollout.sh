@@ -222,14 +222,13 @@ function _sabnzbd_configure()
     sleep 4
     curl "http://${_IP}:8080/api?mode=config&name=set_apikey&apikey=0000"
 
-    touch \
+    rm \
         ${_SAB_HOME}/admin/history1.db \
         ${_SAB_HOME}/admin/Rating.sab \
         ${_SAB_HOME}/logs/sabnzbd.error.log \
         ${_SAB_HOME}/logs/sabnzbd.log
 
     touch \
-        ${_SAB_HOME}/admin/history1.db \
         ${_SAB_HOME}/admin/Rating.sab \
         ${_SAB_HOME}/logs/sabnzbd.error.log \
         ${_SAB_HOME}/logs/sabnzbd.log
