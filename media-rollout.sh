@@ -51,6 +51,9 @@ _CONFIG_PWORD=""
 #### END OF EDITs SECTION - DO NOT EDIT BELOW ####
 ##################################################
 
+readonly PROGNAME=$(basename $0)
+readonly PROGDIR=$(readlink -m $(dirname $0))
+
 function main()
 {
     LC_ALL=C
@@ -493,7 +496,7 @@ do
             ;;
         'i')
             main
-            USERS_GROUPS
+            _USERS_GROUPS
             _APT_WORK
             _sabnzbd
             _nzbhydra2
