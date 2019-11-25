@@ -462,4 +462,5 @@ _sonarr
 _radarr
 _lazylibrarian
 _plex
+_tautulli
 _finish
