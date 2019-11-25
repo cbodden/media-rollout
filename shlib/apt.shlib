@@ -1,0 +1,46 @@
+function _APT_WORK()
+{
+    add-apt-repository multiverse
+    add-apt-repository universe
+    add-apt-repository ppa:jcfp/nobetas
+    add-apt-repository ppa:jcfp/sab-addons
+    apt update -y
+    apt-get dist-upgrade -y
+
+    apt install \
+        apt-transport-https \
+        curl \
+        dos2unix \
+        git-core \
+        gnupg ca-certificates \
+        libchromaprint-tools \
+        mediainfo \
+        openjdk-11-jre-headless \
+        python \
+        python-setuptools \
+        software-properties-common \
+        sqlite3 \
+        tzdata \
+        unzip \
+        -y
+
+    apt-key adv \
+        --keyserver hkp://keyserver.ubuntu.com:80 \
+        --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+
+    apt-key adv \
+        --keyserver keyserver.ubuntu.com \
+        --recv-keys 0xA236C58F409091A18ACA53CBEBFF6B99D9B78493
+
+    echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main"\
+        |  tee /etc/apt/sources.list.d/mono-official-stable.list
+
+    echo "deb http://download.mono-project.com/repo/debian jessie main" \
+        |  tee /etc/apt/sources.list.d/mono-xamarin.list
+
+    echo "deb http://apt.sonarr.tv/ master main" \
+        |  tee /etc/apt/sources.list.d/sonarr.list
+
+    apt update -y
+    apt install mono-devel -y
+}

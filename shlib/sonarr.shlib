@@ -1,0 +1,28 @@
+function _sonarr()
+{
+    apt install nzbdrone
+    chown -R sonarr:sonarr /opt/NzbDrone/
+
+    cat <<EOF >/lib/systemd/system/sonarr.service
+    [Unit]
+    Description=Sonarr Daemon
+    After=network.target
+
+    [Service]
+    User=sonarr
+    Group=sonarr
+
+    Type=simple
+    ExecStart=/usr/bin/mono /opt/NzbDrone/NzbDrone.exe -nobrowser
+    TimeoutStopSec=20
+    KillMode=process
+    Restart=on-failure
+
+    [Install]
+    WantedBy=multi-user.target
+EOF
+
+    chown -R sonarr:downloads /${_PATH}/tv
+    systemctl daemon-reload
+    systemctl enable sonarr.service
+}

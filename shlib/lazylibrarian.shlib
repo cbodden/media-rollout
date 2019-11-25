@@ -1,0 +1,13 @@
+function _lazylibrarian()
+{
+    cd /opt/
+    git clone https://github.com/DobyTang/LazyLibrarian.git
+    chown -R lazylibrarian:lazylibrarian /opt/LazyLibrarian/
+    cp LazyLibrarian/init/lazylibrarian.default /etc/default/lazylibrarian
+    sed -i 's/RUN_AS=$USER.*/RUN_AS=lazylibrarian/' /etc/default/lazylibrarian
+    cp LazyLibrarian/init/lazylibrarian.initd /etc/init.d/lazylibrarian
+
+    chown -R lazylibrarian:downloads /${_PATH}/books
+    chmod a+x /etc/init.d/lazylibrarian
+    update-rc.d lazylibrarian defaults
+}

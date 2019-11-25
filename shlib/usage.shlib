@@ -1,0 +1,23 @@
+function _usage()
+{
+    cat <<EOF
+    NAME
+        ${PROGNAME} - media rollout
+
+    SYNOPSIS
+        ${PROGNAME} [OPTION] ...
+
+    DESCRIPTION
+        blah blah blah
+
+    OPTIONS
+        -h
+                This option shows you this help message
+
+        -i
+                This option actually deploys and installs the system
+
+        -k [info]
+                Testing input
+EOF
+}

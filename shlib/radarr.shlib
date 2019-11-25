@@ -1,0 +1,41 @@
+function _radarr()
+{
+    cd /opt/
+
+    _RD_ADDY="https://github.com/Radarr/Radarr/releases"
+
+    _RD_RLS_PATH="$(curl -s ${_RD_ADDY} \
+        | grep "linux.tar.gz" \
+        | head -n 1 \
+        | cut -d\" -f2 )"
+
+    _RD_DLD_PATH="$(echo ${_RD_RLS_PATH} \
+        | cut -d'/' -f6-7 )"
+
+    wget ${_RD_ADDY}/download/${_RD_DLD_PATH}
+
+    tar -xzvf ${_RD_DLD_PATH##*/}
+    chown -R radarr:radarr /opt/Radarr
+
+    cat <<EOF >/lib/systemd/system/radarr.service
+    [Unit]
+    Description=Radarr Daemon
+    After=syslog.target network.target
+
+    [Service]
+    User=radarr
+    Group=radarr
+    Type=simple
+    ExecStart=/usr/bin/mono /opt/Radarr/Radarr.exe -nobrowser
+    TimeoutStopSec=20
+    KillMode=process
+    Restart=on-failure
+
+    [Install]
+    WantedBy=multi-user.target
+EOF
+
+    chown -R radarr:downloads /${_PATH}/movies
+    systemctl daemon-reload
+    systemctl enable radarr.service
+}

@@ -1,0 +1,46 @@
+function _finish()
+{
+    # rm /opt/Lidarr*.tar.gz
+    # rm /opt/Radarr*.tar.gz
+    # rm /tmp/temp.deb
+
+    clear
+    printf "%s\n" \
+        "Services now setup to run on :" \
+        "SABnzbd       @ ${_IP}:8080" \
+        "NZBHydra2     @ ${_IP}:5076" \
+        "Lidarr        @ ${_IP}:8686" \
+        "Sonarr        @ ${_IP}:8989" \
+        "Radarr        @ ${_IP}:7878" \
+        "LazyLibrarian @ ${_IP}:5299" \
+        "Tautulli      @ ${_IP}:8181" \
+        "Plex          @ ${_IP}:32400" "" ""
+
+    printf "%s\n" \
+        "Services are not started by default :" \
+        "sudo systemctl restart sabnzbdplus.service" \
+        "sudo systemctl restart nzbhydra2.service" \
+        "sudo systemctl restart lidarr.service" \
+        "sudo systemctl restart sonarr.service" \
+        "sudo systemctl restart radarr.service" \
+        "sudo systemctl restart tautulli.service" \
+        "sudo systemctl restart lazylibrarian.service" "" ""
+
+    printf "%s\n" \
+        "You should now fill in the rest :" \
+        "SABnzbd                  - install a downloader" \
+        "NZBHydra2                - install an indexer" \
+        "Sonarr, Lidarr, & Radarr - fill in the indexer and downloader" \
+        "LazyLibrarian            - fill in an indexer and downloader" \
+        "Plex                     - add your libraries" "" ""
+
+    printf "%s\n" \
+        "These are the paths configured for storage / downloading :" \
+        "/${_PATH}/movies" \
+        "/${_PATH}/music" \
+        "/${_PATH}/tv" \
+        "/${_PATH}/books" \
+        "/${_PATH}/downloads" \
+        "/${_PATH}/downloads/complete" \
+        "/${_PATH}/downloadsincomplete" "" ""
+}

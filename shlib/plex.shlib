@@ -1,0 +1,9 @@
+function _plex()
+{
+    curl $(curl -s https://plex.tv/api/downloads/5.json \
+        | grep -m1 -ioe 'https://[^\"]*' \
+        | awk '/amd64/&&/debian/') \
+        -o /tmp/temp.deb
+
+    dpkg -i /tmp/temp.deb
+}

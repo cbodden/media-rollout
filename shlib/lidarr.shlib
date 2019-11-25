@@ -1,0 +1,41 @@
+function _lidarr()
+{
+    cd /opt/
+
+    _LR_ADDY="https://github.com/lidarr/Lidarr/releases"
+
+    _LR_RLS_PATH="$(curl -s ${_LR_ADDY} \
+        | grep "linux.tar.gz" \
+        | head -n 1 \
+        | cut -d\" -f2 )"
+
+    _LR_DLD_PATH="$(echo ${_LR_RLS_PATH} \
+        | cut -d'/' -f6-7 )"
+
+    wget ${_LR_ADDY}/download/${_LR_DLD_PATH}
+
+    tar -xzvf ${_LR_DLD_PATH##*/}
+    chown -R lidarr:lidarr /opt/Lidarr/
+
+    cat <<EOF >/etc/systemd/system/lidarr.service
+    [Unit]
+    Description=Lidarr Daemon
+    After=syslog.target network.target
+
+    [Service]
+    User=lidarr
+    Group=lidarr
+    Type=simple
+    ExecStart=/usr/bin/mono /opt/Lidarr/Lidarr.exe -nobrowser
+    TimeoutStopSec=20
+    KillMode=process
+    Restart=on-failure
+
+    [Install]
+    WantedBy=multi-user.target
+EOF
+
+    chown -R lidarr:downloads /${_PATH}/music
+    systemctl daemon-reload
+    systemctl enable lidarr.service
+}
