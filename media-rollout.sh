@@ -418,13 +418,13 @@ EOF
 
 function _finish()
 {
-    systemctl start sabnzbdplus.service
-    systemctl start nzbhydra2.service
-    systemctl start lidarr.service
-    systemctl start sonarr.service
-    systemctl start radarr.service
-    systemctl start tautulli.service
-    systemctl start lazylibrarian.service
+    systemctl restart sabnzbdplus.service
+    systemctl restart nzbhydra2.service
+    systemctl restart lidarr.service
+    systemctl restart sonarr.service
+    systemctl restart radarr.service
+    systemctl restart tautulli.service
+    systemctl restart lazylibrarian.service
 
     rm /opt/Lidarr*.tar.gz
     rm /opt/Radarr*.tar.gz
