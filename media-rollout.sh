@@ -206,6 +206,7 @@ function _sabnzbd_configure()
     cp ${PROGDIR}/config_files/sabnzbd.ini ${_SAB_HOME}/
 
     # sed -i "s|^api_key =.*|api_key = ${_API_GEN}|g" ${_SAB_HOME}/sabnzbd.ini
+    sed -i "s|^api_key =.*|api_key = 0000|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^host =.*|host = ${_IP}|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^download_dir =.*|download_dir = /${_PATH}/download/incomplete|g" ${_SAB_HOME}/sabnzbd.ini
     # sed -i "s|^nzb_key =.*|nzb_key = ${_API_GEN}|g" ${_SAB_HOME}/sabnzbd.ini
@@ -216,6 +217,8 @@ function _sabnzbd_configure()
 
     chown -R sabnzbd:sabnzbd ${_SAB_HOME}
     systemctl daemon-reload
+    systemctl restart sabnzbdplus.service
+    curl "http://localhost:8080/api?mode=config&name=set_apikey&apikey=0000"
     systemctl restart sabnzbdplus.service
 }
 
