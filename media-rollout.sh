@@ -205,10 +205,10 @@ function _sabnzbd_configure()
 
     cp ${PROGDIR}/config_files/sabnzbd.ini ${_SAB_HOME}/
 
-    sed -i "s|^api_key =.*|api_key = ${_API_GEN}|g" ${_SAB_HOME}/sabnzbd.ini
+    # sed -i "s|^api_key =.*|api_key = ${_API_GEN}|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^host =.*|host = ${_IP}|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^download_dir =.*|download_dir = /${_PATH}/download/incomplete|g" ${_SAB_HOME}/sabnzbd.ini
-    sed -i "s|^nzb_key =.*|nzb_key = ${_API_GEN}|g" ${_SAB_HOME}/sabnzbd.ini
+    # sed -i "s|^nzb_key =.*|nzb_key = ${_API_GEN}|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^complete_dir =.*|complete_dir = /${_PATH}/download/complete|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^username =.*|username = ${_UNAME}|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^password =.*|password = ${_PWORD}|g" ${_SAB_HOME}/sabnzbd.ini
