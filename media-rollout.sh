@@ -418,14 +418,6 @@ EOF
 
 function _finish()
 {
-    systemctl restart sabnzbdplus.service
-    systemctl restart nzbhydra2.service
-    systemctl restart lidarr.service
-    systemctl restart sonarr.service
-    systemctl restart radarr.service
-    systemctl restart tautulli.service
-    systemctl restart lazylibrarian.service
-
     rm /opt/Lidarr*.tar.gz
     rm /opt/Radarr*.tar.gz
     rm /tmp/temp.deb
@@ -443,14 +435,14 @@ function _finish()
         "Plex          @ ${_IP}:32400" "" ""
 
     printf "%s\n" \
-        "Services are started by default :" \
-        "sudo systemctl status sabnzbdplus.service" \
-        "sudo systemctl status nzbhydra2.service" \
-        "sudo systemctl status lidarr.service" \
-        "sudo systemctl status sonarr.service" \
-        "sudo systemctl status radarr.service" \
-        "sudo systemctl status tautulli.service" \
-        "sudo systemctl status lazylibrarian.service" "" ""
+        "Services are not started by default :" \
+        "sudo systemctl restart sabnzbdplus.service" \
+        "sudo systemctl restart nzbhydra2.service" \
+        "sudo systemctl restart lidarr.service" \
+        "sudo systemctl restart sonarr.service" \
+        "sudo systemctl restart radarr.service" \
+        "sudo systemctl restart tautulli.service" \
+        "sudo systemctl restart lazylibrarian.service" "" ""
 
     printf "%s\n" \
         "You should now fill in the rest :" \
@@ -469,7 +461,7 @@ function _finish()
         "/${_PATH}/downloads" \
         "/${_PATH}/downloads/complete" \
         "/${_PATH}/downloadsincomplete" "" ""
-    }
+}
 
 function _usage()
 {
