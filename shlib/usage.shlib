@@ -1,23 +1,35 @@
 function _usage()
 {
+    clear
     cat <<EOF
-    NAME
-        ${PROGNAME} - media rollout
+NAME
+    ${PROGNAME}
 
-    SYNOPSIS
-        ${PROGNAME} [OPTION] ...
+SYNOPSIS
+    ${PROGNAME} [OPTION] ...
 
-    DESCRIPTION
-        blah blah blah
+DESCRIPTION
+    This script is used to deploy and configure:
+    SABnzbd
+    NZBHydra2
+    Lidarr
+    Sonarr
+    Radarr
+    LazyLibrarian
+    Plex Media Server
+    Tautulli
 
-    OPTIONS
-        -h
-                This option shows you this help message
+OPTIONS
+    -h
+            This option shows you this help message.
 
-        -i
-                This option actually deploys and installs the system
+    -i
+            This option installs all the services without configuration.
 
-        -k [info]
-                Testing input
+    -c
+            This option goes through the services and configures them
+            to a default state but all talking to each other.
+
+
 EOF
 }
