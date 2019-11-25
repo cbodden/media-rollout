@@ -44,3 +44,16 @@ function _finish()
         "/${_PATH}/downloads/complete" \
         "/${_PATH}/downloadsincomplete" "" ""
 }
+
+function _finish_configure()
+{
+    clear
+    printf "%S\n" \
+        "Services now configured :" \
+        "${BLU}Sabnzbd       @ ${_IP}:8080" \
+        "${CLR}" "" \
+        "with username :" \
+        "${BLU}admin${CLR}" \
+        "and password :" \
+        "${BLU}admin${CLR}"
+}

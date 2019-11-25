@@ -75,7 +75,7 @@ do
         'c')
             main
             _sabnzbd_configure
-            _finish
+            _finish_configure
             exit 0
             ;;
         'h')
