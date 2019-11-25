@@ -48,7 +48,7 @@ function _finish()
 function _finish_configure()
 {
     clear
-    printf "%S\n" \
+    printf "%s\n" \
         "Services now configured :" \
         "${BLU}Sabnzbd       @ ${_IP}:8080" \
         "${CLR}" "" \
