@@ -198,7 +198,8 @@ function _sabnzbd()
 function _sabnzbd_configure()
 {
     mkdir -p ${_SAB_HOME}
-    wget ${_GIT_PATH}/config_files/sabnzbd.ini -O ${_SAB_HOME}/sabnzbd.ini
+    cp ${PROGDIR}/config_files/sabnzbd.ini ${_SAB_HOME}/
+    #wget ${_GIT_PATH}/config_files/sabnzbd.ini -O ${_SAB_HOME}/sabnzbd.ini
 
     sed -i "s|^api_key =.*|api_key = ${_API_GEN}|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^host =.*|host = ${_IP}|g" ${_SAB_HOME}/sabnzbd.ini
@@ -209,6 +210,7 @@ function _sabnzbd_configure()
     sed -i "s|^password =.*|password = ${_PWORD}|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^host_whitelist =.*|host_whitelist = $(hostname),|g" ${_SAB_HOME}/sabnzbd.ini
 
+    chown -R sabnzbd:sabnzbd ${_SAB_HOME}
     systemctl daemon-reload
     systemctl restart sabnzbdplus.service
 }
