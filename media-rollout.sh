@@ -238,7 +238,7 @@ function _nzbhydra2()
     cp systemd/nzbhydra2.service /lib/systemd/system/nzbhydra2.service
     dos2unix /lib/systemd/system/nzbhydra2.service
 
-    sed -i 's|^WorkingDirectory=.*|WorkingDirectory=${_NH_HOME}|g' /lib/systemd/system/nzbhydra2.service
+    sed -i "s|^WorkingDirectory=.*|WorkingDirectory=${_NH_HOME}|g" /lib/systemd/system/nzbhydra2.service
     sed -i 's/^User=ubuntu.*/User=hydra/' /lib/systemd/system/nzbhydra2.service
     sed -i 's/^Group=vboxsf.*/Group=hydra/' /lib/systemd/system/nzbhydra2.service
     sed -i 's/^ExecStart=\/home\/nzbhydra\/nzbhydra2\/nzbhydra2 --nobrowser.*/ExecStart=\/usr\/bin\/python \/opt\/nzbhydra2\/nzbhydra2wrapper.py --nobrowser --datafolder \/home\/hydra\/.nzbhydra2_data/' /lib/systemd/system/nzbhydra2.service
@@ -418,6 +418,14 @@ EOF
 
 function _finish()
 {
+    systemctl start sabnzbdplus.service
+    systemctl start nzbhydra2.service
+    systemctl start lidarr.service
+    systemctl start sonarr.service
+    systemctl start radarr.service
+    systemctl start tautulli.service
+    systemctl start lazylibrarian.service
+
     rm /opt/Lidarr*.tar.gz
     rm /opt/Radarr*.tar.gz
     rm /tmp/temp.deb
@@ -435,14 +443,14 @@ function _finish()
         "Plex          @ ${_IP}:32400" "" ""
 
     printf "%s\n" \
-        "Services are not started by default and are started by running :" \
-        "sudo systemctl start sabnzbdplus.service" \
-        "sudo systemctl start nzbhydra2.service" \
-        "sudo systemctl start lidarr.service" \
-        "sudo systemctl start sonarr.service" \
-        "sudo systemctl start radarr.service" \
-        "sudo systemctl start tautulli.service" \
-        "sudo systemctl start lazylibrarian.service" "" ""
+        "Services are started by default :" \
+        "sudo systemctl status sabnzbdplus.service" \
+        "sudo systemctl status nzbhydra2.service" \
+        "sudo systemctl status lidarr.service" \
+        "sudo systemctl status sonarr.service" \
+        "sudo systemctl status radarr.service" \
+        "sudo systemctl status tautulli.service" \
+        "sudo systemctl status lazylibrarian.service" "" ""
 
     printf "%s\n" \
         "You should now fill in the rest :" \
