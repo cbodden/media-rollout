@@ -375,9 +375,33 @@ function _plex()
 
 function _tautulli()
 {
+    cd /opt/
+    git clone https://github.com/Tautulli/Tautulli.git
+    chown -R tautulli:tautulli Tautulli/
 
-echo .
+    cat <<- EOF >/lib/systemd/system/tautulli.service
+    [Unit]
+    Description=Tautulli - Stats for Plex Media Server usage
+    Wants=network-online.target
+    After=network-online.target
 
+    [Service]
+    ExecStart=/opt/Tautulli/Tautulli.py --config /home/tautulli/Tautulli.ini --datadir /home/tautulli --quiet --daemon --nolaunch
+    GuessMainPID=no
+    Type=forking
+    User=tautulli
+    Group=tautulli
+    Restart=on-abnormal
+    RestartSec=5
+    StartLimitInterval=90
+    StartLimitBurst=3
+
+    [Install]
+    WantedBy=multi-user.target
+EOF
+
+    systemctl daemon-reload
+    systemctl enable tautulli.service
 }
 
 function _finish()
@@ -395,6 +419,7 @@ function _finish()
         "Sonarr        @ ${_IP}:8989" \
         "Radarr        @ ${_IP}:7878" \
         "LazyLibrarian @ ${_IP}:5299" \
+        "Tautulli      @ ${_IP}:8181" \
         "Plex          @ ${_IP}:32400" "" ""
 
     printf "%s\n" \
@@ -404,6 +429,7 @@ function _finish()
         "sudo systemctl start lidarr.service" \
         "sudo systemctl start sonarr.service" \
         "sudo systemctl start radarr.service" \
+        "sudo systemctl start tautulli.service" \
         "sudo systemctl start lazylibrarian.service" "" ""
 
     printf "%s\n" \
