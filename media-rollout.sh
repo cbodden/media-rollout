@@ -218,7 +218,7 @@ function _sabnzbd_configure()
     chown -R sabnzbd:sabnzbd ${_SAB_HOME}
     systemctl daemon-reload
     systemctl restart sabnzbdplus.service
-    curl "http://localhost:8080/api?mode=config&name=set_apikey&apikey=0000"
+    curl "http://${_IP}:8080/api?mode=config&name=set_apikey&apikey=0000"
     systemctl restart sabnzbdplus.service
 }
 
@@ -430,9 +430,9 @@ EOF
 
 function _finish()
 {
-    rm /opt/Lidarr*.tar.gz
-    rm /opt/Radarr*.tar.gz
-    rm /tmp/temp.deb
+    # rm /opt/Lidarr*.tar.gz
+    # rm /opt/Radarr*.tar.gz
+    # rm /tmp/temp.deb
 
     clear
     printf "%s\n" \
