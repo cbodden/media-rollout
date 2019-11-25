@@ -208,6 +208,9 @@ function _sabnzbd_configure()
     sed -i "s|^username =.*|username = ${_UNAME}|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^password =.*|password = ${_PWORD}|g" ${_SAB_HOME}/sabnzbd.ini
     sed -i "s|^host_whitelist =.*|host_whitelist = $(hostname),|g" ${_SAB_HOME}/sabnzbd.ini
+
+    systemctl daemon-reload
+    systemctl restart sabnzbdplus.service
 }
 
 function _nzbhydra2()
@@ -488,9 +491,15 @@ EOF
 }
 
 ## option selection
-while getopts "hik:" OPT
+while getopts "chik:" OPT
 do
     case "${OPT}" in
+        'c')
+            main
+            _sabnzbd_configure
+            _finish
+            exit 0
+            ;;
         'h')
             _usage
             ;;
