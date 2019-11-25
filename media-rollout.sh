@@ -112,7 +112,7 @@ function _USERS_GROUPS()
 {
     getent group downloads || groupadd downloads
 
-    local _USERS="sabnzbd hydra lidarr sonarr radarr lazylibrarian"
+    local _USERS="sabnzbd hydra lidarr sonarr radarr lazylibrarian tautulli"
     for ITER in ${_USERS}
     do
         addgroup ${ITER}
@@ -144,8 +144,11 @@ function _APT_WORK()
         libchromaprint-tools \
         mediainfo \
         openjdk-11-jre-headless \
-        sqlite3 \
+        python \
+        python-setuptools \
         software-properties-common \
+        sqlite3 \
+        tzdata \
         unzip \
         -y
 
@@ -366,8 +369,16 @@ function _plex()
         | grep -m1 -ioe 'https://[^\"]*' \
         | awk '/amd64/&&/debian/') \
         -o /tmp/temp.deb
+
     dpkg -i /tmp/temp.deb
-    }
+}
+
+function _tautulli()
+{
+
+echo .
+
+}
 
 function _finish()
 {
