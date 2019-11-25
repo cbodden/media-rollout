@@ -200,6 +200,7 @@ function _sabnzbd_configure()
     mkdir -p ${_SAB_HOME}/admin ${_SAB_HOME}/logs
     touch \
         ${_SAB_HOME}/admin/history1.db \
+        ${_SAB_HOME}/admin/Rating.sab \
         ${_SAB_HOME}/logs/sabnzbd.error.log \
         ${_SAB_HOME}/logs/sabnzbd.log
 
@@ -218,7 +219,22 @@ function _sabnzbd_configure()
     chown -R sabnzbd:sabnzbd ${_SAB_HOME}
     systemctl daemon-reload
     systemctl restart sabnzbdplus.service
+    sleep 4
     curl "http://${_IP}:8080/api?mode=config&name=set_apikey&apikey=0000"
+
+    touch \
+        ${_SAB_HOME}/admin/history1.db \
+        ${_SAB_HOME}/admin/Rating.sab \
+        ${_SAB_HOME}/logs/sabnzbd.error.log \
+        ${_SAB_HOME}/logs/sabnzbd.log
+
+    touch \
+        ${_SAB_HOME}/admin/history1.db \
+        ${_SAB_HOME}/admin/Rating.sab \
+        ${_SAB_HOME}/logs/sabnzbd.error.log \
+        ${_SAB_HOME}/logs/sabnzbd.log
+
+    chown -R sabnzbd:sabnzbd ${_SAB_HOME}
     systemctl restart sabnzbdplus.service
 }
 
