@@ -86,10 +86,8 @@ function main()
 
     readonly _IP=${_MEDIA_IP:-$(awk '{print $1}' <(hostname -I))}
     readonly _PATH=${_MEDIA_PATH:-storage}
-
     readonly _UNAME=${_CONFIG_UNAME:-admin}
     readonly _PWORD=${_CONFIG_PWORD:-admin}
-
     readonly _API_GEN="$(head /dev/urandom \
         | tr -dc a-f0-9 \
         | head -c 32 )"
@@ -115,9 +113,12 @@ function _USERS_GROUPS()
     local _USERS="sabnzbd hydra lidarr sonarr radarr lazylibrarian tautulli"
     for ITER in ${_USERS}
     do
-        addgroup ${ITER}
-        adduser --system ${ITER} --ingroup ${ITER}
-        usermod -a -G downloads ${ITER}
+        if [ -z "$(getent passwd ${ITER})" ]
+        then
+            addgroup ${ITER}
+            adduser --system ${ITER} --ingroup ${ITER}
+            usermod -a -G downloads ${ITER}
+        fi
     done
 
     local _DRV="books downloads/complete downloads/incomplete movies music tv"
@@ -139,6 +140,7 @@ function _APT_WORK()
     apt install \
         apt-transport-https \
         curl \
+        dos2unix \
         git-core \
         gnupg ca-certificates \
         libchromaprint-tools \
@@ -181,9 +183,13 @@ function _sabnzbd()
         par2-tbb \
         -y
 
+    sed -i "s|^USER=.*|USER=sabnzbd|g" /etc/default/sabnzbdplus
+    sed -i "s|^HOST=.*|HOST=${_IP}|g" /etc/default/sabnzbdplus
+    sed -i "s|^PORT=.*|PORT=8080|g" /etc/default/sabnzbdplus
+
+    chown -R sabnzbd:downloads /${_PATH}/downloads/*
     systemctl daemon-reload
     systemctl enable sabnzbdplus.service
-    chown -R sabnzbd:downloads /${_PATH}/downloads/*
 }
 
 function _sabnzbd_configure()
@@ -203,8 +209,9 @@ function _sabnzbd_configure()
 
 function _nzbhydra2()
 {
-    mkdir /opt/nzbhydra2
-    cd /opt/nzbhydra2
+    local _NH_HOME="/opt/nzbhydra2"
+    mkdir ${_NH_HOME}
+    cd ${_NH_HOME}
 
     local _NH_ADDY="https://github.com/theotherp/nzbhydra2/releases"
 
@@ -226,10 +233,12 @@ function _nzbhydra2()
     rm ${_NH_RLS}
 
     cp systemd/nzbhydra2.service /lib/systemd/system/nzbhydra2.service
+    dos2unix /lib/systemd/system/nzbhydra2.service
 
-    sed -i 's/User=ubuntu.*/User=hydra/' /lib/systemd/system/nzbhydra2.service
-    sed -i 's/Group=vboxsf.*/Group=hydra/' /lib/systemd/system/nzbhydra2.service
-    sed -i 's/ExecStart=\/home\/nzbhydra\/nzbhydra2\/nzbhydra2 --nobrowser.*/ExecStart=\/usr\/bin\/python \/opt\/nzbhydra2\/nzbhydra2wrapper.py --nobrowser --datafolder \/home\/hydra\/.nzbhydra2_data/' /lib/systemd/system/nzbhydra2.service
+    sed -i 's|^WorkingDirectory=.*|WorkingDirectory=${_NH_HOME}|g' /lib/systemd/system/nzbhydra2.service
+    sed -i 's/^User=ubuntu.*/User=hydra/' /lib/systemd/system/nzbhydra2.service
+    sed -i 's/^Group=vboxsf.*/Group=hydra/' /lib/systemd/system/nzbhydra2.service
+    sed -i 's/^ExecStart=\/home\/nzbhydra\/nzbhydra2\/nzbhydra2 --nobrowser.*/ExecStart=\/usr\/bin\/python \/opt\/nzbhydra2\/nzbhydra2wrapper.py --nobrowser --datafolder \/home\/hydra\/.nzbhydra2_data/' /lib/systemd/system/nzbhydra2.service
 
     chown -R hydra:hydra /opt/nzbhydra2/
     systemctl daemon-reload
@@ -255,7 +264,7 @@ function _lidarr()
     tar -xzvf ${_LR_DLD_PATH##*/}
     chown -R lidarr:lidarr /opt/Lidarr/
 
-    cat <<-EOF >/etc/systemd/system/lidarr.service
+    cat <<EOF >/etc/systemd/system/lidarr.service
     [Unit]
     Description=Lidarr Daemon
     After=syslog.target network.target
@@ -283,7 +292,7 @@ function _sonarr()
     apt install nzbdrone
     chown -R sonarr:sonarr /opt/NzbDrone/
 
-    cat <<- EOF >/lib/systemd/system/sonarr.service
+    cat <<EOF >/lib/systemd/system/sonarr.service
     [Unit]
     Description=Sonarr Daemon
     After=network.target
@@ -326,7 +335,7 @@ function _radarr()
     tar -xzvf ${_RD_DLD_PATH##*/}
     chown -R radarr:radarr /opt/Radarr
 
-    cat <<- EOF >/lib/systemd/system/radarr.service
+    cat <<EOF >/lib/systemd/system/radarr.service
     [Unit]
     Description=Radarr Daemon
     After=syslog.target network.target
@@ -379,7 +388,7 @@ function _tautulli()
     git clone https://github.com/Tautulli/Tautulli.git
     chown -R tautulli:tautulli Tautulli/
 
-    cat <<- EOF >/lib/systemd/system/tautulli.service
+    cat <<EOF >/lib/systemd/system/tautulli.service
     [Unit]
     Description=Tautulli - Stats for Plex Media Server usage
     Wants=network-online.target
@@ -449,18 +458,65 @@ function _finish()
         "/${_PATH}/downloads" \
         "/${_PATH}/downloads/complete" \
         "/${_PATH}/downloadsincomplete" "" ""
+    }
+
+function _usage()
+{
+    cat <<EOF
+    NAME
+        ${PROGNAME} - media rollout
+
+    SYNOPSIS
+        ${PROGNAME} [OPTION] ...
+
+    DESCRIPTION
+        blah blah blah
+
+    OPTIONS
+        -h
+                This option shows you this help message
+
+        -i
+                This option actually deploys and installs the system
+
+        -k [info]
+                Testing input
+EOF
 }
 
-main
-_USERS_GROUPS
-_APT_WORK
-_sabnzbd
-#_sabnzbd_configure
-_nzbhydra2
-_lidarr
-_sonarr
-_radarr
-_lazylibrarian
-_plex
-_tautulli
-_finish
+## option selection
+while getopts "hik:" OPT
+do
+    case "${OPT}" in
+        'h')
+            _usage
+            ;;
+        'i')
+            main
+            USERS_GROUPS
+            _APT_WORK
+            _sabnzbd
+            _nzbhydra2
+            _lidarr
+            _sonarr
+            _radarr
+            _lazylibrarian
+            _plex
+            _tautulli
+            _finish
+            exit 0
+            ;;
+        'k')
+            pass an arg to ${OPTARG}
+            ;;
+        *)
+            _usage
+            exit 0
+            ;;
+    esac
+done
+if [[ ${OPTIND} -eq 1 ]]
+then
+    _usage
+    exit 0
+fi
