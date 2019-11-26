@@ -62,6 +62,8 @@ function _sabnzbd_configure()
         ${_SAB_HOME}/logs/sabnzbd.error.log \
         ${_SAB_HOME}/logs/sabnzbd.log
 
+    chown sabnzbd:downloads /${_PATH}/
+    chown -R sabnzbd:downloads /${_PATH}/downloads/
     chown -R sabnzbd:sabnzbd ${_SAB_HOME}
     systemctl restart sabnzbdplus.service
 }
