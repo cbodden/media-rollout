@@ -83,7 +83,8 @@ do
             ;;
         'i')
             main
-            _USERS_GROUPS
+            _users
+            _storage
             _apt
             _sabnzbd
             _nzbhydra2
@@ -94,6 +95,7 @@ do
             _plex
             _tautulli
             _finish
+            _clean
             exit 0
             ;;
         'k')
