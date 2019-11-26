@@ -1,19 +1,13 @@
-function _apt()
+function _APT_WORK()
 {
-    printf "%s\n" "[${GRN}-${CLR}] Adding repositories"
-    add-apt-repository multiverse >/dev/null
-    add-apt-repository universe >/dev/null
-    add-apt-repository ppa:jcfp/nobetas >/dev/null
-    add-apt-repository ppa:jcfp/sab-addons >/dev/null
-    printf "%s\n" "[${BLU}*${CLR}] Repositories added"
+    add-apt-repository multiverse
+    add-apt-repository universe
+    add-apt-repository ppa:jcfp/nobetas
+    add-apt-repository ppa:jcfp/sab-addons
+    apt update -y
+    apt-get dist-upgrade -y
 
-    printf "%s\n" "[${GRN}-${CLR}] Updating with new repositories"
-    apt-get update -y -qq >/dev/null
-    apt-get dist-upgrade -y -qq >/dev/null
-    printf "%s\n" "[${BLU}*${CLR}] Updates from new repositories done"
-
-    printf "%s\n" "[${GRN}-${CLR}] Installing packages"
-    apt-get install \
+    apt install \
         apt-transport-https \
         curl \
         dos2unix \
@@ -28,37 +22,25 @@ function _apt()
         sqlite3 \
         tzdata \
         unzip \
-        -y -qq >/dev/null
-    printf "%s\n" "[${BLU}*${CLR}] Packages installed"
+        -y
 
-    printf "%s\n" "[${GRN}-${CLR}] Adding Keys"
     apt-key adv \
         --keyserver hkp://keyserver.ubuntu.com:80 \
-        --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
-        >/dev/null 2>&1
+        --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
 
     apt-key adv \
         --keyserver keyserver.ubuntu.com \
-        --recv-keys 0xA236C58F409091A18ACA53CBEBFF6B99D9B78493 \
-        >/dev/null 2>&1
-    printf "%s\n" "[${BLU}*${CLR}] Keys installed"
+        --recv-keys 0xA236C58F409091A18ACA53CBEBFF6B99D9B78493
 
-    printf "%s\n" "[${GRN}-${CLR}] Adding mono sources"
     echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main"\
-        >> /etc/apt/sources.list.d/mono-official-stable.list
-        #|  tee /etc/apt/sources.list.d/mono-official-stable.list
+        |  tee /etc/apt/sources.list.d/mono-official-stable.list
 
     echo "deb http://download.mono-project.com/repo/debian jessie main" \
-        >> /etc/apt/sources.list.d/mono-xamarin.list
-        #|  tee /etc/apt/sources.list.d/mono-xamarin.list
+        |  tee /etc/apt/sources.list.d/mono-xamarin.list
 
     echo "deb http://apt.sonarr.tv/ master main" \
-        >> /etc/apt/sources.list.d/sonarr.list
-        #|  tee /etc/apt/sources.list.d/sonarr.list
-    printf "%s\n" "[${BLU}*${CLR}] mono sources added"
+        |  tee /etc/apt/sources.list.d/sonarr.list
 
-    printf "%s\n" "[${GRN}-${CLR}] Installing mono"
-    apt-get update -y -qq >/dev/null
-    apt-get install mono-devel -y -qq >/dev/null
-    printf "%s\n" "[${BLU}*${CLR}] mono installed"
+    apt update -y
+    apt install mono-devel -y
 }
