@@ -1,4 +1,4 @@
-function _APT_WORK()
+function _apt()
 {
     add-apt-repository multiverse
     add-apt-repository universe
