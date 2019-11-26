@@ -13,7 +13,8 @@ function _sabnzbd()
     sed -i "s|^PORT=.*|PORT=8080|g" \
         /etc/default/sabnzbdplus
 
-    chown -R sabnzbd:downloads /${_PATH}/downloads/*
+    chown sabnzbd:downloads /${_PATH}/
+    chown -R sabnzbd:downloads /${_PATH}/downloads/
     systemctl daemon-reload
     systemctl enable sabnzbdplus.service
 }
@@ -62,6 +63,5 @@ function _sabnzbd_configure()
         ${_SAB_HOME}/logs/sabnzbd.log
 
     chown -R sabnzbd:sabnzbd ${_SAB_HOME}
-    chown -R sabnzbd:downloads /${_PATH}/downloads/*
     systemctl restart sabnzbdplus.service
 }
