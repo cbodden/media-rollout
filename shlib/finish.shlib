@@ -1,9 +1,5 @@
 function _finish()
 {
-    # rm /opt/Lidarr*.tar.gz
-    # rm /opt/Radarr*.tar.gz
-    # rm /tmp/temp.deb
-
     clear
     printf "%s\n" \
         "Services now setup to run on :" \
@@ -56,4 +52,11 @@ function _finish_configure()
         "${BLU}admin${CLR}" \
         "and password :" \
         "${BLU}admin${CLR}"
+}
+
+function _clean()
+{
+    rm /opt/Lidarr*.tar.gz
+    rm /opt/Radarr*.tar.gz
+    rm /tmp/temp.deb
 }
