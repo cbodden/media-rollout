@@ -1,4 +1,4 @@
-function _APT_WORK()
+function _apt()
 {
     printf "%s\n" "[${GRN}-${CLR}] Adding repositories"
     add-apt-repository multiverse >/dev/null

@@ -41,6 +41,7 @@ function main()
 
     readonly _GIT_PATH="https://github.com/cbodden/media-rollout/blob/master"
     readonly _SAB_HOME="/home/sabnzbd/.sabnzbd"
+    readonly _NH_HOME="/home/hydra/.nzbhydra2_data"
 
     clear
 }
@@ -53,7 +54,7 @@ function _pause()
     read -p "$*"
 }
 
-function _USERS_GROUPS()
+function _users()
 {
     getent group downloads || groupadd downloads
 
@@ -67,7 +68,10 @@ function _USERS_GROUPS()
             usermod -a -G downloads ${ITER}
         fi
     done
+}
 
+function _storage()
+{
     local _DRV="books downloads/complete downloads/incomplete movies music tv"
     for ITER in ${_DRV}
     do

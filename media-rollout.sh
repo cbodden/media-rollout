@@ -84,7 +84,7 @@ do
         'i')
             main
             _USERS_GROUPS
-            _APT_WORK
+            _apt
             _sabnzbd
             _nzbhydra2
             _lidarr
