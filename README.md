@@ -101,6 +101,11 @@ Requirements
 - Tautulli (installed by this script from https://tautulli.com/)
 
 
+Notes
+----
+- For questions, help, comments, or praise visit #media-rollout on freenode
+
+
 License and Author
 ----
 
