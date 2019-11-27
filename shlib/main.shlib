@@ -43,8 +43,8 @@ function main()
     readonly _SAB_HOME="/home/sabnzbd/.sabnzbd"
     readonly _NH_HOME="/home/hydra/.nzbhydra2_data"
     readonly _LR_HOME="/home/lidarr/.config/Lidarr"
-    readonly _RD_HOME="/home/radarr/.config/Lidarr"
-    readonly _SR_HOME="/home/sonarr/.config/Lidarr"
+    readonly _RD_HOME="/home/radarr/.config/Radarr"
+    readonly _SR_HOME="/home/sonarr/.config/NzbDrone"
 
     clear
 }
