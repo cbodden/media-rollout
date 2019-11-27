@@ -76,6 +76,8 @@ do
             main
             _sabnzbd_configure
             _lidarr_configure
+            _radarr_configure
+            _sonarr_configure
             _finish_configure
             exit 0
             ;;

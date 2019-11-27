@@ -39,3 +39,33 @@ EOF
     systemctl daemon-reload
     systemctl enable radarr.service
 }
+
+function _radarr_configure()
+{
+    systemctl start radarr.service
+    sleep 5
+    systemctl start nzbhydra2.service
+    sleep 5
+    systemctl stop radarr.service
+    systemctl stop nzbhydra2.service
+
+    local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
+        | awk '/^api_key/ {print $3}')
+
+    local _NH_API=$(yq read ${_NH_HOME}/nzbhydra.yml main.apiKey)
+
+    rm -rf ${_RD_HOME}/*
+
+    cat ${PROGDIR}/config_files/radarr_BASE-EDIT.sql \
+        | sed "/\bSABnzbd\b/s|\bRM_SH\b|${_IP}|g" \
+        | sed "/\bSABnzbd\b/s/\bRM_SP\b/8080/g" \
+        | sed "/\bSABnzbd\b/s/\bRM_SA\b/${_SAB_API}/g" \
+        | sed "/\bNZBHydra2\b/s|\bRM_NH\b|${_IP}|g" \
+        | sed "/\bNZBHydra2\b/s/\bRM_NP\b/5076/g" \
+        | sed "/\bNZBHydra2\b/s/\bRM_NA\b/${_NH_API}/g" \
+        >> ${_RD_HOME}/nzbdrone.sql
+
+    echo .exit | sqlite3 -init ${_RD_HOME}/nzbdrone.sql ${_RD_HOME}/nzbdrone.db
+    chown -R radarr:radarr ${_RD_HOME}
+    systemctl start radarr
+}
