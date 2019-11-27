@@ -38,6 +38,43 @@ cd media-rollout
 sudo ./media-rollout
 ```
 
+Script Usage:
+```
+NAME
+    media-rollout.sh
+
+SYNOPSIS
+    media-rollout.sh [OPTION] ...
+
+DESCRIPTION
+    This script is used to deploy and configure:
+    SABnzbd
+    NZBHydra2
+    Lidarr
+    Sonarr
+    Radarr
+    LazyLibrarian
+    Plex Media Server
+    Tautulli
+
+OPTIONS
+    -h
+            Help
+            This option shows you this help message.
+
+    -i
+            Install
+            This option installs all the services without configuration.
+            This option needs to be run before before "-c".
+
+    -c
+            Configure
+            This option goes through the services and configures them
+            to a default state but all talking to each other.
+            This option must be run only after running with "-i".
+```
+
+
 Usage Description
 ----
 - When this script is run with the "-i" option it will install all the services listed above in that order
@@ -50,7 +87,19 @@ Usage Description
 
 Requirements
 ----
-- Ubuntu 18.04 fresh install
+- Ubuntu 18.04 (fresh install by user)
+- yq (installed by this script from https://github.com/mikefarah/yq)
+- mono (installed by this script from https://www.mono-project.com/)
+- sqlite3 (installed by this script from https://www.sqlite.org/index.html)
+- SABnzbd (installed by this script from https://sabnzbd.org/)
+- NZBHydra2 (installed by this script from https://github.com/theotherp/nzbhydra2)
+- Lidarr (installed by this script from https://lidarr.audio/)
+- Sonarr (installed by this script from https://sonarr.tv/)
+- Radarr (installed by this script from https://radarr.video/)
+- LazyLibrarian (installed by this script from https://github.com/DobyTang/LazyLibrarian)
+- Plex Media Server (installed by this script from https://www.plex.tv/)
+- Tautulli (installed by this script from https://tautulli.com/)
+
 
 License and Author
 ----
