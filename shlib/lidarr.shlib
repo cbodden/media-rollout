@@ -44,10 +44,7 @@ function _lidarr_configure()
 {
     systemctl start lidarr.service
     sleep 5
-    systemctl start nzbhydra2.service
-    sleep 5
     systemctl stop lidarr.service
-    systemctl stop nzbhydra2.service
 
     local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
         | awk '/^api_key/ {print $3}')

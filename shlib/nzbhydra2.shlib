@@ -64,7 +64,6 @@ function _nzbhydra2_configure()
         | sed "s/RM_NA/${_NH_API}/g" \
         >> ${_NH_HOME}/nzbhydra.yml
 
-
     chown -R hydra:hydra ${_NH_HOME}
     systemctl start nzbhydra2.service
 }
