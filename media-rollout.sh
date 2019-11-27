@@ -75,6 +75,7 @@ do
         'c')
             main
             _sabnzbd_configure
+            _nzbhydra2_configure
             _lidarr_configure
             _radarr_configure
             _sonarr_configure

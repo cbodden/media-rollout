@@ -49,6 +49,10 @@ function _nzbhydra2_configure()
     local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
         | awk '/^api_key/ {print $3}')
 
+    local _NH_API=$(head /dev/urandom \
+        | tr -dc A-Z0-9 \
+        | head -c 26)
+
     rm -rf ${_NH_HOME}/*
 
     cat ${PROGDIR}/config_files/nzbhydra.yml \
@@ -57,9 +61,9 @@ function _nzbhydra2_configure()
         | sed "s/RM_SA/${_SAB_API}/g" \
         | sed "s/RM_NH/${_IP}/g" \
         | sed "s/RM_NP/5076/g" \
+        | sed "s/RM_NA/${_NH_API}/g" \
         >> ${_NH_HOME}/nzbhydra.yml
 
-        ##| sed "s/RM_NA/${_NH_API}/g" \
 
     chown -R hydra:hydra ${_NH_HOME}
     systemctl start nzbhydra2.service
