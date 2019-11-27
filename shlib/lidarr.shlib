@@ -42,8 +42,10 @@ EOF
 
 function _lidarr_configure()
 {
-    systemctl restart lidarr.service
-    systemctl restart nzbhydra2.service
+    systemctl start lidarr.service
+    sleep 5
+    systemctl start nzbhydra2.service
+    sleep 5
     systemctl stop lidarr.service
     systemctl stop nzbhydra2.service
 
@@ -52,16 +54,18 @@ function _lidarr_configure()
 
     local _NH_API=$(yq read ${_NH_HOME}/nzbhydra.yml main.apiKey)
 
+    rm -rf ${_LR_HOME}/*
+
     cat ${PROGDIR}/config_files/lidarr_BASE-EDIT.sql \
         | sed "/\bSABnzbd\b/s|\bRM_SH\b|${_IP}|g" \
         | sed "/\bSABnzbd\b/s/\bRM_SP\b/8080/g" \
         | sed "/\bSABnzbd\b/s/\bRM_SA\b/${_SAB_API}/g" \
         | sed "/\bNZBHydra2\b/s|\bRM_NH\b|${_IP}|g" \
         | sed "/\bNZBHydra2\b/s/\bRM_NP\b/5076/g" \
-        | sed "/\bSABnzbd\b/s/\bRM_SA\b/${_NH_API}/g" \
+        | sed "/\bSABnzbd\b/s/\bRM_NA\b/${_NH_API}/g" \
         >> ${_LR_HOME}/lidarr.sql
 
-    sqlite3 -init ${_LR_HOME}/lidarr.sql ${_LR_HOME}/lidarr.db
-
+    echo .exit | sqlite3 -init ${_LR_HOME}/lidarr.sql ${_LR_HOME}/lidarr.db
+    chown -R lidarr:lidarr ${_LR_HOME}
     systemctl start lidarr
 }
