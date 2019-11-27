@@ -75,6 +75,7 @@ do
         'c')
             main
             _sabnzbd_configure
+            _lidarr_configure
             _finish_configure
             exit 0
             ;;
