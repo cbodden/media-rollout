@@ -21,13 +21,16 @@ DESCRIPTION
 
 OPTIONS
     -h
+            Help
             This option shows you this help message.
 
     -i
+            Install
             This option installs all the services without configuration.
             This option needs to be run before before "-c".
 
     -c
+            Configure
             This option goes through the services and configures them
             to a default state but all talking to each other.
             This option must be run only after running with "-i".
