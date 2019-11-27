@@ -62,7 +62,7 @@ function _lidarr_configure()
         | sed "/\bSABnzbd\b/s/\bRM_SA\b/${_SAB_API}/g" \
         | sed "/\bNZBHydra2\b/s|\bRM_NH\b|${_IP}|g" \
         | sed "/\bNZBHydra2\b/s/\bRM_NP\b/5076/g" \
-        | sed "/\bSABnzbd\b/s/\bRM_NA\b/${_NH_API}/g" \
+        | sed "/\bNZBHydra2\b/s/\bRM_NA\b/${_NH_API}/g" \
         >> ${_LR_HOME}/lidarr.sql
 
     echo .exit | sqlite3 -init ${_LR_HOME}/lidarr.sql ${_LR_HOME}/lidarr.db
