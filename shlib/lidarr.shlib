@@ -52,7 +52,7 @@ function _lidarr_configure()
 
     local _NH_API=$(yq read ${_NH_HOME}/nzbhydra.yml main.apiKey)
 
-    cat ${PROGDIR}/config_files/lidarr.sql \
+    cat ${PROGDIR}/config_files/lidarr_BASE-EDIT.sql \
         | sed "/\bSABnzbd\b/s|\bRM_SH\b|${_IP}|g" \
         | sed "/\bSABnzbd\b/s/\bRM_SP\b/8080/g" \
         | sed "/\bSABnzbd\b/s/\bRM_SA\b/${_SAB_API}/g" \
