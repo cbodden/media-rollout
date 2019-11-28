@@ -24,10 +24,6 @@ function _finish()
 
     printf "%s\n" \
         "You should now fill in the rest :" \
-        "SABnzbd                  - install a downloader" \
-        "NZBHydra2                - install an indexer" \
-        "Sonarr, Lidarr, & Radarr - fill in the indexer and downloader" \
-        "LazyLibrarian            - fill in an indexer and downloader" \
         "Plex                     - add your libraries" "" ""
 
     printf "%s\n" \
@@ -45,13 +41,17 @@ function _finish_configure()
 {
     clear
     printf "%s\n" \
-        "Services now configured :" \
-        "${BLU}Sabnzbd       @ ${_IP}:8080" \
-        "${CLR}" "" \
-        "with username :" \
-        "${BLU}admin${CLR}" \
-        "and password :" \
-        "${BLU}admin${CLR}"
+        "Services now configured with username / password ${RED}admin${CLR} :" \
+        "Sabnzbd       @ ${_IP}:8080" "" \
+        "Services now configured without username / password :" \
+        "NZBHydra2     @ ${_IP}:5076" \
+        "Lidarr        @ ${_IP}:8686" \
+        "Sonarr        @ ${_IP}:8989" \
+        "Radarr        @ ${_IP}:7878" \
+        "LazyLibrarian @ ${_IP}:5299" "" \
+        "Services not configured  :" \
+        "Tautulli      @ ${_IP}:8181" \
+        "Plex          @ ${_IP}:32400" "" ""
 }
 
 function _clean()
