@@ -1,3 +1,5 @@
+readonly _LR_HOME="/home/lidarr/.config/Lidarr"
+
 function _lidarr()
 {
     cd /opt/

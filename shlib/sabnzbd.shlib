@@ -1,3 +1,5 @@
+readonly _SAB_HOME="/home/sabnzbd/.sabnzbd"
+
 function _sabnzbd()
 {
     apt install \

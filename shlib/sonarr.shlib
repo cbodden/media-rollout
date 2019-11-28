@@ -1,3 +1,5 @@
+readonly _SR_HOME="/home/sonarr/.config/NzbDrone"
+
 function _sonarr()
 {
     apt install nzbdrone

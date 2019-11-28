@@ -1,3 +1,5 @@
+readonly _RD_HOME="/home/radarr/.config/Radarr"
+
 function _radarr()
 {
     cd /opt/

@@ -40,10 +40,6 @@ function main()
         | head -c 32 )"
 
     readonly _GIT_PATH="https://github.com/cbodden/media-rollout/blob/master"
-    readonly _SAB_HOME="/home/sabnzbd/.sabnzbd"
-    readonly _LR_HOME="/home/lidarr/.config/Lidarr"
-    readonly _RD_HOME="/home/radarr/.config/Radarr"
-    readonly _SR_HOME="/home/sonarr/.config/NzbDrone"
 
     clear
 }
