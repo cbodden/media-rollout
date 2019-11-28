@@ -84,6 +84,7 @@ do
             ;;
         'h')
             _usage
+            exit 0
             ;;
         'i')
             main

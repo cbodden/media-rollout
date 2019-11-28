@@ -40,8 +40,6 @@ function _nzbhydra2()
 
 function _nzbhydra2_configure()
 {
-    cp ${PROGDIR}/config_files/nzbhydra.yml ${_NH_HOME}/
-
     systemctl start nzbhydra2.service
     sleep 5
     systemctl stop nzbhydra2.service
