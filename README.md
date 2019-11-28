@@ -82,8 +82,9 @@ Usage Description
 - When this script is run with the "-c" option it will configure:
 -- SABnzbd with a null Usenet provider (you must provide your own)
 -- NZBHydra2 with three free indexers
--- Lidarr, Sonarr, and Radarr all using NZBHydra2 as an indexer and SABnzbd as a download client
-- LazyLibrarian, Plex, and Tautulli are being worked on for smooth configuration
+-- Lidarr, Sonarr, Radarr, and LazyLibrarian all using NZBHydra2 as an indexer and SABnzbd as a download client
+- Plex, and Tautulli are being worked on for smooth configuration
+- For proper operation of LazyLibrarian you need to get a GoodReads API key
 
 
 Requirements
