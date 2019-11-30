@@ -16,6 +16,9 @@ function _lazylibrarian()
 
 function _lazylibrarian_configure()
 {
+	printf "%s\n" \
+		"[${RED}***${CLR}] Configuring ${FUNCNAME[0]%_*}"
+
     systemctl start lazylibrarian.service
     sleep 5
     systemctl stop lazylibrarian.service
@@ -38,4 +41,7 @@ function _lazylibrarian_configure()
 
     chown -R lazylibrarian:lazylibrarian ${_LL_HOME}
     systemctl start lazylibrarian.service
+
+	printf "%s\n" \
+		"[${BLU}***${CLR}] ${FUNCNAME[0]%_*} configured"
 }

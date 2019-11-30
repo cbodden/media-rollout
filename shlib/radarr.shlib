@@ -44,9 +44,14 @@ EOF
 
 function _radarr_configure()
 {
+	printf "%s\n" \
+		"[${RED}***${CLR}] Configuring ${FUNCNAME[0]%_*}"
+
     systemctl start radarr.service
     sleep 5
     systemctl stop radarr.service
+    printf "%s\n" \
+        "[${BLU}***${CLR}] ${FUNCNAME[0]%_*} configured"
 
     local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
         | awk '/^api_key/ {print $3}')
@@ -67,4 +72,7 @@ function _radarr_configure()
     echo .exit | sqlite3 -init ${_RD_HOME}/nzbdrone.sql ${_RD_HOME}/nzbdrone.db
     chown -R radarr:radarr ${_RD_HOME}
     systemctl start radarr
+
+	printf "%s\n" \
+		"[${BLU}***${CLR}] ${FUNCNAME[0]%_*} configured"
 }

@@ -40,6 +40,9 @@ function _nzbhydra2()
 
 function _nzbhydra2_configure()
 {
+    printf "%s\n" \
+        "[${RED}***${CLR}] Configuring ${FUNCNAME[0]%_*}"
+
     systemctl start nzbhydra2.service
     sleep 5
     systemctl stop nzbhydra2.service
@@ -64,4 +67,7 @@ function _nzbhydra2_configure()
 
     chown -R hydra:hydra ${_NH_HOME}
     systemctl start nzbhydra2.service
+
+    printf "%s\n" \
+        "[${BLU}***${CLR}] ${FUNCNAME[0]%_*} configured"
 }

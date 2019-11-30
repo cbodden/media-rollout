@@ -44,6 +44,9 @@ EOF
 
 function _lidarr_configure()
 {
+    printf "%s\n" \
+        "[${RED}***${CLR}] Configuring ${FUNCNAME[0]%_*}"
+
     systemctl start lidarr.service
     sleep 5
     systemctl stop lidarr.service
@@ -67,4 +70,7 @@ function _lidarr_configure()
     echo .exit | sqlite3 -init ${_LR_HOME}/lidarr.sql ${_LR_HOME}/lidarr.db
     chown -R lidarr:lidarr ${_LR_HOME}
     systemctl start lidarr
+
+    printf "%s\n" \
+        "[${BLU}***${CLR}] ${FUNCNAME[0]%_*} configured"
 }

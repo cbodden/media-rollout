@@ -31,6 +31,9 @@ EOF
 
 function _sonarr_configure()
 {
+	printf "%s\n" \
+		"[${RED}***${CLR}] Configuring ${FUNCNAME[0]%_*}"
+
     systemctl start sonarr.service
     sleep 5
     systemctl stop sonarr.service
@@ -54,4 +57,7 @@ function _sonarr_configure()
     echo .exit | sqlite3 -init ${_SR_HOME}/nzbdrone.sql ${_SR_HOME}/nzbdrone.db
     chown -R sonarr:sonarr ${_SR_HOME}
     systemctl start sonarr
+
+	printf "%s\n" \
+		"[${BLU}***${CLR}] ${FUNCNAME[0]%_*} configured"
 }
