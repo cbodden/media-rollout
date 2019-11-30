@@ -54,7 +54,7 @@ function _sabnzbd_configure()
     systemctl daemon-reload
     systemctl restart sabnzbdplus.service
     sleep 4
-    curl "http://${_IP}:8080/api?mode=config&name=set_apikey&apikey=0000"
+    curl -s "http://${_IP}:8080/api?mode=config&name=set_apikey&apikey=0000"
 
     rm \
         ${_SAB_HOME}/admin/history1.db \
