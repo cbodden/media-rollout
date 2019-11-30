@@ -23,6 +23,9 @@ function _sabnzbd()
 
 function _sabnzbd_configure()
 {
+    printf "%s\n" \
+        "[${RED}***${CLR}] Configuring ${FUNCNAME[0]%_*}"
+
     mkdir -p ${_SAB_HOME}/admin ${_SAB_HOME}/logs
     touch \
         ${_SAB_HOME}/admin/history1.db \
@@ -68,4 +71,7 @@ function _sabnzbd_configure()
     chown -R sabnzbd:downloads /${_PATH}/downloads/
     chown -R sabnzbd:sabnzbd ${_SAB_HOME}
     systemctl restart sabnzbdplus.service
+
+    printf "%s\n" \
+        "[${BLU}***${CLR}] ${FUNCNAME[0]%_*} configured"
 }
