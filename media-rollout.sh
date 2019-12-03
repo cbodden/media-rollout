@@ -74,7 +74,7 @@ do
     case "${OPT}" in
         'c')
             main
-            _sabnzbd_configure
+            _sabnzbdplus_configure
             _nzbhydra2_configure
             _lidarr_configure
             _radarr_configure
@@ -91,7 +91,7 @@ do
             _users
             _storage
             _apt
-            _sabnzbd
+            _sabnzbdplus
             _nzbhydra2
             _lidarr
             _sonarr

@@ -1,7 +1,10 @@
 readonly _SAB_HOME="/home/sabnzbd/.sabnzbd"
 
-function _sabnzbd()
+function _sabnzbdplus()
 {
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ f2)
+
     apt install \
         sabnzbdplus \
         python-sabyenc \
@@ -10,68 +13,90 @@ function _sabnzbd()
 
     sed -i "s|^USER=.*|USER=sabnzbd|g" \
         /etc/default/sabnzbdplus
+
     sed -i "s|^HOST=.*|HOST=${_IP}|g" \
         /etc/default/sabnzbdplus
+
     sed -i "s|^PORT=.*|PORT=8080|g" \
         /etc/default/sabnzbdplus
 
     chown sabnzbd:downloads /${_PATH}/
     chown -R sabnzbd:downloads /${_PATH}/downloads/
     systemctl daemon-reload
-    systemctl enable sabnzbdplus.service
+    systemctl enable ${_FNC_NAME}
 }
 
-function _sabnzbd_configure()
+function _sabnzbdplus_configure()
 {
-    printf "%s\n" \
-        "[${RED}***${CLR}] Configuring ${FUNCNAME[0]%_*}"
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ f2)
 
-    mkdir -p ${_SAB_HOME}/admin ${_SAB_HOME}/logs
-    touch \
-        ${_SAB_HOME}/admin/history1.db \
-        ${_SAB_HOME}/admin/Rating.sab \
-        ${_SAB_HOME}/logs/sabnzbd.error.log \
-        ${_SAB_HOME}/logs/sabnzbd.log
+    local _SRVC_CHECK=$(systemctl cat ${_FNC_NAME} 2&>1 \
+        | wc -l)
 
-    cp ${PROGDIR}/config_files/sabnzbd.ini ${_SAB_HOME}/
+    if [[ ${_SRVC_CHECK} -gt "2" }}
+    then
+        printf "%s\n" \
+            "[${RED}***${CLR}] Configuring ${_FNC_NAME}"
 
-    sed -i "s|^api_key =.*|api_key = 0000|g" \
-        ${_SAB_HOME}/sabnzbd.ini
-    sed -i "s|^host =.*|host = ${_IP}|g" \
-        ${_SAB_HOME}/sabnzbd.ini
-    sed -i "s|^download_dir =.*|download_dir = /${_PATH}/download/incomplete|g" \
-        ${_SAB_HOME}/sabnzbd.ini
-    sed -i "s|^complete_dir =.*|complete_dir = /${_PATH}/download/complete|g" \
-        ${_SAB_HOME}/sabnzbd.ini
-    sed -i "s|^username =.*|username = ${_UNAME}|g" \
-        ${_SAB_HOME}/sabnzbd.ini
-    sed -i "s|^password =.*|password = ${_PWORD}|g" \
-        ${_SAB_HOME}/sabnzbd.ini
-    sed -i "s|^host_whitelist =.*|host_whitelist = $(hostname),|g" \
-        ${_SAB_HOME}/sabnzbd.ini
+        mkdir -p ${_SAB_HOME}/admin ${_SAB_HOME}/logs
+        touch \
+            ${_SAB_HOME}/admin/history1.db \
+            ${_SAB_HOME}/admin/Rating.sab \
+            ${_SAB_HOME}/logs/sabnzbd.error.log \
+            ${_SAB_HOME}/logs/sabnzbd.log
 
-    chown -R sabnzbd:sabnzbd ${_SAB_HOME}
-    systemctl daemon-reload
-    systemctl restart sabnzbdplus.service
-    sleep 4
-    curl -s "http://${_IP}:8080/api?mode=config&name=set_apikey&apikey=0000"
+        cp ${PROGDIR}/config_files/sabnzbd.ini ${_SAB_HOME}/
 
-    rm \
-        ${_SAB_HOME}/admin/history1.db \
-        ${_SAB_HOME}/admin/Rating.sab \
-        ${_SAB_HOME}/logs/sabnzbd.error.log \
-        ${_SAB_HOME}/logs/sabnzbd.log
+        sed -i "s|^api_key =.*|api_key = 0000|g" \
+            ${_SAB_HOME}/sabnzbd.ini
 
-    touch \
-        ${_SAB_HOME}/admin/Rating.sab \
-        ${_SAB_HOME}/logs/sabnzbd.error.log \
-        ${_SAB_HOME}/logs/sabnzbd.log
+        sed -i "s|^host =.*|host = ${_IP}|g" \
+            ${_SAB_HOME}/sabnzbd.ini
 
-    chown sabnzbd:downloads /${_PATH}/
-    chown -R sabnzbd:downloads /${_PATH}/downloads/
-    chown -R sabnzbd:sabnzbd ${_SAB_HOME}
-    systemctl restart sabnzbdplus.service
+        sed -i "s|^download_dir =.*|download_dir = /${_PATH}/download/incomplete|g" \
+            ${_SAB_HOME}/sabnzbd.ini
 
-    printf "%s\n" \
-        "[${BLU}***${CLR}] ${FUNCNAME[0]%_*} configured"
+        sed -i "s|^complete_dir =.*|complete_dir = /${_PATH}/download/complete|g" \
+            ${_SAB_HOME}/sabnzbd.ini
+
+        sed -i "s|^username =.*|username = ${_UNAME}|g" \
+            ${_SAB_HOME}/sabnzbd.ini
+
+        sed -i "s|^password =.*|password = ${_PWORD}|g" \
+            ${_SAB_HOME}/sabnzbd.ini
+
+        sed -i "s|^host_whitelist =.*|host_whitelist = $(hostname),|g" \
+            ${_SAB_HOME}/sabnzbd.ini
+
+        chown -R sabnzbd:sabnzbd ${_SAB_HOME}
+        systemctl daemon-reload
+        systemctl restart sabnzbdplus.service
+        sleep 4
+        curl -s "http://${_IP}:8080/api?mode=config&name=set_apikey&apikey=0000"
+
+        rm \
+            ${_SAB_HOME}/admin/history1.db \
+            ${_SAB_HOME}/admin/Rating.sab \
+            ${_SAB_HOME}/logs/sabnzbd.error.log \
+            ${_SAB_HOME}/logs/sabnzbd.log
+
+        touch \
+            ${_SAB_HOME}/admin/Rating.sab \
+            ${_SAB_HOME}/logs/sabnzbd.error.log \
+            ${_SAB_HOME}/logs/sabnzbd.log
+
+        chown sabnzbd:downloads /${_PATH}/
+        chown -R sabnzbd:downloads /${_PATH}/downloads/
+        chown -R sabnzbd:sabnzbd ${_SAB_HOME}
+        systemctl restart sabnzbdplus.service
+
+        printf "%s\n" \
+            "[${BLU}***${CLR}] ${_FNC_NAME} configured"
+
+    else
+        printf "%s\n" \
+            "[${RED}***${CLR}] ${_FNC_NAME} not installed"
+                    exit 1
+    fi
 }
