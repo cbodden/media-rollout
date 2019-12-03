@@ -2,6 +2,9 @@ readonly _LR_HOME="/home/lidarr/.config/Lidarr"
 
 function _lidarr()
 {
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ -f2)
+
     cd /opt/
 
     _LR_ADDY="https://github.com/lidarr/Lidarr/releases"
@@ -39,38 +42,53 @@ EOF
 
     chown -R lidarr:downloads /${_PATH}/music
     systemctl daemon-reload
-    systemctl enable lidarr.service
+    systemctl enable ${_FNC_NAME}
 }
 
 function _lidarr_configure()
 {
-    printf "%s\n" \
-        "[${RED}***${CLR}] Configuring ${FUNCNAME[0]%_*}"
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ -f2)
 
-    systemctl start lidarr.service
-    sleep 5
-    systemctl stop lidarr.service
+    local _SRVC_CHECK=$(systemctl cat ${_FNC_NAME} 2>&1 \
+        | wc -l)
 
-    local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
-        | awk '/^api_key/ {print $3}')
+    if [[ ${_SRVC_CHECK} -gt "2" ]]
+    then
+        printf "%s\n" \
+            "[${RED}***${CLR}] Configuring ${_FNC_NAME}"
 
-    local _NH_API=$(yq read ${_NH_HOME}/nzbhydra.yml main.apiKey)
+        systemctl start ${_FNC_NAME}
+        sleep 5
+        systemctl stop ${_FNC_NAME}
 
-    rm -rf ${_LR_HOME}/*
+        local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
+            | awk '/^api_key/ {print $3}')
 
-    cat ${PROGDIR}/config_files/lidarr_BASE-EDIT.sql \
-        | sed "/\bSABnzbd\b/s|\bRM_SH\b|${_IP}|g" \
-        | sed "/\bSABnzbd\b/s/\bRM_SP\b/8080/g" \
-        | sed "/\bSABnzbd\b/s/\bRM_SA\b/${_SAB_API}/g" \
-        | sed "/\bNZBHydra2\b/s|\bRM_NH\b|${_IP}|g" \
-        | sed "/\bNZBHydra2\b/s/\bRM_NP\b/5076/g" \
-        | sed "/\bNZBHydra2\b/s/\bRM_NA\b/${_NH_API}/g" \
-        >> ${_LR_HOME}/lidarr.sql
+        local _NH_API=$(yq read ${_NH_HOME}/nzbhydra.yml main.apiKey)
 
-    echo .exit | sqlite3 -init ${_LR_HOME}/lidarr.sql ${_LR_HOME}/lidarr.db
-    chown -R lidarr:lidarr ${_LR_HOME}
-    systemctl start lidarr
+        rm -rf ${_LR_HOME}/*
 
-    printf "%s\n" \
-        "[${BLU}***${CLR}] ${FUNCNAME[0]%_*} configured"
+        cat ${PROGDIR}/config_files/lidarr_BASE-EDIT.sql \
+            | sed "/\bSABnzbd\b/s|\bRM_SH\b|${_IP}|g" \
+            | sed "/\bSABnzbd\b/s/\bRM_SP\b/8080/g" \
+            | sed "/\bSABnzbd\b/s/\bRM_SA\b/${_SAB_API}/g" \
+            | sed "/\bNZBHydra2\b/s|\bRM_NH\b|${_IP}|g" \
+            | sed "/\bNZBHydra2\b/s/\bRM_NP\b/5076/g" \
+            | sed "/\bNZBHydra2\b/s/\bRM_NA\b/${_NH_API}/g" \
+            >> ${_LR_HOME}/lidarr.sql
+
+        echo .exit | sqlite3 -init ${_LR_HOME}/lidarr.sql ${_LR_HOME}/lidarr.db
+        chown -R lidarr:lidarr ${_LR_HOME}
+        systemctl start ${_FNC_NAME}
+
+        printf "%s\n" \
+            "[${BLU}***${CLR}] ${_FNC_NAME} configured"
+
+    else
+        printf "%s\n" \
+            "[${RED}***${CLR}] ${_FNC_NAME} not installed"
+
+        exit 1
+    fi
 }

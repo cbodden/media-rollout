@@ -2,77 +2,94 @@ readonly _RD_HOME="/home/radarr/.config/Radarr"
 
 function _radarr()
 {
-    cd /opt/
+	{
+		local _FNC_NAME=$(echo ${FUNCNAME} \
+			| cut -d_ -f2)
 
-    _RD_ADDY="https://github.com/Radarr/Radarr/releases"
+		cd /opt/
 
-    _RD_RLS_PATH="$(curl -s ${_RD_ADDY} \
-        | grep "linux.tar.gz" \
-        | head -n 1 \
-        | cut -d\" -f2 )"
+		_RD_ADDY="https://github.com/Radarr/Radarr/releases"
 
-    _RD_DLD_PATH="$(echo ${_RD_RLS_PATH} \
-        | cut -d'/' -f6-7 )"
+		_RD_RLS_PATH="$(curl -s ${_RD_ADDY} \
+			| grep "linux.tar.gz" \
+			| head -n 1 \
+			| cut -d\" -f2 )"
 
-    wget ${_RD_ADDY}/download/${_RD_DLD_PATH}
+		_RD_DLD_PATH="$(echo ${_RD_RLS_PATH} \
+			| cut -d'/' -f6-7 )"
 
-    tar -xzvf ${_RD_DLD_PATH##*/}
-    chown -R radarr:radarr /opt/Radarr
+		wget ${_RD_ADDY}/download/${_RD_DLD_PATH}
 
-    cat <<EOF >/lib/systemd/system/radarr.service
-    [Unit]
-    Description=Radarr Daemon
-    After=syslog.target network.target
+		tar -xzvf ${_RD_DLD_PATH##*/}
+		chown -R radarr:radarr /opt/Radarr
 
-    [Service]
-    User=radarr
-    Group=radarr
-    Type=simple
-    ExecStart=/usr/bin/mono /opt/Radarr/Radarr.exe -nobrowser
-    TimeoutStopSec=20
-    KillMode=process
-    Restart=on-failure
+		cat <<EOF >/lib/systemd/system/radarr.service
+	[Unit]
+	Description=Radarr Daemon
+	After=syslog.target network.target
 
-    [Install]
-    WantedBy=multi-user.target
+	[Service]
+	User=radarr
+	Group=radarr
+	Type=simple
+	ExecStart=/usr/bin/mono /opt/Radarr/Radarr.exe -nobrowser
+	TimeoutStopSec=20
+	KillMode=process
+	Restart=on-failure
+
+	[Install]
+	WantedBy=multi-user.target
 EOF
 
-    chown -R radarr:downloads /${_PATH}/movies
-    systemctl daemon-reload
-    systemctl enable radarr.service
+	chown -R radarr:downloads /${_PATH}/movies
+	systemctl daemon-reload
+	systemctl enable ${_FNC_NAME}
 }
 
 function _radarr_configure()
 {
-	printf "%s\n" \
-		"[${RED}***${CLR}] Configuring ${FUNCNAME[0]%_*}"
+	local _FNC_NAME=$(echo ${FUNCNAME} \
+		| cut -d_ -f2)
 
-    systemctl start radarr.service
-    sleep 5
-    systemctl stop radarr.service
-    printf "%s\n" \
-        "[${BLU}***${CLR}] ${FUNCNAME[0]%_*} configured"
+	local _SRVC_CHECK=$(systemctl cat ${_FNC_NAME} 2>&1 \
+		| wc -l)
 
-    local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
-        | awk '/^api_key/ {print $3}')
+	if [[ ${_SRVC_CHECK} -gt "2" ]]
+	then
+		printf "%s\n" \
+			"[${RED}***${CLR}] Configuring ${_FNC_NAME}"
 
-    local _NH_API=$(yq read ${_NH_HOME}/nzbhydra.yml main.apiKey)
+		systemctl start ${_FNC_NAME}
+		sleep 5
+		systemctl stop ${_FNC_NAME}
 
-    rm -rf ${_RD_HOME}/*
+		local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
+			| awk '/^api_key/ {print $3}')
 
-    cat ${PROGDIR}/config_files/radarr_BASE-EDIT.sql \
-        | sed "/\bSABnzbd\b/s|\bRM_SH\b|${_IP}|g" \
-        | sed "/\bSABnzbd\b/s/\bRM_SP\b/8080/g" \
-        | sed "/\bSABnzbd\b/s/\bRM_SA\b/${_SAB_API}/g" \
-        | sed "/\bNZBHydra2\b/s|\bRM_NH\b|${_IP}|g" \
-        | sed "/\bNZBHydra2\b/s/\bRM_NP\b/5076/g" \
-        | sed "/\bNZBHydra2\b/s/\bRM_NA\b/${_NH_API}/g" \
-        >> ${_RD_HOME}/nzbdrone.sql
+		local _NH_API=$(yq read ${_NH_HOME}/nzbhydra.yml main.apiKey)
 
-    echo .exit | sqlite3 -init ${_RD_HOME}/nzbdrone.sql ${_RD_HOME}/nzbdrone.db
-    chown -R radarr:radarr ${_RD_HOME}
-    systemctl start radarr
+		rm -rf ${_RD_HOME}/*
 
-	printf "%s\n" \
-		"[${BLU}***${CLR}] ${FUNCNAME[0]%_*} configured"
+		cat ${PROGDIR}/config_files/radarr_BASE-EDIT.sql \
+			| sed "/\bSABnzbd\b/s|\bRM_SH\b|${_IP}|g" \
+			| sed "/\bSABnzbd\b/s/\bRM_SP\b/8080/g" \
+			| sed "/\bSABnzbd\b/s/\bRM_SA\b/${_SAB_API}/g" \
+			| sed "/\bNZBHydra2\b/s|\bRM_NH\b|${_IP}|g" \
+			| sed "/\bNZBHydra2\b/s/\bRM_NP\b/5076/g" \
+			| sed "/\bNZBHydra2\b/s/\bRM_NA\b/${_NH_API}/g" \
+			>> ${_RD_HOME}/nzbdrone.sql
+
+		echo .exit | sqlite3 -init ${_RD_HOME}/nzbdrone.sql ${_RD_HOME}/nzbdrone.db
+		chown -R radarr:radarr ${_RD_HOME}
+		systemctl start radarr
+
+		printf "%s\n" \
+			"[${BLU}***${CLR}] ${_FNC_NAME} configured"
+
+	else
+		printf "%s\n" \
+			"[${RED}***${CLR}] ${_FNC_NAME} not installed"
+
+		exit 1
+	fi
 }
