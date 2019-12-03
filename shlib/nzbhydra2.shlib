@@ -3,7 +3,7 @@ readonly _NH_HOME="/home/hydra/.nzbhydra2_data"
 function _nzbhydra2()
 {
     local _FNC_NAME=$(echo ${FUNCNAME} \
-        | cut -d_ f2)
+        | cut -d_ -f2)
 
     local _NH_LOCAL="/opt/nzbhydra2"
     mkdir ${_NH_LOCAL}
@@ -44,7 +44,7 @@ function _nzbhydra2()
 function _nzbhydra2_configure()
 {
     local _FNC_NAME=$(echo ${FUNCNAME} \
-        | cut -d_ f2)
+        | cut -d_ -f2)
 
     local _SRVC_CHECK=$(systemctl cat ${_FNC_NAME} 2>&1 \
         | wc -l)

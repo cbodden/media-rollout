@@ -3,7 +3,7 @@ readonly _SAB_HOME="/home/sabnzbd/.sabnzbd"
 function _sabnzbdplus()
 {
     local _FNC_NAME=$(echo ${FUNCNAME} \
-        | cut -d_ f2)
+        | cut -d_ -f2)
 
     apt install \
         sabnzbdplus \
