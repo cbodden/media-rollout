@@ -2,6 +2,9 @@ readonly _NH_HOME="/home/hydra/.nzbhydra2_data"
 
 function _nzbhydra2()
 {
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ f2)
+
     local _NH_LOCAL="/opt/nzbhydra2"
     mkdir ${_NH_LOCAL}
     cd ${_NH_LOCAL}
@@ -35,39 +38,54 @@ function _nzbhydra2()
 
     chown -R hydra:hydra /opt/nzbhydra2/
     systemctl daemon-reload
-    systemctl enable nzbhydra2.service
+    systemctl enable ${_FNC_NAME}
 }
 
 function _nzbhydra2_configure()
 {
-    printf "%s\n" \
-        "[${RED}***${CLR}] Configuring ${FUNCNAME[0]%_*}"
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ f2)
 
-    systemctl start nzbhydra2.service
-    sleep 5
-    systemctl stop nzbhydra2.service
+    local _SRVC_CHECK=$(systemctl cat ${_FNC_NAME} 2>&1 \
+        | wc -l)
 
-    local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
-        | awk '/^api_key/ {print $3}')
+    if [[ ${_SRVC_CHECK} -gt "2" ]]
+    then
+        printf "%s\n" \
+            "[${RED}***${CLR}] Configuring ${_FNC_NAME}"
 
-    local _NH_API=$(head /dev/urandom \
-        | tr -dc A-Z0-9 \
-        | head -c 26)
+        systemctl start ${_FNC_NAME}
+        sleep 5
+        systemctl stop ${_FNC_NAME}
 
-    rm -rf ${_NH_HOME}/*
+        local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
+            | awk '/^api_key/ {print $3}')
 
-    cat ${PROGDIR}/config_files/nzbhydra.yml \
-        | sed "s/RM_SH/${_IP}/g" \
-        | sed "s/RM_SP/8080/g" \
-        | sed "s/RM_SA/${_SAB_API}/g" \
-        | sed "s/RM_NH/${_IP}/g" \
-        | sed "s/RM_NP/5076/g" \
-        | sed "s/RM_NA/${_NH_API}/g" \
-        >> ${_NH_HOME}/nzbhydra.yml
+        local _NH_API=$(head /dev/urandom \
+            | tr -dc A-Z0-9 \
+            | head -c 26)
 
-    chown -R hydra:hydra ${_NH_HOME}
-    systemctl start nzbhydra2.service
+        rm -rf ${_NH_HOME}/*
 
-    printf "%s\n" \
-        "[${BLU}***${CLR}] ${FUNCNAME[0]%_*} configured"
+        cat ${PROGDIR}/config_files/nzbhydra.yml \
+            | sed "s/RM_SH/${_IP}/g" \
+            | sed "s/RM_SP/8080/g" \
+            | sed "s/RM_SA/${_SAB_API}/g" \
+            | sed "s/RM_NH/${_IP}/g" \
+            | sed "s/RM_NP/5076/g" \
+            | sed "s/RM_NA/${_NH_API}/g" \
+            >> ${_NH_HOME}/nzbhydra.yml
+
+        chown -R hydra:hydra ${_NH_HOME}
+        systemctl start ${_FNC_NAME}
+
+        printf "%s\n" \
+            "[${BLU}***${CLR}] ${_FNC_NAME} configured"
+
+    else
+        printf "%s\n" \
+            "[${RED}***${CLR}] ${_FNC_NAME} not installed"
+
+        exit 1
+    fi
 }

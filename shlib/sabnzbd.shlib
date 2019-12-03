@@ -89,7 +89,7 @@ function _sabnzbdplus_configure()
         chown sabnzbd:downloads /${_PATH}/
         chown -R sabnzbd:downloads /${_PATH}/downloads/
         chown -R sabnzbd:sabnzbd ${_SAB_HOME}
-        systemctl restart sabnzbdplus.service
+        systemctl restart ${_FNC_NAME}
 
         printf "%s\n" \
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
