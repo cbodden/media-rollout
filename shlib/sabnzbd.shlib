@@ -34,7 +34,7 @@ function _sabnzbdplus_configure()
     local _SRVC_CHECK=$(systemctl cat ${_FNC_NAME} 2&>1 \
         | wc -l)
 
-    if [[ ${_SRVC_CHECK} -gt "2" }}
+    if [[ ${_SRVC_CHECK} -gt "2" ]]
     then
         printf "%s\n" \
             "[${RED}***${CLR}] Configuring ${_FNC_NAME}"
