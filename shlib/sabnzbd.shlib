@@ -31,7 +31,7 @@ function _sabnzbdplus_configure()
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)
 
-    local _SRVC_CHECK=$(systemctl cat ${_FNC_NAME} 2&>1 \
+    local _SRVC_CHECK=$(systemctl cat ${_FNC_NAME} 2>&1 \
         | wc -l)
 
     if [[ ${_SRVC_CHECK} -gt "2" ]]
