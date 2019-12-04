@@ -1,6 +1,6 @@
 readonly _SR_HOME="/home/sonarr/.config/NzbDrone"
 
-function _sonarr()
+function _sonarr_install()
 {
 	local _FNC_NAME=$(echo ${FUNCNAME} \
 		| cut -d_ -f2)

@@ -1,6 +1,6 @@
 readonly _NH_HOME="/home/hydra/.nzbhydra2_data"
 
-function _nzbhydra2()
+function _nzbhydra2_install()
 {
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)

@@ -1,6 +1,6 @@
 readonly _LL_HOME="/home/lazylibrarian/.lazylibrarian"
 
-function _lazylibrarian()
+function _lazylibrarian_install()
 {
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)

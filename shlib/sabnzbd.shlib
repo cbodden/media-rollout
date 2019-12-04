@@ -1,6 +1,6 @@
 readonly _SAB_HOME="/home/sabnzbd/.sabnzbd"
 
-function _sabnzbdplus()
+function _sabnzbdplus_install()
 {
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)

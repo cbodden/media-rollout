@@ -1,6 +1,6 @@
 readonly _LR_HOME="/home/lidarr/.config/Lidarr"
 
-function _lidarr()
+function _lidarr_install()
 {
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)

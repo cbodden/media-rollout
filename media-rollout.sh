@@ -91,12 +91,12 @@ do
             _users
             _storage
             _apt
-            _sabnzbdplus
-            _nzbhydra2
-            _lidarr
-            _sonarr
-            _radarr
-            _lazylibrarian
+            _sabnzbdplus_install
+            _nzbhydra2_install
+            _lidarr_install
+            _sonarr_install
+            _radarr_install
+            _lazylibrarian_install
             _plex
             _tautulli
             _finish
