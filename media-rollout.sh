@@ -97,8 +97,8 @@ do
             _sonarr_install
             _radarr_install
             _lazylibrarian_install
-            _plex
-            _tautulli
+            _plex_install
+            _tautulli_install
             _finish
             _clean
             exit 0

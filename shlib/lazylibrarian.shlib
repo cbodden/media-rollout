@@ -1,3 +1,5 @@
+_SERVICE_NAME+=( "lazylibrarian:5299" )
+
 readonly _LL_HOME="/home/lazylibrarian/.lazylibrarian"
 
 function _lazylibrarian_install()

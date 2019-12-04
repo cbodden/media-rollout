@@ -1,3 +1,5 @@
+_SERVICE_NAME+=( "sabnzbdplus:8080" )
+
 readonly _SAB_HOME="/home/sabnzbd/.sabnzbd"
 
 function _sabnzbdplus_install()

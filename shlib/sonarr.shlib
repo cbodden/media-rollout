@@ -1,3 +1,5 @@
+_SERVICE_NAME+=( "sonarr:8989" )
+
 readonly _SR_HOME="/home/sonarr/.config/NzbDrone"
 
 function _sonarr_install()

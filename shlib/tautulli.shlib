@@ -1,4 +1,6 @@
-function _tautulli()
+_SERVICE_NAME+=( "tautulli:8181" )
+
+function _tautulli_install()
 {
     cd /opt/
     git clone https://github.com/Tautulli/Tautulli.git
