@@ -7,6 +7,15 @@ function _lazylibrarian_install()
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)
 
+    getent group downloads || groupadd downloads
+
+    if [ -z "$(getent passwd ${_FNC_NAME})" ]
+    then
+        addgroup ${_FNC_NAME}
+        adduser --system ${_FNC_NAME} --ingroup ${_FNC_NAME}
+        usermod -a -G downloads ${_FNC_NAME}
+    fi
+
     cd /opt/
     git clone https://github.com/DobyTang/LazyLibrarian.git
     chown -R lazylibrarian:lazylibrarian /opt/LazyLibrarian/
@@ -62,6 +71,5 @@ function _lazylibrarian_configure()
         printf "%s\n" \
             "[${RED}***${CLR}] ${_FNC_NAME} not installed"
 
-        exit 1
     fi
 }

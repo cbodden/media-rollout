@@ -7,6 +7,15 @@ function _lidarr_install()
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)
 
+    getent group downloads || groupadd downloads
+
+    if [ -z "$(getent passwd ${_FNC_NAME})" ]
+    then
+        addgroup ${_FNC_NAME}
+        adduser --system ${_FNC_NAME} --ingroup ${_FNC_NAME}
+        usermod -a -G downloads ${_FNC_NAME}
+    fi
+
     cd /opt/
 
     _LR_ADDY="https://github.com/lidarr/Lidarr/releases"
@@ -91,6 +100,5 @@ function _lidarr_configure()
         printf "%s\n" \
             "[${RED}***${CLR}] ${_FNC_NAME} not installed"
 
-        exit 1
     fi
 }

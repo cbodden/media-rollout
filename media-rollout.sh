@@ -88,7 +88,6 @@ do
             ;;
         'i')
             main
-            _users
             _storage
             _apt
             _sabnzbdplus_install

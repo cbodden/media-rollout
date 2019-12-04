@@ -7,6 +7,15 @@ function _sabnzbdplus_install()
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)
 
+    getent group downloads || groupadd downloads
+
+    if [ -z "$(getent passwd sabnzbd)" ]
+    then
+        addgroup sabnzbd
+        adduser --system sabnzbd --ingroup sabnzbd
+        usermod -a -G downloads sabnzbd
+    fi
+
     apt install \
         sabnzbdplus \
         python-sabyenc \
@@ -100,6 +109,6 @@ function _sabnzbdplus_configure()
     else
         printf "%s\n" \
             "[${RED}***${CLR}] ${_FNC_NAME} not installed"
-                    exit 1
-    fi
+
+	fi
 }

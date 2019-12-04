@@ -7,6 +7,15 @@ function _nzbhydra2_install()
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)
 
+    getent group downloads || groupadd downloads
+
+    if [ -z "$(getent passwd hydra)" ]
+    then
+        addgroup hydra
+        adduser --system hydra --ingroup hydra
+        usermod -a -G downloads hydra
+    fi
+
     local _NH_LOCAL="/opt/nzbhydra2"
     mkdir ${_NH_LOCAL}
     cd ${_NH_LOCAL}
@@ -88,6 +97,5 @@ function _nzbhydra2_configure()
         printf "%s\n" \
             "[${RED}***${CLR}] ${_FNC_NAME} not installed"
 
-        exit 1
     fi
 }

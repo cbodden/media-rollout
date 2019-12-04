@@ -52,22 +52,6 @@ function _pause()
     read -p "$*"
 }
 
-function _users()
-{
-    getent group downloads || groupadd downloads
-
-    local _USERS="sabnzbd hydra lidarr sonarr radarr lazylibrarian tautulli"
-    for ITER in ${_USERS}
-    do
-        if [ -z "$(getent passwd ${ITER})" ]
-        then
-            addgroup ${ITER}
-            adduser --system ${ITER} --ingroup ${ITER}
-            usermod -a -G downloads ${ITER}
-        fi
-    done
-}
-
 function _storage()
 {
     local _DRV="books downloads/complete downloads/incomplete movies music tv"
