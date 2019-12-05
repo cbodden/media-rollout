@@ -102,8 +102,6 @@ function _nzbhydra2_configure()
 
 function _nzbhydra2_remove()
 {
-    clear
-
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)
 

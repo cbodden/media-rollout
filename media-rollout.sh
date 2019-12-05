@@ -111,6 +111,8 @@ do
             main
             _lazylibrarian_remove
             _lidarr_remove
+            _radarr_remove
+            _nzbhydra2_remove
             exit 0
             ;;
         *)
