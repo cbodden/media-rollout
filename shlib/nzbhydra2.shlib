@@ -123,7 +123,7 @@ function _nzbhydra2_remove()
         rm /lib/systemd/system/nzbhydra2.service
         systemctl daemon-reload
 
-        userdel ${_FNC_NAME}
+        userdel hydra
 
         printf "%s\n" \
             "[${BLU}***${CLR}] ${_FNC_NAME} HAS BEEN REMOVED"
