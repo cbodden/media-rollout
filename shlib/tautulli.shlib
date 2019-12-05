@@ -66,7 +66,7 @@ function _tautulli_remove()
         rm /lib/systemd/system/tautulli.service
         systemctl daemon-reload
 
-        userdel hydra
+        userdel ${_FNC_NAME}
 
         printf "%s\n" \
             "[${BLU}***${CLR}] ${_FNC_NAME} HAS BEEN REMOVED"

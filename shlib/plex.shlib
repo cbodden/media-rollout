@@ -1,6 +1,6 @@
-_SERVICE_NAME+=( "plex:32400" )
+_SERVICE_NAME+=( "plexmediaserver:32400" )
 
-function _plex_install()
+function _plexmediaserver_install()
 {
     curl $(curl -s https://plex.tv/api/downloads/5.json \
         | grep -m1 -ioe 'https://[^\"]*' \
@@ -10,7 +10,7 @@ function _plex_install()
     dpkg -i /tmp/temp.deb
 }
 
-function _plex_remove()
+function _plexmediaserver_remove()
 {
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)
@@ -25,7 +25,7 @@ function _plex_remove()
 
         _pause
 
-        dpkg -r plexmediaserver
+        dpkg -r ${_FNC_NAME}
 
         rm -r /var/lib/plexmediaserver
 

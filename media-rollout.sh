@@ -98,7 +98,7 @@ do
             _sonarr_install
             _radarr_install
             _lazylibrarian_install
-            _plex_install
+            _plexmediaserver_install
             _tautulli_install
             _finish
             _clean
@@ -112,7 +112,7 @@ do
             _lazylibrarian_remove
             _lidarr_remove
             _nzbhydra2_remove
-            _plex_remove
+            _plexmediaserver_remove
             _radarr_remove
             _sabnzbdplus_remove
             _sonarr_remove
