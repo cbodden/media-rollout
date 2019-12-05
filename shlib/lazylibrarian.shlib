@@ -73,3 +73,39 @@ function _lazylibrarian_configure()
 
     fi
 }
+
+function _lazylibrarian_remove()
+{
+    clear
+
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ -f2)
+
+    local _SRVC_CHECK=$(systemctl cat ${_FNC_NAME} 2>&1 \
+        | wc -l)
+
+    if [[ ${_SRVC_CHECK} -gt "2" ]]
+    then
+        printf "%s\n" \
+            "[${RED}***${CLR}] ${_FNC_NAME} IS ABOUT TO BE REMOVED"
+
+        pause
+
+        systemctl stop ${_FNC_NAME}
+        systemctl disable ${_FNC_NAME}
+
+        rm -r /opt/LazyLibrarian/
+        rm /etc/default/lazylibrarian
+        rm /etc/init.d/lazylibrarian
+
+        userdel ${_FNC_NAME}
+
+        printf "%s\n" \
+            "[${BLU}***${CLR}] ${_FNC_NAME} HAS BEEN REMOVED"
+
+    else
+        printf "%s\n" \
+            "[${BLU}***${CLR}] ${_FNC_NAME} NOT INSTALLED OR DAMAGED"
+
+    fi
+}
