@@ -1,0 +1,8 @@
+function _storage()
+{
+    local _DRV="books downloads/complete downloads/incomplete movies music tv"
+    for ITER in ${_DRV}
+    do
+        mkdir -p /${_PATH}/${ITER}
+    done
+}
