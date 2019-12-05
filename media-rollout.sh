@@ -113,6 +113,7 @@ do
             _lidarr_remove
             _radarr_remove
             _nzbhydra2_remove
+            _sabnzbdplus_remove
             exit 0
             ;;
         *)
