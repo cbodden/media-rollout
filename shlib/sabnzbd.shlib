@@ -141,7 +141,7 @@ function _sabnzbdplus_remove()
 
 
 		systemctl daemon-reload
-        userdel ${_FNC_NAME}
+        userdel sabnzbd
 
         printf "%s\n" \
             "[${BLU}***${CLR}] ${_FNC_NAME} HAS BEEN REMOVED"
