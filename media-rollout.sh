@@ -61,15 +61,17 @@ source shlib/lazylibrarian.shlib
 source shlib/lidarr.shlib
 source shlib/main.shlib
 source shlib/nzbhydra2.shlib
+source shlib/pause.shlib
 source shlib/plex.shlib
 source shlib/radarr.shlib
 source shlib/sabnzbd.shlib
 source shlib/sonarr.shlib
+source shlib/storage.shlib
 source shlib/tautulli.shlib
 source shlib/usage.shlib
 
 ## option selection
-while getopts "chik:" OPT
+while getopts "chik:r" OPT
 do
     case "${OPT}" in
         'c')
@@ -104,6 +106,11 @@ do
             ;;
         'k')
             pass an arg to ${OPTARG}
+            ;;
+        'r')
+            main
+            _lazylibrarian_remove
+            exit 0
             ;;
         *)
             _usage
