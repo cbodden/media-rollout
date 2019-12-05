@@ -111,10 +111,12 @@ do
             main
             _lazylibrarian_remove
             _lidarr_remove
-            _radarr_remove
             _nzbhydra2_remove
+            _plex_remove
+            _radarr_remove
             _sabnzbdplus_remove
             _sonarr_remove
+            _tautulli_remove
             exit 0
             ;;
         *)
