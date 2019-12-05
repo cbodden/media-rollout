@@ -124,6 +124,7 @@ function _lidarr_remove()
         sleep 5
         rm -r /opt/Lidarr/
         rm /etc/systemd/system/lidarr.service
+        systemctl daemon-reload
 
         userdel ${_FNC_NAME}
 
