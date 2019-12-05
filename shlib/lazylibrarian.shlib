@@ -92,13 +92,9 @@ function _lazylibrarian_remove()
         _pause
 
         systemctl stop ${_FNC_NAME}
+        systemctl kill ${_FNC_NAME}
         systemctl disable ${_FNC_NAME}
-
-        kill -9 $(\
-            ps -ef \
-            | awk '/"'${_FNC_NAME}'"/ {print $2}' \
-            | head -n 1)
-
+        sleep 5
         rm -r /opt/LazyLibrarian/
         rm /etc/default/lazylibrarian
         rm /etc/init.d/lazylibrarian
