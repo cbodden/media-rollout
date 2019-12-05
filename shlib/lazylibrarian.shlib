@@ -76,8 +76,6 @@ function _lazylibrarian_configure()
 
 function _lazylibrarian_remove()
 {
-    clear
-
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)
 

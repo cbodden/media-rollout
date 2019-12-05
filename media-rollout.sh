@@ -110,6 +110,7 @@ do
         'r')
             main
             _lazylibrarian_remove
+            _lidarr_remove
             exit 0
             ;;
         *)
