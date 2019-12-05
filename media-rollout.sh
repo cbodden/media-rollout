@@ -114,6 +114,7 @@ do
             _radarr_remove
             _nzbhydra2_remove
             _sabnzbdplus_remove
+            _sonarr_remove
             exit 0
             ;;
         *)
