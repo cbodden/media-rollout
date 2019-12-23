@@ -28,6 +28,7 @@ This script installs the following services :
 - LazyLibrarian (https://github.com/DobyTang/LazyLibrarian)
 - Plex Media Server (https://www.plex.tv/)
 - Tautulli (https://tautulli.com/)
+- Bazarr (https://www.bazarr.media/)
 
 
 Usage
@@ -57,6 +58,7 @@ DESCRIPTION
     LazyLibrarian
     Plex Media Server
     Tautulli
+    Bazarr
 
 OPTIONS
     -h
@@ -101,7 +103,7 @@ Requirements
 - LazyLibrarian (installed by this script from https://github.com/DobyTang/LazyLibrarian)
 - Plex Media Server (installed by this script from https://www.plex.tv/)
 - Tautulli (installed by this script from https://tautulli.com/)
-
+- Bazarr (installed by this script from https://www.bazarr.media/)
 
 Notes
 ----
