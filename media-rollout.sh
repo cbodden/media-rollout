@@ -56,6 +56,7 @@ readonly PROGDIR=$(readlink -m $(dirname $0))
 
 ## source all the shlib's
 source shlib/apt.shlib
+source shlib/bazarr.shlib
 source shlib/finish.shlib
 source shlib/lazylibrarian.shlib
 source shlib/lidarr.shlib
@@ -97,6 +98,7 @@ do
             _lidarr_install
             _sonarr_install
             _radarr_install
+            _bazarr_install
             _lazylibrarian_install
             _plexmediaserver_install
             _tautulli_install
@@ -116,6 +118,7 @@ do
             _radarr_remove
             _sabnzbdplus_remove
             _sonarr_remove
+            _bazarr_remove
             _tautulli_remove
             exit 0
             ;;
