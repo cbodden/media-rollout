@@ -42,7 +42,7 @@ function _finish()
 
     done
 
-    printf "%s\n" \
+    printf "%s\n" "" \
         "These are the paths configured for storage / downloading :" \
         "/${_PATH}/movies" \
         "/${_PATH}/music" \
@@ -68,7 +68,7 @@ function _finish_configure()
         "LazyLibrarian @ ${_IP}:5299" "" \
         "Services not configured  :" \
         "Tautulli      @ ${_IP}:8181" \
-        "Plex          @ ${_IP}:32400" "" ""
+        "Plex          @ ${_IP}:32400" ""
 
 }
 
