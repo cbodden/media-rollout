@@ -33,17 +33,15 @@ function _finish()
 
     done
 
-    printf "%s\n" ""
-
     printf "%s\n" \
-        "Services are not started by default :" \
-        "sudo systemctl restart sabnzbdplus.service" \
-        "sudo systemctl restart nzbhydra2.service" \
-        "sudo systemctl restart lidarr.service" \
-        "sudo systemctl restart sonarr.service" \
-        "sudo systemctl restart radarr.service" \
-        "sudo systemctl restart tautulli.service" \
-        "sudo systemctl restart lazylibrarian.service" "" ""
+        "" "Services are not started by default :"
+
+    for ITER in ${_SERVICE_NAME[@]}
+    do
+        printf "sudo systemctl restart  %.${_SVC_CNT}s\n" \
+            "${ITER%:*}"
+
+    done
 
     printf "%s\n" \
         "You should now fill in the rest :" \
