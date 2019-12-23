@@ -1,0 +1,82 @@
+_SERVICE_NAME+=( "bazarr:6767" )
+
+function _bazarr_install()
+{
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ -f2)
+
+    getent group downloads || groupadd downloads
+
+    if [ -z "$(getent passwd ${_FNC_NAME})" ]
+    then
+        addgroup ${_FNC_NAME}
+        adduser --system ${_FNC_NAME} --ingroup ${_FNC_NAME}
+        usermod -a -G downloads ${_FNC_NAME}
+    fi
+
+    cd /opt/
+    git clone https://github.com/morpheus65535/bazarr.git
+    chown -R bazarr:bazarr bazarr/
+
+    cat <<EOF >/lib/systemd/system/bazarr.service
+    [Unit]
+    Description=Bazarr Daemon
+    After=syslog.target network.target
+    # After=syslog.target network.target sonarr.service radarr.service
+
+    [Service]
+    WorkingDirectory=/opt/bazarr/
+    User=bazarr
+    Group=bazarr
+    UMask=0002
+    Restart=on-failure
+    RestartSec=5
+    Type=simple
+    ExecStart=/usr/bin/python /opt/bazarr/bazarr.py
+    KillSignal=SIGINT
+    TimeoutStopSec=20
+    SyslogIdentifier=bazarr
+    ExecStartPre=/bin/sleep 30
+
+    [Install]
+    WantedBy=multi-user.target
+EOF
+
+    systemctl daemon-reload
+    systemctl enable ${_FNC_NAME}
+}
+
+function _bazarr_remove()
+{
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ -f2)
+
+    local _SRVC_CHECK=$(systemctl cat ${_FNC_NAME} 2>&1 \
+        | wc -l)
+
+    if [[ ${_SRVC_CHECK} -gt "2" ]]
+    then
+        printf "%s\n" \
+            "[${RED}***${CLR}] ${_FNC_NAME} IS ABOUT TO BE REMOVED"
+
+        _pause
+
+        systemctl stop ${_FNC_NAME}
+        systemctl kill ${_FNC_NAME}
+        systemctl disable ${_FNC_NAME}
+        sleep 5
+        rm -r /opt/bazarr
+        rm /lib/systemd/system/bazarr.service
+        systemctl daemon-reload
+
+        userdel ${_FNC_NAME}
+
+        printf "%s\n" \
+            "[${BLU}***${CLR}] ${_FNC_NAME} HAS BEEN REMOVED"
+
+    else
+        printf "%s\n" \
+            "[${BLU}***${CLR}] ${_FNC_NAME} NOT INSTALLED OR DAMAGED"
+
+    fi
+}
