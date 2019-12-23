@@ -72,8 +72,22 @@ source shlib/storage.shlib
 source shlib/tautulli.shlib
 source shlib/usage.shlib
 
+declare -a _Install=($(declare -F \
+    | awk '/_install/ {print $3}' \
+    | grep -v finish))
+
+declare -a _Configure=($(declare -F \
+    | awk '/_configure/ {print $3}' \
+    | grep -v finish))
+
+declare -a _Remove=($(declare -F \
+    | awk '/_remove/ {print $3}' \
+    | grep -v finish))
+
+_CNT=0
+
 ## option selection
-while getopts "cfFhik:r" OPT
+while getopts "cfFhiIk:r" OPT
 do
     case "${OPT}" in
         'c')
@@ -107,7 +121,22 @@ do
             _clean
             exit 0
             ;;
-        'k')
+         'I')
+            main
+            _storage
+            _apt
+            if [[ ${#_Install[*]} -gt 1 ]]
+            then
+                for ITER in "${_Install[@]}"
+                do
+                    ${ITER}
+                done
+            fi
+            _finish
+            _clean
+            exit 0
+            ;;
+       'k')
             pass an arg to ${OPTARG}
             ;;
         'r')
