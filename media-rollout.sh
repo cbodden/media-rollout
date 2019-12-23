@@ -84,13 +84,11 @@ declare -a _Remove=($(declare -F \
     | awk '/_remove/ {print $3}' \
     | grep -v finish))
 
-_CNT=0
-
 ## option selection
-while getopts "cfFhiIk:r" OPT
+while getopts "cChHiIrR" OPT
 do
     case "${OPT}" in
-        'c')
+        'c'|'C')
             main
             _sabnzbdplus_configure
             _nzbhydra2_configure
@@ -100,28 +98,11 @@ do
             _finish_configure
             exit 0
             ;;
-        'h')
+        'h'|'H')
             _usage
             exit 0
             ;;
-        'i')
-            main
-            _storage
-            _apt
-            _sabnzbdplus_install
-            _nzbhydra2_install
-            _lidarr_install
-            _sonarr_install
-            _radarr_install
-            _bazarr_install
-            _lazylibrarian_install
-            _plexmediaserver_install
-            _tautulli_install
-            _finish
-            _clean
-            exit 0
-            ;;
-         'I')
+        'i'|'I')
             main
             _storage
             _apt
@@ -136,33 +117,16 @@ do
             _clean
             exit 0
             ;;
-       'k')
-            pass an arg to ${OPTARG}
-            ;;
-        'r')
+        'r'|'R')
             main
-            _lazylibrarian_remove
-            _lidarr_remove
-            _nzbhydra2_remove
-            _plexmediaserver_remove
-            _radarr_remove
-            _sabnzbdplus_remove
-            _sonarr_remove
-            _bazarr_remove
-            _tautulli_remove
+            if [[ ${#_Remove[*]} -gt 1 ]]
+            then
+                for ITER in "${_Remove[@]}"
+                do
+                    ${ITER}
+                done
+            fi
             exit 0
-            ;;
-        'f')
-            declare -f \
-                | awk '/_configure/||/_install/||/_remove/ {print $1}' \
-                | grep -v finish
-
-            ;;
-        'F')
-            declare -F \
-                | awk '/_configure/||/_install/||/_remove/ {print $3}' \
-                | grep -v finish
-
             ;;
         *)
             _usage
