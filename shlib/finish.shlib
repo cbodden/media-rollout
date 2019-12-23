@@ -2,7 +2,6 @@ function _finish()
 {
     clear
 
-
     _SVC_CNT=-1
     _PORT_CNT=-1
     _CNT=0
@@ -24,7 +23,7 @@ function _finish()
     done
 
     printf "%s\n" \
-        "Services now setup to run on :"
+        "Services now setup to run on ${_IP} :"
 
     for ITER in ${_SERVICE_NAME[@]}
     do
@@ -38,14 +37,10 @@ function _finish()
 
     for ITER in ${_SERVICE_NAME[@]}
     do
-        printf "sudo systemctl restart  %.${_SVC_CNT}s\n" \
+        printf "sudo systemctl restart %.${_SVC_CNT}s\n" \
             "${ITER%:*}"
 
     done
-
-    printf "%s\n" \
-        "You should now fill in the rest :" \
-        "Plex                     - add your libraries" "" ""
 
     printf "%s\n" \
         "These are the paths configured for storage / downloading :" \
@@ -56,7 +51,8 @@ function _finish()
         "/${_PATH}/downloads" \
         "/${_PATH}/downloads/complete" \
         "/${_PATH}/downloadsincomplete" "" ""
-    }
+
+}
 
 function _finish_configure()
 {
@@ -73,7 +69,8 @@ function _finish_configure()
         "Services not configured  :" \
         "Tautulli      @ ${_IP}:8181" \
         "Plex          @ ${_IP}:32400" "" ""
-    }
+
+}
 
 function _clean()
 {
