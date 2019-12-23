@@ -29,7 +29,7 @@ function _finish()
     for ITER in ${_SERVICE_NAME[@]}
     do
         printf "[%d] %.${_SVC_CNT}s on port: %.${_PORT_CNT}s\n" \
-            "$((++CNT))" "${ITER%:*} ................" "${ITER#*:}"
+            "$((++_CNT))" "${ITER%:*} ................" "${ITER#*:}"
 
     done
 
