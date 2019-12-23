@@ -1,0 +1,7 @@
+function _info()
+{
+    printf "%s\n" \
+        "source can be found : $(git config --get remote.origin.url)" \
+        "currently at commit : $(git rev-parse HEAD)" \
+        "total commits so far: $(git rev-list --all --count)" ""
+    }

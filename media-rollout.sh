@@ -58,6 +58,7 @@ readonly PROGDIR=$(readlink -m $(dirname $0))
 source shlib/apt.shlib
 source shlib/bazarr.shlib
 source shlib/finish.shlib
+source shlib/info.shlib
 source shlib/lazylibrarian.shlib
 source shlib/lidarr.shlib
 source shlib/main.shlib
@@ -72,7 +73,7 @@ source shlib/tautulli.shlib
 source shlib/usage.shlib
 
 ## option selection
-while getopts "chik:r" OPT
+while getopts "cfFhik:r" OPT
 do
     case "${OPT}" in
         'c')
@@ -122,8 +123,21 @@ do
             _tautulli_remove
             exit 0
             ;;
+        'f')
+            declare -f \
+                | awk '/_configure/||/_install/||/_remove/ {print $1}' \
+                | grep -v finish
+
+            ;;
+        'F')
+            declare -F \
+                | awk '/_configure/||/_install/||/_remove/ {print $3}' \
+                | grep -v finish
+
+            ;;
         *)
             _usage
+            _info
             exit 0
             ;;
     esac
@@ -131,5 +145,6 @@ done
 if [[ ${OPTIND} -eq 1 ]]
 then
     _usage
+    _info
     exit 0
 fi
