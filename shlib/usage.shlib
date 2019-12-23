@@ -10,13 +10,14 @@ SYNOPSIS
 
 DESCRIPTION
     This script is used to deploy and configure:
-    SABnzbd
-    NZBHydra2
-    Lidarr
-    Sonarr
-    Radarr
+    Bazarr
     LazyLibrarian
+    Lidarr
+    NZBHydra2
     Plex Media Server
+    Radarr
+    SABnzbd
+    Sonarr
     Tautulli
 
 OPTIONS
@@ -35,6 +36,10 @@ OPTIONS
             to a default state but all talking to each other.
             This option must be run only after running with "-i".
 
+    -r
+            Remove
+            This option goes through all the services and removes them.
+            It will also remove the users and groups associated with them.
 
 EOF
 }

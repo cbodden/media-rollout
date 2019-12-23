@@ -20,15 +20,15 @@ Media Rollout
 This script installs the following services :
 ----
 
-- SABnzbd (https://sabnzbd.org/)
-- NZBHydra2 (https://github.com/theotherp/nzbhydra2)
-- Lidarr (https://lidarr.audio/)
-- Sonarr (https://sonarr.tv/)
-- Radarr (https://radarr.video/)
-- LazyLibrarian (https://github.com/DobyTang/LazyLibrarian)
-- Plex Media Server (https://www.plex.tv/)
-- Tautulli (https://tautulli.com/)
 - Bazarr (https://www.bazarr.media/)
+- LazyLibrarian (https://github.com/DobyTang/LazyLibrarian)
+- Lidarr (https://lidarr.audio/)
+- NZBHydra2 (https://github.com/theotherp/nzbhydra2)
+- Plex Media Server (https://www.plex.tv/)
+- Radarr (https://radarr.video/)
+- SABnzbd (https://sabnzbd.org/)
+- Sonarr (https://sonarr.tv/)
+- Tautulli (https://tautulli.com/)
 
 
 Usage
@@ -50,15 +50,15 @@ SYNOPSIS
 
 DESCRIPTION
     This script is used to deploy and configure:
-    SABnzbd
-    NZBHydra2
-    Lidarr
-    Sonarr
-    Radarr
-    LazyLibrarian
-    Plex Media Server
-    Tautulli
     Bazarr
+    LazyLibrarian
+    Lidarr
+    NZBHydra2
+    Plex Media Server
+    Radarr
+    SABnzbd
+    Sonarr
+    Tautulli
 
 OPTIONS
     -h
@@ -75,6 +75,11 @@ OPTIONS
             This option goes through the services and configures them
             to a default state but all talking to each other.
             This option must be run only after running with "-i".
+
+    -r
+            Remove
+            This option goes through all the services and removes them.
+            It will also remove the users and groups associated with them.
 ```
 
 
