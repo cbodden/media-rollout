@@ -103,14 +103,17 @@ do
             ;;
         't')
             main
+            clear
             _menu
             _menuTV
             _menuMVS
+            _menuSBT
             _menuMUSIC
             _menuDLOAD
             _menuSRCH
             _menuBOOKS
             _menuMSERV
+            _menuTTL
             _menuRUN
             exit 0
             ;;

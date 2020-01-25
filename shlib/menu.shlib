@@ -1,31 +1,19 @@
-## books : lazylibrarian
-
-## downloaders : sab
-# plan : something torrent
-
-## search : nzbhydra
-# plan : nzbhydra via torznab
-
 function _menu()
 {
-    clear
-
     printf "%s\n" \
-        "this script is for deploying a full media stack but it also gives you" \
+        "This script is for deploying a full media stack but it also gives you" \
         "the ability to pick and choose what you want." \
-        "" "" "" \
-        "this will ask you for options so that your setup can be tuned to " \
-        "your liking" ""
+        "" \
+        "The following prompts will ask you for options so that your setup " \
+        "can be tailored to your liking" ""
 
     _pause
 }
 
 function _menuTV()
 {
-    ## tv selection ##
-
     printf "%s\n" \
-        "lets start with tv show services."
+        "Let's start by selecting a tv show service:"
 
     declare -a _TV=( "none" "sonarr" "sickbeard" "sickrage" )
 
@@ -40,13 +28,19 @@ function _menuTV()
     while :
     do
         read -p "Choose a TV service by number (only one): " _TV_READ
-        if ((_TV_READ >= 0 && _TV_READ <= ${_CNT}))
+        if [[ ! -z ${_TV_READ} ]]
         then
-            if [[ "${_TV_READ}" -ge 1 ]]
+            if ((_TV_READ >= 0 && _TV_READ <= ${_CNT}))
             then
-                _menuINSTALL+=( "${_TV[${_TV_READ}]}" )
+                if [[ "${_TV_READ}" -ge 1 ]]
+                then
+                    _menuINSTALL+=( "${_TV[${_TV_READ}]}" )
+                fi
+                break
+            else
+                printf "%s\n" \
+                    "Not a menu option. Try again."
             fi
-            break
         else
             printf "%s\n" \
                 "Not a menu option. Try again."
@@ -56,10 +50,8 @@ function _menuTV()
 
 function _menuMVS()
 {
-    ## movie selection ##
-
     printf "%s\n" \
-        "now lets add movie services."
+        "" "Now let's add a movie service:"
 
     declare -a _MVS=( "none" "radarr" "couchpotato" )
 
@@ -73,14 +65,63 @@ function _menuMVS()
     _CNT=$((_CNT-1))
     while :
     do
-        read -p "Choose a Movie service by number (only one): " _MVS_READ
-        if ((_MVS_READ >= 0 && _MVS_READ <= ${_CNT}))
+        read -p "Choose a movie service by number (only one): " _MVS_READ
+        if [[ ! -z ${_MVS_READ} ]]
         then
-            if [[ "${_MVS_READ}" -ge 1 ]]
+            if ((_MVS_READ >= 0 && _MVS_READ <= ${_CNT}))
             then
-                _menuINSTALL+=( "${_MVS[${_MVS_READ}]}" )
+                if [[ "${_MVS_READ}" -ge 1 ]]
+                then
+                    _menuINSTALL+=( "${_MVS[${_MVS_READ}]}" )
+                fi
+                break
+            else
+                printf "%s\n" \
+                    "Not a menu option. Try again."
             fi
-            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
+function _menuSBT()
+{
+    if [ "${_MVS_READ}" -lt 1 ] && [ "${_TV_READ}" -lt 1 ]
+    then
+        return
+    fi
+
+    printf "%s\n" \
+        "" "Now let's add subtitle provider:"
+
+    declare -a _SBT=( "none" "bazarr" )
+
+    _CNT=0
+    for ITER in "${_SBT[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a subtitle service by number (only one): " _SBT_READ
+        if [[ ! -z ${_SBT_READ} ]]
+        then
+            if ((_SBT_READ >= 0 && _SBT_READ <= ${_CNT}))
+            then
+                if [[ "${_SBT_READ}" -ge 1 ]]
+                then
+                    _menuINSTALL+=( "${_SBT[${_SBT_READ}]}" )
+                fi
+                break
+            else
+                printf "%s\n" \
+                    "Not a menu option. Try again."
+            fi
         else
             printf "%s\n" \
                 "Not a menu option. Try again."
@@ -90,10 +131,8 @@ function _menuMVS()
 
 function _menuMUSIC()
 {
-    ## music selection ##
-
     printf "%s\n" \
-        "now lets add music services."
+        "" "Now let's add a music service:"
 
     declare -a _MUSIC=( "none" "lidarr" "headphones" )
 
@@ -107,14 +146,20 @@ function _menuMUSIC()
     _CNT=$((_CNT-1))
     while :
     do
-        read -p "Choose a Music service by number (only one): " _MUSIC_READ
-        if ((_MUSIC_READ >= 0 && _MUSIC_READ <= ${_CNT}))
+        read -p "Choose a music service by number (only one): " _MUSIC_READ
+        if [[ ! -z ${_MUSIC_READ} ]]
         then
-            if [[ "${_MUSIC_READ}" -ge 1 ]]
+            if ((_MUSIC_READ >= 0 && _MUSIC_READ <= ${_CNT}))
             then
-                _menuINSTALL+=( "${_MUSIC[${_MUSIC_READ}]}" )
+                if [[ "${_MUSIC_READ}" -ge 1 ]]
+                then
+                    _menuINSTALL+=( "${_MUSIC[${_MUSIC_READ}]}" )
+                fi
+                break
+            else
+                printf "%s\n" \
+                    "Not a menu option. Try again."
             fi
-            break
         else
             printf "%s\n" \
                 "Not a menu option. Try again."
@@ -124,10 +169,8 @@ function _menuMUSIC()
 
 function _menuDLOAD()
 {
-    ## music selection ##
-
     printf "%s\n" \
-        "now lets add download services."
+        "" "Now let's add a downloader:"
 
     declare -a _DLOAD=( "none" "sabnzbd" )
 
@@ -141,14 +184,20 @@ function _menuDLOAD()
     _CNT=$((_CNT-1))
     while :
     do
-        read -p "Choose a Music service by number (only one): " _DLOAD_READ
-        if ((_DLOAD_READ >= 0 && _DLOAD_READ <= ${_CNT}))
+        read -p "Choose a downloader by number (only one): " _DLOAD_READ
+        if [[ ! -z ${_DLOAD_READ} ]]
         then
-            if [[ "${_DLOAD_READ}" -ge 1 ]]
+            if ((_DLOAD_READ >= 0 && _DLOAD_READ <= ${_CNT}))
             then
-                _menuINSTALL+=( "${_DLOAD[${_DLOAD_READ}]}" )
+                if [[ "${_DLOAD_READ}" -ge 1 ]]
+                then
+                    _menuINSTALL+=( "${_DLOAD[${_DLOAD_READ}]}" )
+                fi
+                break
+            else
+                printf "%s\n" \
+                    "Not a menu option. Try again."
             fi
-            break
         else
             printf "%s\n" \
                 "Not a menu option. Try again."
@@ -158,10 +207,8 @@ function _menuDLOAD()
 
 function _menuSRCH()
 {
-    ## music selection ##
-
     printf "%s\n" \
-        "now lets add search services."
+        "" "Now let's add search services:"
 
     declare -a _SRCH=( "none" "nzbhydra2" )
 
@@ -175,14 +222,20 @@ function _menuSRCH()
     _CNT=$((_CNT-1))
     while :
     do
-        read -p "Choose a Music service by number (only one): " _SRCH_READ
-        if ((_SRCH_READ >= 0 && _SRCH_READ <= ${_CNT}))
+        read -p "Choose a search service by number (only one): " _SRCH_READ
+        if [[ ! -z ${_SRCH_READ} ]]
         then
-            if [[ "${_SRCH_READ}" -ge 1 ]]
+            if ((_SRCH_READ >= 0 && _SRCH_READ <= ${_CNT}))
             then
-                _menuINSTALL+=( "${_SRCH[${_SRCH_READ}]}" )
+                if [[ "${_SRCH_READ}" -ge 1 ]]
+                then
+                    _menuINSTALL+=( "${_SRCH[${_SRCH_READ}]}" )
+                fi
+                break
+            else
+                printf "%s\n" \
+                    "Not a menu option. Try again."
             fi
-            break
         else
             printf "%s\n" \
                 "Not a menu option. Try again."
@@ -192,10 +245,8 @@ function _menuSRCH()
 
 function _menuBOOKS()
 {
-    ## music selection ##
-
     printf "%s\n" \
-        "now lets add book services."
+        "" "Now let's add a book service:"
 
     declare -a _BOOKS=( "none" "lazylibrarian" )
 
@@ -209,14 +260,20 @@ function _menuBOOKS()
     _CNT=$((_CNT-1))
     while :
     do
-        read -p "Choose a Music service by number (only one): " _BOOKS_READ
-        if ((_BOOKS_READ >= 0 && _BOOKS_READ <= ${_CNT}))
+        read -p "Choose a book service by number (only one): " _BOOKS_READ
+        if [[ ! -z ${_BOOKS_READ} ]]
         then
-            if [[ "${_BOOKS_READ}" -ge 1 ]]
+            if ((_BOOKS_READ >= 0 && _BOOKS_READ <= ${_CNT}))
             then
-                _menuINSTALL+=( "${_BOOKS[${_BOOKS_READ}]}" )
+                if [[ "${_BOOKS_READ}" -ge 1 ]]
+                then
+                    _menuINSTALL+=( "${_BOOKS[${_BOOKS_READ}]}" )
+                fi
+                break
+            else
+                printf "%s\n" \
+                    "Not a menu option. Try again."
             fi
-            break
         else
             printf "%s\n" \
                 "Not a menu option. Try again."
@@ -226,10 +283,8 @@ function _menuBOOKS()
 
 function _menuMSERV()
 {
-    ## music selection ##
-
     printf "%s\n" \
-        "now lets add media servers."
+        "" "Now let's add a media server:"
 
     declare -a _MSERV=( "none" "plex" )
 
@@ -243,14 +298,63 @@ function _menuMSERV()
     _CNT=$((_CNT-1))
     while :
     do
-        read -p "Choose a Music service by number (only one): " _MSERV_READ
-        if ((_MSERV_READ >= 0 && _MSERV_READ <= ${_CNT}))
+        read -p "Choose a media service by number (only one): " _MSERV_READ
+        if [[ ! -z ${_MSERV_READ} ]]
         then
-            if [[ "${_MSERV_READ}" -ge 1 ]]
+            if ((_MSERV_READ >= 0 && _MSERV_READ <= ${_CNT}))
             then
-                _menuINSTALL+=( "${_MSERV[${_MSERV_READ}]}" )
+                if [[ "${_MSERV_READ}" -ge 1 ]]
+                then
+                    _menuINSTALL+=( "${_MSERV[${_MSERV_READ}]}" )
+                fi
+                break
+            else
+                printf "%s\n" \
+                    "Not a menu option. Try again."
             fi
-            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
+function _menuTTL()
+{
+    if [ "${_MSERV_READ}" -lt 1 ]
+    then
+        return
+    fi
+
+    printf "%s\n" \
+        "" "Now let's add metrics for Plex:"
+
+    declare -a _TTL=( "none" "tautulli" )
+
+    _CNT=0
+    for ITER in "${_TTL[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a metrics provider by number (only one): " _TTL_READ
+        if [[ ! -z ${_TTL_READ} ]]
+        then
+            if ((_TTL_READ >= 0 && _TTL_READ <= ${_CNT}))
+            then
+                if [[ "${_TTL_READ}" -ge 1 ]]
+                then
+                    _menuINSTALL+=( "${_TTL[${_TTL_READ}]}" )
+                fi
+                break
+            else
+                printf "%s\n" \
+                    "Not a menu option. Try again."
+            fi
         else
             printf "%s\n" \
                 "Not a menu option. Try again."
@@ -263,7 +367,7 @@ function _menuRUN()
     _pause
 
     printf "%s\n" \
-        "these are your selections : "
+        "" "These are your service selections:"
 
     for ITER in "${_menuINSTALL[@]}"
     do
@@ -297,5 +401,4 @@ function _menuRUN()
                 ;;
         esac
     done
-
 }
