@@ -56,8 +56,8 @@ function _menu()
             exit 0
             ;;
         'configure')
-            $(_sabnzbd_configure)
-            $(_finish_configure)
+            echo _sabnzbd_configure
+            echo _finish_configure
             exit 0
             ;;
         'delete')
