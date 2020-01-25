@@ -77,7 +77,8 @@ function _menuTV()
     printf "%s\n" \
         "" "Let's start by selecting a tv show service:"
 
-    declare -a _TV=( "none" "sonarr" "sickbeard" "sickrage" )
+    ##declare -a _TV=( "none" "sonarr" "sickbeard" "sickrage" )
+    declare -a _TV=( "none" "sonarr"  )
 
     _CNT=0
     for ITER in "${_TV[@]}"
@@ -115,7 +116,8 @@ function _menuMVS()
     printf "%s\n" \
         "" "Now let's add a movie service:"
 
-    declare -a _MVS=( "none" "radarr" "couchpotato" )
+    ##declare -a _MVS=( "none" "radarr" "couchpotato" )
+    declare -a _MVS=( "none" "radarr" )
 
     _CNT=0
     for ITER in "${_MVS[@]}"
@@ -196,7 +198,8 @@ function _menuMUSIC()
     printf "%s\n" \
         "" "Now let's add a music service:"
 
-    declare -a _MUSIC=( "none" "lidarr" "headphones" )
+    ##declare -a _MUSIC=( "none" "lidarr" "headphones" )
+    declare -a _MUSIC=( "none" "lidarr" )
 
     _CNT=0
     for ITER in "${_MUSIC[@]}"
