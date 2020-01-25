@@ -234,7 +234,7 @@ function _menuDLOAD()
     printf "%s\n" \
         "" "Now let's add a downloader:"
 
-    declare -a _DLOAD=( "none" "sabnzbd" )
+    declare -a _DLOAD=( "none" "sabnzbdplus" )
 
     _CNT=0
     for ITER in "${_DLOAD[@]}"
@@ -348,7 +348,7 @@ function _menuMSERV()
     printf "%s\n" \
         "" "Now let's add a media server:"
 
-    declare -a _MSERV=( "none" "plex" )
+    declare -a _MSERV=( "none" "plexmediaserver" )
 
     _CNT=0
     for ITER in "${_MSERV[@]}"
@@ -441,18 +441,16 @@ function _menuRUN()
         read -p "Do you want to install them (Yes or No): " _M_INSTALL
         case ${_M_INSTALL} in
             [yY][eE][sS]|[yY])
-                echo installing:
-                echo _users
-                echo _storage
-                echo _apt
+                _storage
+                _apt
 
                 for ITER in "${_menuINSTALL[@]}"
                 do
-                    echo _${ITER}
+                    _${ITER}_install
                 done
 
-                echo _finish
-                echo _clean
+                _finish
+                _clean
                 exit 0
                 ;;
             [nN][oO]|[nN])
