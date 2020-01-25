@@ -40,8 +40,6 @@ function main()
         | head -c 32 )"
 
     readonly _GIT_PATH="https://github.com/cbodden/media-rollout/blob/master"
-
-    clear
 }
 
 function _pause()
