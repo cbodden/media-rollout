@@ -105,6 +105,10 @@ do
         't')
             main
             _menu
+            _menuTV
+            _menuMVS
+            _menuMUSIC
+            _menuRUN
             exit 0
             ;;
         *)

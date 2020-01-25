@@ -15,13 +15,14 @@ function _menu()
         "the ability to pick and choose what you want." \
         "" "" "" \
         "this will ask you for options so that your setup can be tuned to " \
-        "your liking" "" "" ""
+        "your liking" ""
 
     _pause
+}
 
-    ##################
+function _menuTV()
+{
     ## tv selection ##
-    ##################
 
     printf "%s\n" \
         "lets start with tv show services."
@@ -35,19 +36,26 @@ function _menu()
         _CNT=$((_CNT+1))
     done
 
-    printf "%s" \
-        "Choose a service (by number and only one) : "
+    _CNT=$((_CNT-1))
+    while :; do
+        read -p "Choose a TV service by number (only one): " _TV_READ
+        if ((_TV_READ >= 0 && _TV_READ <= ${_CNT}))
+        then
+            if [[ "${_TV_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_TV[${_TV_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
 
-    read -a _TV_READ
-
-    printf "%s\n" \
-        " you selected ${_TV[${_TV_READ}]}" ""
-
-    _pause
-
-    #####################
+function _menuMVS()
+{
     ## movie selection ##
-    #####################
 
     printf "%s\n" \
         "now lets add movie services."
@@ -61,19 +69,26 @@ function _menu()
         _CNT=$((_CNT+1))
     done
 
-    printf "%s" \
-        "Choose a service (by number and only one) : "
+    _CNT=$((_CNT-1))
+    while :; do
+        read -p "Choose a Movie service by number (only one): " _MVS_READ
+        if ((_MVS_READ >= 0 && _MVS_READ <= ${_CNT}))
+        then
+            if [[ "${_MVS_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_MVS[${_MVS_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
 
-    read -a _MVS_READ
-
-    printf "%s\n" \
-        " you selected ${_MVS[${_MVS_READ}]}" ""
-
-    _pause
-
-    #####################
+function _menuMUSIC()
+{
     ## music selection ##
-    #####################
 
     printf "%s\n" \
         "now lets add music services."
@@ -87,44 +102,50 @@ function _menu()
         _CNT=$((_CNT+1))
     done
 
-    printf "%s" \
-        "Choose a service (by number and only one) : "
+    _CNT=$((_CNT-1))
+    while :; do
+        read -p "Choose a Music service by number (only one): " _MUSIC_READ
+        if ((_MUSIC_READ >= 0 && _MUSIC_READ <= ${_CNT}))
+        then
+            if [[ "${_MUSIC_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_MUSIC[${_MUSIC_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
 
-    read -a _MUSIC_READ
-
-    printf "%s\n" \
-        " you selected ${_MUSIC[${_MUSIC_READ}]}" ""
-
+function _menuRUN()
+{
     _pause
 
-    ########################
-    ## subtitle selection ##
-    ########################
+    printf "%s\n" \
+        "these are your selections : "
 
-    if [ "${_MVS_READ}" -gt 0 ] || [ "${_TV_READ}" -gt 0 ]
-    then
-        printf "%s\n" \
-            "now lets add a subtitle handler if you need one."
+    for ITER in "${_menuINSTALL[@]}"
+    do
+        echo _${ITER}
+    done
 
-        declare -a _SBT=( "none" "bazarr" )
-
-        _CNT=0
-        for ITER in "${_SBT[@]}"
-        do
-            echo [${_CNT}] $(echo ${ITER})
-            _CNT=$((_CNT+1))
-        done
-
-        printf "%s" \
-            "Choose a service (by number and only one) : "
-
-        read -a _SBT_READ
-
-        printf "%s\n" \
-            " you selected ${_SBT[${_SBT_READ}]}"
-
-    else
-        _SBT_READ="0"
-
-    fi
+    while true
+    do
+        read -p "Do you wish to install these services ?" yn
+        case $yn in
+            [Yy]* )
+                make install
+                ;
+                break
+                ;;
+            [Nn]* )
+                exit
+                ;;
+            * )
+                echo "Please answer yes or no."
+                ;;
+        esac
+    done
 }
