@@ -1,1 +1,303 @@
-.
+## books : lazylibrarian
+
+## downloaders : sab
+# plan : something torrent
+
+## search : nzbhydra
+# plan : nzbhydra via torznab
+
+function _menu()
+{
+    clear
+
+    printf "%s\n" \
+        "this script is for deploying a full media stack but it also gives you" \
+        "the ability to pick and choose what you want." \
+        "" "" "" \
+        "this will ask you for options so that your setup can be tuned to " \
+        "your liking" ""
+
+    _pause
+}
+
+function _menuTV()
+{
+    ## tv selection ##
+
+    printf "%s\n" \
+        "lets start with tv show services."
+
+    declare -a _TV=( "none" "sonarr" "sickbeard" "sickrage" )
+
+    _CNT=0
+    for ITER in "${_TV[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a TV service by number (only one): " _TV_READ
+        if ((_TV_READ >= 0 && _TV_READ <= ${_CNT}))
+        then
+            if [[ "${_TV_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_TV[${_TV_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
+function _menuMVS()
+{
+    ## movie selection ##
+
+    printf "%s\n" \
+        "now lets add movie services."
+
+    declare -a _MVS=( "none" "radarr" "couchpotato" )
+
+    _CNT=0
+    for ITER in "${_MVS[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a Movie service by number (only one): " _MVS_READ
+        if ((_MVS_READ >= 0 && _MVS_READ <= ${_CNT}))
+        then
+            if [[ "${_MVS_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_MVS[${_MVS_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
+function _menuMUSIC()
+{
+    ## music selection ##
+
+    printf "%s\n" \
+        "now lets add music services."
+
+    declare -a _MUSIC=( "none" "lidarr" "headphones" )
+
+    _CNT=0
+    for ITER in "${_MUSIC[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a Music service by number (only one): " _MUSIC_READ
+        if ((_MUSIC_READ >= 0 && _MUSIC_READ <= ${_CNT}))
+        then
+            if [[ "${_MUSIC_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_MUSIC[${_MUSIC_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
+function _menuDLOAD()
+{
+    ## music selection ##
+
+    printf "%s\n" \
+        "now lets add download services."
+
+    declare -a _DLOAD=( "none" "sabnzbd" )
+
+    _CNT=0
+    for ITER in "${_DLOAD[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a Music service by number (only one): " _DLOAD_READ
+        if ((_DLOAD_READ >= 0 && _DLOAD_READ <= ${_CNT}))
+        then
+            if [[ "${_DLOAD_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_DLOAD[${_DLOAD_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
+function _menuSRCH()
+{
+    ## music selection ##
+
+    printf "%s\n" \
+        "now lets add search services."
+
+    declare -a _SRCH=( "none" "nzbhydra2" )
+
+    _CNT=0
+    for ITER in "${_SRCH[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a Music service by number (only one): " _SRCH_READ
+        if ((_SRCH_READ >= 0 && _SRCH_READ <= ${_CNT}))
+        then
+            if [[ "${_SRCH_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_SRCH[${_SRCH_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
+function _menuBOOKS()
+{
+    ## music selection ##
+
+    printf "%s\n" \
+        "now lets add book services."
+
+    declare -a _BOOKS=( "none" "lazylibrarian" )
+
+    _CNT=0
+    for ITER in "${_BOOKS[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a Music service by number (only one): " _BOOKS_READ
+        if ((_BOOKS_READ >= 0 && _BOOKS_READ <= ${_CNT}))
+        then
+            if [[ "${_BOOKS_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_BOOKS[${_BOOKS_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
+function _menuMSERV()
+{
+    ## music selection ##
+
+    printf "%s\n" \
+        "now lets add media servers."
+
+    declare -a _MSERV=( "none" "plex" )
+
+    _CNT=0
+    for ITER in "${_MSERV[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a Music service by number (only one): " _MSERV_READ
+        if ((_MSERV_READ >= 0 && _MSERV_READ <= ${_CNT}))
+        then
+            if [[ "${_MSERV_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_MSERV[${_MSERV_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
+function _menuRUN()
+{
+    _pause
+
+    printf "%s\n" \
+        "these are your selections : "
+
+    for ITER in "${_menuINSTALL[@]}"
+    do
+        echo _${ITER}
+    done
+}
+
+function _menuVERIFY()
+{
+    _pause
+
+    printf "%s\n" \
+        "these are your selections : "
+
+    for ITER in "${_menuINSTALL[@]}"
+    do
+        echo _${ITER}
+    done
+
+    while true
+    do
+        read -p "Do you wish to install these services ?" yn
+        case $yn in
+            [Yy]* )
+                make install
+                ;
+                break
+                ;;
+            [Nn]* )
+                exit
+                ;;
+            * )
+                echo "Please answer yes or no."
+                ;;
+        esac
+    done
+}

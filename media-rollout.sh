@@ -56,81 +56,67 @@ readonly PROGDIR=$(readlink -m $(dirname $0))
 
 ## source all the shlib's
 source shlib/apt.shlib
-source shlib/bazarr.shlib
 source shlib/finish.shlib
-source shlib/info.shlib
 source shlib/lazylibrarian.shlib
 source shlib/lidarr.shlib
 source shlib/main.shlib
+source shlib/menu.shlib
 source shlib/nzbhydra2.shlib
-source shlib/pause.shlib
 source shlib/plex.shlib
 source shlib/radarr.shlib
 source shlib/sabnzbd.shlib
 source shlib/sonarr.shlib
-source shlib/storage.shlib
 source shlib/tautulli.shlib
 source shlib/usage.shlib
 
-declare -a _Install=($(declare -F \
-    | awk '/_install/ {print $3}' \
-    | grep -v finish))
-
-declare -a _Configure=($(declare -F \
-    | awk '/_configure/ {print $3}' \
-    | grep -v finish))
-
-declare -a _Remove=($(declare -F \
-    | awk '/_remove/ {print $3}' \
-    | grep -v finish))
-
 ## option selection
-while getopts "cChHiIrR" OPT
+while getopts "chik:t" OPT
 do
     case "${OPT}" in
-        'c'|'C')
+        'c')
             main
-            _sabnzbdplus_configure
-            _nzbhydra2_configure
-            _lidarr_configure
-            _radarr_configure
-            _sonarr_configure
+            _sabnzbd_configure
             _finish_configure
             exit 0
             ;;
-        'h'|'H')
+        'h')
             _usage
-            exit 0
             ;;
-        'i'|'I')
+        'i')
             main
+            _users
             _storage
             _apt
-            if [[ ${#_Install[*]} -gt 1 ]]
-            then
-                for ITER in "${_Install[@]}"
-                do
-                    ${ITER}
-                done
-            fi
+            _sabnzbd
+            _nzbhydra2
+            _lidarr
+            _sonarr
+            _radarr
+            _lazylibrarian
+            _plex
+            _tautulli
             _finish
             _clean
             exit 0
             ;;
-        'r'|'R')
+        'k')
+            pass an arg to ${OPTARG}
+            ;;
+        't')
             main
-            if [[ ${#_Remove[*]} -gt 1 ]]
-            then
-                for ITER in "${_Remove[@]}"
-                do
-                    ${ITER}
-                done
-            fi
+            _menu
+            _menuTV
+            _menuMVS
+            _menuMUSIC
+            _menuDLOAD
+            _menuSRCH
+            _menuBOOKS
+            _menuMSERV
+            _menuRUN
             exit 0
             ;;
         *)
             _usage
-            _info
             exit 0
             ;;
     esac
@@ -138,6 +124,5 @@ done
 if [[ ${OPTIND} -eq 1 ]]
 then
     _usage
-    _info
     exit 0
 fi
