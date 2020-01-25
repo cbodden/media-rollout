@@ -26,8 +26,8 @@ OPTIONS
             This option shows you this help message.
 
     -i
-            Install
-            This option installs all the services without configuration.
+            Install / Menu
+            This option brings up the menu to select either Install, Configure, Delete, or Exit
             This option needs to be run before before "-c".
 
     -c
