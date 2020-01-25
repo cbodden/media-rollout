@@ -13,7 +13,6 @@
 #        AUTHOR: cesar@pissedoffadmins.com
 #  ORGANIZATION: pissedoffadmins.com
 #       CREATED: 11/23/2019
-#      REVISION: 4
 #===============================================================================
 ##########################################
 #### EDITS ONLY IN THIS SECTION BELOW ####
