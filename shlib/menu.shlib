@@ -1,1 +1,60 @@
-.
+## tv : sonarr
+# plan : sickbeard && sickrage
+
+## movies : radarr
+# plan : couchpotato
+
+## music : lidarr
+# plan : headphones
+
+## books : lazylibrarian
+
+## downloaders : sab
+# plan : something torrent
+
+## search : nzbhydra
+# plan : nzbhydra via torznab
+
+## subtitles : bazarr
+
+
+function _menu()
+{
+    clear
+
+    printf "%s\n" \
+        "this script is for deploying a full media stack but it also gives you" \
+        "the ability to pick and choose what you want." \
+        "" "" "" \
+        "this will ask you for options so that your setup can be tuned to " \
+        "your liking" "" "" ""
+
+    _pause
+
+    printf "%s\n" \
+        "lets start with tv show services."
+
+    declare -a _TV=( "none" "sonarr" "sickbeard" "sickrage" )
+
+    _CNT=0
+    for ITER in "${_TV[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    printf "%s" \
+        "Choose a service (by number and only one) : "
+
+    read -a _TV_READ
+
+    printf "%s\n" \
+        " you selected ${_TV[${_TV_READ}]}"
+
+
+
+
+
+
+
+}
