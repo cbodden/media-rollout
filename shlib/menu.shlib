@@ -101,7 +101,7 @@ function _menu()
     ## subtitle selection ##
     ########################
 
-    if [ ${_MVS_READ} -gt 0 ] || [ ${_TV_READ} -gt 0 ]
+    if [ "${_MVS_READ}" -gt 0 ] || [ "${_TV_READ}" -gt 0 ]
     then
         printf "%s\n" \
             "now lets add a subtitle handler if you need one."
@@ -123,6 +123,8 @@ function _menu()
         printf "%s\n" \
             " you selected ${_SBT[${_SBT_READ}]}"
 
-            fi
+    else
+        _SBT_READ="0"
 
-        }
+    fi
+}
