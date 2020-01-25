@@ -267,37 +267,35 @@ function _menuRUN()
 
     for ITER in "${_menuINSTALL[@]}"
     do
-        echo _${ITER}
-    done
-}
-
-function _menuVERIFY()
-{
-    _pause
-
-    printf "%s\n" \
-        "these are your selections : "
-
-    for ITER in "${_menuINSTALL[@]}"
-    do
-        echo _${ITER}
+        echo ${ITER}
     done
 
-    while true
+    while :
     do
-        read -p "Do you wish to install these services ?" yn
-        case $yn in
-            [Yy]* )
-                make install
-                ;
-                break
+        read -p "Do you want to install them (Yes or No): " _M_INSTALL
+        case ${_M_INSTALL} in
+            [yY][eE][sS]|[yY])
+                echo installing:
+                echo _users
+                echo _storage
+                echo _apt
+
+                for ITER in "${_menuINSTALL[@]}"
+                do
+                    echo _${ITER}
+                done
+
+                echo _finish
+                echo _clean
+                exit 0
                 ;;
-            [Nn]* )
-                exit
+            [nN][oO]|[nN])
+                exit 1
                 ;;
             * )
-                echo "Please answer yes or no."
+                printf "%s\n" "Please answer Yes or No."
                 ;;
         esac
     done
+
 }
