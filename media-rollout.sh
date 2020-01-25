@@ -108,6 +108,10 @@ do
             _menuTV
             _menuMVS
             _menuMUSIC
+            _menuDLOAD
+            _menuSRCH
+            _menuBOOKS
+            _menuMSERV
             _menuRUN
             exit 0
             ;;

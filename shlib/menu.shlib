@@ -37,7 +37,8 @@ function _menuTV()
     done
 
     _CNT=$((_CNT-1))
-    while :; do
+    while :
+    do
         read -p "Choose a TV service by number (only one): " _TV_READ
         if ((_TV_READ >= 0 && _TV_READ <= ${_CNT}))
         then
@@ -70,7 +71,8 @@ function _menuMVS()
     done
 
     _CNT=$((_CNT-1))
-    while :; do
+    while :
+    do
         read -p "Choose a Movie service by number (only one): " _MVS_READ
         if ((_MVS_READ >= 0 && _MVS_READ <= ${_CNT}))
         then
@@ -103,7 +105,8 @@ function _menuMUSIC()
     done
 
     _CNT=$((_CNT-1))
-    while :; do
+    while :
+    do
         read -p "Choose a Music service by number (only one): " _MUSIC_READ
         if ((_MUSIC_READ >= 0 && _MUSIC_READ <= ${_CNT}))
         then
@@ -119,7 +122,156 @@ function _menuMUSIC()
     done
 }
 
+function _menuDLOAD()
+{
+    ## music selection ##
+
+    printf "%s\n" \
+        "now lets add download services."
+
+    declare -a _DLOAD=( "none" "sabnzbd" )
+
+    _CNT=0
+    for ITER in "${_DLOAD[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a Music service by number (only one): " _DLOAD_READ
+        if ((_DLOAD_READ >= 0 && _DLOAD_READ <= ${_CNT}))
+        then
+            if [[ "${_DLOAD_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_DLOAD[${_DLOAD_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
+function _menuSRCH()
+{
+    ## music selection ##
+
+    printf "%s\n" \
+        "now lets add search services."
+
+    declare -a _SRCH=( "none" "nzbhydra2" )
+
+    _CNT=0
+    for ITER in "${_SRCH[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a Music service by number (only one): " _SRCH_READ
+        if ((_SRCH_READ >= 0 && _SRCH_READ <= ${_CNT}))
+        then
+            if [[ "${_SRCH_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_SRCH[${_SRCH_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
+function _menuBOOKS()
+{
+    ## music selection ##
+
+    printf "%s\n" \
+        "now lets add book services."
+
+    declare -a _BOOKS=( "none" "lazylibrarian" )
+
+    _CNT=0
+    for ITER in "${_BOOKS[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a Music service by number (only one): " _BOOKS_READ
+        if ((_BOOKS_READ >= 0 && _BOOKS_READ <= ${_CNT}))
+        then
+            if [[ "${_BOOKS_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_BOOKS[${_BOOKS_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
+function _menuMSERV()
+{
+    ## music selection ##
+
+    printf "%s\n" \
+        "now lets add media servers."
+
+    declare -a _MSERV=( "none" "plex" )
+
+    _CNT=0
+    for ITER in "${_MSERV[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a Music service by number (only one): " _MSERV_READ
+        if ((_MSERV_READ >= 0 && _MSERV_READ <= ${_CNT}))
+        then
+            if [[ "${_MSERV_READ}" -ge 1 ]]
+            then
+                _menuINSTALL+=( "${_MSERV[${_MSERV_READ}]}" )
+            fi
+            break
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
 function _menuRUN()
+{
+    _pause
+
+    printf "%s\n" \
+        "these are your selections : "
+
+    for ITER in "${_menuINSTALL[@]}"
+    do
+        echo _${ITER}
+    done
+}
+
+function _menuVERIFY()
 {
     _pause
 
