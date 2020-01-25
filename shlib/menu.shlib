@@ -1,19 +1,81 @@
 function _menu()
 {
     printf "%s\n" \
-        "This script is for deploying a full media stack but it also gives you" \
-        "the ability to pick and choose what you want." \
+        "This script is for deploying, configuring, or deleting either an" \
+        "entire media stack or just bits and pieces of it." \
         "" \
         "The following prompts will ask you for options so that your setup " \
         "can be tailored to your liking" ""
 
     _pause
+
+    printf "%s\n" \
+        "" "Let's start by selecting an action:"
+
+    declare -a _SELECT=( "install" "configure" "delete" "exit" )
+
+    _CNT=0
+    for ITER in "${_SELECT[@]}"
+    do
+        echo [${_CNT}] $(echo ${ITER})
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose an action by number (only one): " _SELECT_READ
+        if [[ ! -z ${_SELECT_READ} ]]
+        then
+            if ((_SELECT_READ >= 0 && _SELECT_READ <= ${_CNT}))
+            then
+                _SELECT_ACTION="${_SELECT[${_SELECT_READ}]}"
+                break
+            else
+                printf "%s\n" \
+                    "Not a menu option. Try again."
+            fi
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+
+    case ${_SELECT_ACTION} in
+        'install')
+            _menuTV
+            _menuMVS
+            _menuSBT
+            _menuMUSIC
+            _menuDLOAD
+            _menuSRCH
+            _menuBOOKS
+            _menuMSERV
+            _menuTTL
+            _menuRUN
+            exit 0
+            ;;
+        'configure')
+            $(_sabnzbd_configure)
+            $(_finish_configure)
+            exit 0
+            ;;
+        'delete')
+            printf "%s\n" "Being added...."
+            exit 0
+            ;;
+        'exit')
+            exit 0
+            ;;
+        * )
+            ;;
+    esac
 }
 
 function _menuTV()
 {
     printf "%s\n" \
-        "Let's start by selecting a tv show service:"
+        "" "Let's start by selecting a tv show service:"
 
     declare -a _TV=( "none" "sonarr" "sickbeard" "sickrage" )
 
