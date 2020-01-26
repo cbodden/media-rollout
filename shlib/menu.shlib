@@ -60,7 +60,7 @@ function _menu()
             exit 0
             ;;
         'delete')
-            printf "%s\n" "Being added...."
+            _menuREMOVE
             exit 0
             ;;
         'exit')
@@ -73,7 +73,8 @@ function _menu()
 
 function _menuCONF()
 {
-    declare -a _CONF=( "sabnzbdplus" "nzbhydra2" "lazylibrarian" "lidarr" "sonarr" "radarr" )
+    declare -a _CONF=( "sabnzbdplus" "nzbhydra2" "lazylibrarian" "lidarr" )
+    _CONF+=( "sonarr" "radarr" )
 
     for ITER in "${_CONF[@]}"
     do
@@ -81,6 +82,19 @@ function _menuCONF()
     done
 
     _finish_configure
+    exit 0
+}
+
+function _menuREMOVE()
+{
+    declare -a _REMOVE=( "sabnzbdplus" "nzbhydra2" "lazylibrarian" "lidarr" )
+    _REMOVE+=( "sonarr" "radarr" "plexmediaserver" "bazarr" "tautulli" )
+
+    for ITER in "${_REMOVE[@]}"
+    do
+        _${ITER}_remove
+    done
+
     exit 0
 }
 
