@@ -23,9 +23,13 @@ do
 done
 
 ## option selection
-while getopts "hi" OPT
+while getopts "dhi" OPT
 do
     case "${OPT}" in
+        'd')
+            clear
+            _info
+            ;;
         'h')
             clear
             _usage
