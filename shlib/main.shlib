@@ -24,7 +24,7 @@ function main()
         '/bin/bash')
             # set -o nounset
             set -o pipefail
-            set -e
+            # set -e
             set -u
             ;;
     esac
