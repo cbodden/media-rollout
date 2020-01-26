@@ -110,6 +110,15 @@ function _sonarr_remove()
         sleep 5
         rm -r /opt/NzbDrone
         rm -rf /home/${_FNC_NAME}
+        apt remove \
+            nzbdrone \
+            -y
+
+        apt purge \
+            --auto-remove \
+            nzbdrone \
+            -y
+
         rm /lib/systemd/system/sonarr.service
         systemctl daemon-reload
 
