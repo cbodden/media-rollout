@@ -29,6 +29,8 @@ function _plexmediaserver_remove()
 
         rm -r /var/lib/plexmediaserver
 
+        userdel plex
+
         printf "%s\n" \
             "[${BLU}***${CLR}] ${_FNC_NAME} HAS BEEN REMOVED"
 
