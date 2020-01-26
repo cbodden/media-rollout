@@ -480,6 +480,7 @@ function _menuRUN()
 
                 _finish
                 _clean
+                _install_reboot
                 exit 0
                 ;;
             [nN][oO]|[nN])

@@ -1,0 +1,32 @@
+function _install_reboot()
+{
+    printf "%s\n" \
+        "" "After a full install i suggest a reboot so that you can run" \
+        "configure without issues." ""
+
+    while :
+    do
+        read -p "Shall we reboot the system ? (Yes or No): " _FULL_INIT
+        case ${_FULL_INIT} in
+            [yY][eE][sS]|[yY])
+                _storage
+                _apt
+
+                for ITER in "${_menuINSTALL[@]}"
+                do
+                    _${ITER}_install
+                done
+
+                _finish
+                _clean
+                exit 0
+                ;;
+            [nN][oO]|[nN])
+                exit 1
+                ;;
+            * )
+                printf "%s\n" "Please answer Yes or No."
+                ;;
+        esac
+    done
+}
