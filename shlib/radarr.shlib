@@ -122,6 +122,7 @@ function _radarr_remove()
         systemctl disable ${_FNC_NAME}
         sleep 5
         rm -r /opt/Radarr/
+        rm -rf /home/${_FNC_NAME}
         rm /lib/systemd/system/radarr.service
         systemctl daemon-reload
 

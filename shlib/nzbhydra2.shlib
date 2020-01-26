@@ -118,6 +118,7 @@ function _nzbhydra2_remove()
         systemctl disable ${_FNC_NAME}
         sleep 5
         rm -r /opt/nzbhydra2
+        rm -rf /home/${_FNC_NAME}
         rm /lib/systemd/system/nzbhydra2.service
         systemctl daemon-reload
 

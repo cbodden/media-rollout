@@ -131,6 +131,7 @@ function _sabnzbdplus_remove()
         systemctl disable ${_FNC_NAME}
         sleep 5
         rm /etc/default/sabnzbdplus
+        rm -rf /home/sabnzbd
         apt remove \
             sabnzbdplus \
             python-sabyenc \

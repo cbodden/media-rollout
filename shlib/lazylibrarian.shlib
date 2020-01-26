@@ -95,6 +95,7 @@ function _lazylibrarian_remove()
         systemctl disable ${_FNC_NAME}
         sleep 5
         rm -r /opt/LazyLibrarian/
+        rm -rf /home/${_FNC_NAME}
         rm /etc/default/lazylibrarian
         rm /etc/init.d/lazylibrarian
         systemctl daemon-reload

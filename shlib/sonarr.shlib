@@ -109,6 +109,7 @@ function _sonarr_remove()
         systemctl disable ${_FNC_NAME}
         sleep 5
         rm -r /opt/NzbDrone
+        rm -rf /home/${_FNC_NAME}
         rm /lib/systemd/system/sonarr.service
         systemctl daemon-reload
 

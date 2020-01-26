@@ -64,6 +64,7 @@ function _tautulli_remove()
         systemctl disable ${_FNC_NAME}
         sleep 5
         rm -r /opt/Tautulli
+        rm -rf /home/${_FNC_NAME}
         rm /lib/systemd/system/tautulli.service
         systemctl daemon-reload
 
