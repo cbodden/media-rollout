@@ -137,6 +137,11 @@ function _sabnzbdplus_remove()
             par2-tbb \
             -y
 
+        apt purge \
+            --auto-remove \
+            sabnzbdplus \
+            -y
+
         systemctl daemon-reload
 
         userdel sabnzbd
