@@ -1,6 +1,5 @@
 function _usage()
 {
-    clear
     cat <<EOF
 NAME
     ${PROGNAME}

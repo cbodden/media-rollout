@@ -23,10 +23,11 @@ do
 done
 
 ## option selection
-while getopts "hit" OPT
+while getopts "hi" OPT
 do
     case "${OPT}" in
         'h')
+            clear
             _usage
             ;;
         'i')
@@ -35,6 +36,7 @@ do
             _menu
             ;;
         *)
+            clear
             _usage
             exit 0
             ;;
