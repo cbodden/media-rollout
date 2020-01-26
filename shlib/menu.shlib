@@ -109,7 +109,7 @@ function _menuTV()
     _CNT=0
     for ITER in "${_TV[@]}"
     do
-        echo [${_CNT}] $(echo ${ITER})
+        echo "[${_CNT}] $(echo ${ITER})"
         _CNT=$((_CNT+1))
     done
 
@@ -148,7 +148,7 @@ function _menuMVS()
     _CNT=0
     for ITER in "${_MVS[@]}"
     do
-        echo [${_CNT}] $(echo ${ITER})
+        echo "[${_CNT}] $(echo ${ITER})"
         _CNT=$((_CNT+1))
     done
 
@@ -191,7 +191,7 @@ function _menuSBT()
     _CNT=0
     for ITER in "${_SBT[@]}"
     do
-        echo [${_CNT}] $(echo ${ITER})
+        echo "[${_CNT}] $(echo ${ITER})"
         _CNT=$((_CNT+1))
     done
 
@@ -230,7 +230,7 @@ function _menuMUSIC()
     _CNT=0
     for ITER in "${_MUSIC[@]}"
     do
-        echo [${_CNT}] $(echo ${ITER})
+        echo "[${_CNT}] $(echo ${ITER})"
         _CNT=$((_CNT+1))
     done
 
@@ -268,7 +268,7 @@ function _menuDLOAD()
     _CNT=0
     for ITER in "${_DLOAD[@]}"
     do
-        echo [${_CNT}] $(echo ${ITER})
+        echo "[${_CNT}] $(echo ${ITER})"
         _CNT=$((_CNT+1))
     done
 
@@ -306,7 +306,7 @@ function _menuSRCH()
     _CNT=0
     for ITER in "${_SRCH[@]}"
     do
-        echo [${_CNT}] $(echo ${ITER})
+        echo "[${_CNT}] $(echo ${ITER})"
         _CNT=$((_CNT+1))
     done
 
@@ -344,7 +344,7 @@ function _menuBOOKS()
     _CNT=0
     for ITER in "${_BOOKS[@]}"
     do
-        echo [${_CNT}] $(echo ${ITER})
+        echo "[${_CNT}] $(echo ${ITER})"
         _CNT=$((_CNT+1))
     done
 
@@ -382,7 +382,7 @@ function _menuMSERV()
     _CNT=0
     for ITER in "${_MSERV[@]}"
     do
-        echo [${_CNT}] $(echo ${ITER})
+        echo "[${_CNT}] $(echo ${ITER})"
         _CNT=$((_CNT+1))
     done
 
@@ -425,7 +425,7 @@ function _menuTTL()
     _CNT=0
     for ITER in "${_TTL[@]}"
     do
-        echo [${_CNT}] $(echo ${ITER})
+        echo "[${_CNT}] $(echo ${ITER})"
         _CNT=$((_CNT+1))
     done
 
@@ -462,7 +462,7 @@ function _menuRUN()
 
     for ITER in "${_menuINSTALL[@]}"
     do
-        echo ${ITER}
+        echo "${ITER}"
     done
 
     while :
