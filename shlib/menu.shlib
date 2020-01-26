@@ -73,11 +73,10 @@ function _menu()
 
 function _menuCONF()
 {
-    declare -a _CONF=( "lazylibrarian" "lidarr" "sabnzbdplus" "nzbhydra2" "sonarr" "radarr" )
+    declare -a _CONF=( "sabnzbdplus" "nzbhydra2" "lazylibrarian" "lidarr" "sonarr" "radarr" )
 
     for ITER in "${_CONF}"
     do
-        echo "Configuring ${ITER}"
         _${ITER}_configure
     done
 
