@@ -26,6 +26,8 @@ function _plexmediaserver_remove()
 
         _pause
 
+        dpkg -P ${_FNC_NAME}
+
         dpkg -r ${_FNC_NAME}
 
         rm -r /var/lib/plexmediaserver
