@@ -9,16 +9,8 @@ SYNOPSIS
     ${PROGNAME} [OPTION] ...
 
 DESCRIPTION
-    This script is used to deploy and configure:
-    Bazarr
-    LazyLibrarian
-    Lidarr
-    NZBHydra2
-    Plex Media Server
-    Radarr
-    SABnzbd
-    Sonarr
-    Tautulli
+    This script is used to either deploy, configure, or remove either the
+        media stack or bits and pieces.
 
 OPTIONS
     -h
@@ -27,14 +19,8 @@ OPTIONS
 
     -i
             Install / Menu
-            This option brings up the menu to select either Install, Configure, Delete, or Exit
-            This option needs to be run before before "-c".
-
-    -c
-            Configure
-            This option goes through the services and configures them
-            to a default state but all talking to each other.
-            This option must be run only after running with "-i".
+            This option brings up the menu to select either:
+            Install, Configure, Delete, or Exit
 
     -r
             Remove

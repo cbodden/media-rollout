@@ -75,7 +75,7 @@ function _menuCONF()
 {
     declare -a _CONF=( "sabnzbdplus" "nzbhydra2" "lazylibrarian" "lidarr" "sonarr" "radarr" )
 
-    for ITER in "${_CONF}"
+    for ITER in "${_CONF[@]}"
     do
         _${ITER}_configure
     done

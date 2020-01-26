@@ -23,15 +23,9 @@ do
 done
 
 ## option selection
-while getopts "chit" OPT
+while getopts "hit" OPT
 do
     case "${OPT}" in
-        'c')
-            main
-            _sabnzbd_configure
-            _finish_configure
-            exit 0
-            ;;
         'h')
             _usage
             ;;
