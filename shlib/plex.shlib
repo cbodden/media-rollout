@@ -24,8 +24,6 @@ function _plexmediaserver_remove()
         printf "%s\n" \
             "[${RED}***${CLR}] ${_FNC_NAME} IS ABOUT TO BE REMOVED"
 
-        _pause
-
         dpkg -P ${_FNC_NAME}
 
         dpkg -r ${_FNC_NAME}

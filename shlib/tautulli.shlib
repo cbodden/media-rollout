@@ -2,45 +2,45 @@ _SERVICE_NAME+=( "tautulli:8181" )
 
 function _tautulli_install()
 {
-	local _FNC_NAME=$(echo ${FUNCNAME} \
-		| cut -d_ -f2)
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ -f2)
 
-	getent group downloads || groupadd downloads
+    getent group downloads || groupadd downloads
 
-	if [ -z "$(getent passwd ${_FNC_NAME})" ]
-	then
-		addgroup ${_FNC_NAME}
-		adduser --system ${_FNC_NAME} --ingroup ${_FNC_NAME}
-		usermod -a -G downloads ${_FNC_NAME}
-	fi
+    if [ -z "$(getent passwd ${_FNC_NAME})" ]
+    then
+        addgroup ${_FNC_NAME}
+        adduser --system ${_FNC_NAME} --ingroup ${_FNC_NAME}
+        usermod -a -G downloads ${_FNC_NAME}
+    fi
 
-	cd /opt/
-	git clone https://github.com/Tautulli/Tautulli.git
-	chown -R tautulli:tautulli Tautulli/
+    cd /opt/
+    git clone https://github.com/Tautulli/Tautulli.git
+    chown -R tautulli:tautulli Tautulli/
 
-	cat <<EOF >/lib/systemd/system/tautulli.service
-	[Unit]
-	Description=Tautulli - Stats for Plex Media Server usage
-	Wants=network-online.target
-	After=network-online.target
+    cat <<EOF >/lib/systemd/system/tautulli.service
+    [Unit]
+    Description=Tautulli - Stats for Plex Media Server usage
+    Wants=network-online.target
+    After=network-online.target
 
-	[Service]
-	ExecStart=/opt/Tautulli/Tautulli.py --config /home/tautulli/Tautulli.ini --datadir /home/tautulli --quiet --daemon --nolaunch
-	GuessMainPID=no
-	Type=forking
-	User=tautulli
-	Group=tautulli
-	Restart=on-abnormal
-	RestartSec=5
-	StartLimitInterval=90
-	StartLimitBurst=3
+    [Service]
+    ExecStart=/opt/Tautulli/Tautulli.py --config /home/tautulli/Tautulli.ini --datadir /home/tautulli --quiet --daemon --nolaunch
+    GuessMainPID=no
+    Type=forking
+    User=tautulli
+    Group=tautulli
+    Restart=on-abnormal
+    RestartSec=5
+    StartLimitInterval=90
+    StartLimitBurst=3
 
-	[Install]
-	WantedBy=multi-user.target
+    [Install]
+    WantedBy=multi-user.target
 EOF
 
-	systemctl daemon-reload
-	systemctl enable ${_FNC_NAME}
+    systemctl daemon-reload
+    systemctl enable ${_FNC_NAME}
 }
 
 function _tautulli_remove()
@@ -56,8 +56,6 @@ function _tautulli_remove()
     else
         printf "%s\n" \
             "[${RED}***${CLR}] ${_FNC_NAME} IS ABOUT TO BE REMOVED"
-
-        _pause
 
         systemctl stop ${_FNC_NAME}
         systemctl kill ${_FNC_NAME}

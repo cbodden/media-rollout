@@ -102,8 +102,6 @@ function _sonarr_remove()
         printf "%s\n" \
             "[${RED}***${CLR}] ${_FNC_NAME} IS ABOUT TO BE REMOVED"
 
-        _pause
-
         systemctl stop ${_FNC_NAME}
         systemctl kill ${_FNC_NAME}
         systemctl disable ${_FNC_NAME}
