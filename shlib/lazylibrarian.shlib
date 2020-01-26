@@ -41,6 +41,7 @@ function _lazylibrarian_configure()
         printf "%s\n" \
             "[${RED}***${CLR}] Configuring ${_FNC_NAME}"
 
+        rm -rf ${_LL_HOME}/*
         systemctl start ${_FNC_NAME}
         sleep 5
         systemctl stop ${_FNC_NAME}
