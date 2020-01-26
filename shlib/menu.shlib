@@ -78,7 +78,10 @@ function _menuCONF()
 
     for ITER in "${_CONF[@]}"
     do
-        _${ITER}_configure
+        if [[ ! -z $(systemctl status ${ITER} | grep Active) ]]
+        then
+            _${ITER}_configure
+        fi
     done
 
     _finish_configure
