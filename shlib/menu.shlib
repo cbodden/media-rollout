@@ -17,7 +17,7 @@ function _menu()
     _CNT=0
     for ITER in "${_SELECT[@]}"
     do
-        echo [${_CNT}] $(echo ${ITER})
+        echo "[${_CNT}] $(echo ${ITER})"
         _CNT=$((_CNT+1))
     done
 
