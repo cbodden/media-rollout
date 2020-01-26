@@ -61,11 +61,12 @@ function _lidarr_configure()
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)
 
-    local _SRVC_CHECK=$(systemctl cat ${_FNC_NAME} 2>&1 \
-        | wc -l)
-
-    if [[ ${_SRVC_CHECK} -gt "2" ]]
+    if [[ -z $(systemctl status ${_FNC_NAME}) ]]
     then
+        printf "%s\n" \
+            "[${RED}***${CLR}] ${_FNC_NAME} not installed"
+
+    else
         printf "%s\n" \
             "[${RED}***${CLR}] Configuring ${_FNC_NAME}"
 
@@ -95,10 +96,6 @@ function _lidarr_configure()
 
         printf "%s\n" \
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
-
-    else
-        printf "%s\n" \
-            "[${RED}***${CLR}] ${_FNC_NAME} not installed"
 
     fi
 }

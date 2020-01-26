@@ -38,56 +38,54 @@ function _sonarr_install()
 	WantedBy=multi-user.target
 EOF
 
-	chown -R sonarr:downloads /${_PATH}/tv
-	systemctl daemon-reload
-	systemctl enable ${_FNC_NAME}
+    chown -R sonarr:downloads /${_PATH}/tv
+    systemctl daemon-reload
+    systemctl enable ${_FNC_NAME}
 }
 
 function _sonarr_configure()
 {
-	local _FNC_NAME=$(echo ${FUNCNAME} \
-		| cut -d_ -f2)
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ -f2)
 
-	local _SRVC_CHECK=$(systemctl cat ${_FNC_NAME} 2>&1 \
-		| wc -l)
+    if [[ -z $(systemctl status ${_FNC_NAME}) ]]
+    then
+        printf "%s\n" \
+            "[${RED}***${CLR}] ${_FNC_NAME} not installed"
 
-	if [[ ${_SRVC_CHECK} -gt "2" ]]
-	then
-		printf "%s\n" \
-			"[${RED}***${CLR}] Configuring ${_FNC_NAME}"
+    else
+        printf "%s\n" \
+            "[${RED}***${CLR}] Configuring ${_FNC_NAME}"
 
-		systemctl start ${_FNC_NAME}
-		sleep 5
-		systemctl stop ${_FNC_NAME}
+        systemctl stop ${_FNC_NAME}
+        systemctl start ${_FNC_NAME}
+        sleep 5
+        systemctl stop ${_FNC_NAME}
 
-		local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
-			| awk '/^api_key/ {print $3}')
+        local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
+            | awk '/^api_key/ {print $3}')
 
-		local _NH_API=$(yq read ${_NH_HOME}/nzbhydra.yml main.apiKey)
+        local _NH_API=$(yq read ${_NH_HOME}/nzbhydra.yml main.apiKey)
 
-		rm -rf ${_SR_HOME}/*
+        rm -rf ${_SR_HOME}/*
 
-		cat ${PROGDIR}/config_files/sonarr_BASE-EDIT.sql \
-			| sed "/\bSABnzbd\b/s|\bRM_SH\b|${_IP}|g" \
-			| sed "/\bSABnzbd\b/s/\bRM_SP\b/8080/g" \
-			| sed "/\bSABnzbd\b/s/\bRM_SA\b/${_SAB_API}/g" \
-			| sed "/\bNZBHydra2\b/s|\bRM_NH\b|${_IP}|g" \
-			| sed "/\bNZBHydra2\b/s/\bRM_NP\b/5076/g" \
-			| sed "/\bNZBHydra2\b/s/\bRM_NA\b/${_NH_API}/g" \
-			>> ${_SR_HOME}/nzbdrone.sql
+        cat ${PROGDIR}/config_files/sonarr_BASE-EDIT.sql \
+            | sed "/\bSABnzbd\b/s|\bRM_SH\b|${_IP}|g" \
+            | sed "/\bSABnzbd\b/s/\bRM_SP\b/8080/g" \
+            | sed "/\bSABnzbd\b/s/\bRM_SA\b/${_SAB_API}/g" \
+            | sed "/\bNZBHydra2\b/s|\bRM_NH\b|${_IP}|g" \
+            | sed "/\bNZBHydra2\b/s/\bRM_NP\b/5076/g" \
+            | sed "/\bNZBHydra2\b/s/\bRM_NA\b/${_NH_API}/g" \
+            >> ${_SR_HOME}/nzbdrone.sql
 
-		echo .exit | sqlite3 -init ${_SR_HOME}/nzbdrone.sql ${_SR_HOME}/nzbdrone.db
-		chown -R sonarr:sonarr ${_SR_HOME}
-		systemctl start ${_FNC_NAME}
+        echo .exit | sqlite3 -init ${_SR_HOME}/nzbdrone.sql ${_SR_HOME}/nzbdrone.db
+        chown -R sonarr:sonarr ${_SR_HOME}
+        systemctl start ${_FNC_NAME}
 
-		printf "%s\n" \
-			"[${BLU}***${CLR}] ${_FNC_NAME} configured"
+        printf "%s\n" \
+            "[${BLU}***${CLR}] ${_FNC_NAME} configured"
 
-	else
-		printf "%s\n" \
-			"[${RED}***${CLR}] ${_FNC_NAME} not installed"
-
-	fi
+    fi
 }
 
 function _sonarr_remove()
@@ -118,6 +116,7 @@ function _sonarr_remove()
 
         printf "%s\n" \
             "[${BLU}***${CLR}] ${_FNC_NAME} HAS BEEN REMOVED"
+
 
     fi
 }
