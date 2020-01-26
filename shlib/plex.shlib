@@ -15,7 +15,7 @@ function _plexmediaserver_remove()
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)
 
-    if [[ -z $(systemctl status ${_FNC_NAME}) ]]
+    if [[ -z $(systemctl status ${_FNC_NAME}) | grep Active ]]
     then
         printf "%s\n" \
             "[${BLU}***${CLR}] ${_FNC_NAME} NOT INSTALLED OR DAMAGED"
