@@ -1,4 +1,5 @@
 _SERVICE_NAME+=( "nzbhydra2:5076" )
+_SERVICE_ID+=( "SRCH_nzbhydra2:5076" )
 
 readonly _NH_HOME="/home/hydra/.nzbhydra2_data"
 

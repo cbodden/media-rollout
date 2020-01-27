@@ -1,4 +1,5 @@
 _SERVICE_NAME+=( "plexmediaserver:32400" )
+_SERVICE_ID+=( "MSERV_plexmediaserver:32400" )
 
 function _plexmediaserver_install()
 {

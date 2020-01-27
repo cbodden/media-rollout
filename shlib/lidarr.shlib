@@ -1,4 +1,5 @@
 _SERVICE_NAME+=( "lidarr:8686" )
+_SERVICE_ID+=( "MUSIC_lidarr:8686" )
 
 readonly _LR_HOME="/home/lidarr/.config/Lidarr"
 
