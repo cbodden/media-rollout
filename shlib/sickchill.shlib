@@ -1,7 +1,7 @@
-_SERVICE_NAME+=( "sickrage:8081" )
-_SERVICE_ID+=( "TV_sickrage:8081" )
+_SERVICE_NAME+=( "sickchill:8081" )
+_SERVICE_ID+=( "TV_sickchill:8081" )
 
-function _sickrage_install()
+function _sickchill_install()
 {
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)
@@ -16,33 +16,18 @@ function _sickrage_install()
     fi
 
     cd /opt/
-    git clone https://github.com/SickRage/SickRage.git /opt/sickrage
-    chown -R sickrage:sickrage /opt/sickrage/
+    git clone https://github.com/sickchill/sickchill.git /opt/sickchill
+    chown -R sickchill:sickchill /opt/sickchill/
 
-    cat <<EOF >/lib/systemd/system/sickrage.service
-    [Unit]
-    Description=SickRage Daemon
-    After=network-online.target
-
-    [Service]
-    User=sickrage
-    Group=sickrage
-
-    Type=forking
-    GuessMainPID=no
-    ExecStart=/usr/bin/python3 /opt/sickrage/SiCKRAGE.py -q --daemon --nolaunch --datadir=/opt/sickrage
-    Restart=on-failure
-    TimeoutStopSec=300
-
-    [Install]
-    WantedBy=multi-user.target
-EOF
+    cp -v \
+        /opt/sickchill/runscripts/init.systemd \
+        /etc/systemd/system/sickchill.service
 
     systemctl daemon-reload
     systemctl enable ${_FNC_NAME}
 }
 
-function _sickrage_remove()
+function _sickchill_remove()
 {
     local _FNC_NAME=$(echo ${FUNCNAME} \
         | cut -d_ -f2)
@@ -60,9 +45,9 @@ function _sickrage_remove()
         systemctl kill ${_FNC_NAME}
         systemctl disable ${_FNC_NAME}
         sleep 5
-        rm -r /opt/sickrage
+        rm -r /opt/sickchill
         rm -rf /home/${_FNC_NAME}
-        rm /etc/systemd/system/sickrage.service
+        rm /etc/systemd/system/sickchill.service
         systemctl daemon-reload
 
         userdel ${_FNC_NAME}
