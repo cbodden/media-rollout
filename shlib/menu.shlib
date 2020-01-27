@@ -90,8 +90,10 @@ function _menuCONF()
 
 function _menuREMOVE()
 {
-    declare -a _REMOVE=( "sabnzbdplus" "nzbhydra2" "lazylibrarian" "lidarr" )
-    _REMOVE+=( "sonarr" "radarr" "plexmediaserver" "bazarr" "tautulli" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _REMOVE+=($(echo ${ITER} | cut -d_ -f2 | cut -d: -f1 ))
+    done
 
     for ITER in "${_REMOVE[@]}"
     do
@@ -109,12 +111,8 @@ function _menuTV()
     declare -a _TV=( "none" )
     for ITER in "${_SERVICE_ID[@]}"
     do
-        _TV+=( $(echo ${ITER} \
-            | grep ^TV \
-            | cut -d_ -f2 \
-            | cut -d: -f1 \
-            ))
-        done
+        _TV+=( $(echo ${ITER} | grep ^TV | cut -d_ -f2 | cut -d: -f1 ))
+    done
 
     _CNT=0
     for ITER in "${_TV[@]}"
@@ -155,12 +153,8 @@ function _menuMVS()
     declare -a _MVS=( "none" )
     for ITER in "${_SERVICE_ID[@]}"
     do
-        _MVS+=( $(echo ${ITER} \
-            | grep ^MVS \
-            | cut -d_ -f2 \
-            | cut -d: -f1 \
-            ))
-        done
+        _MVS+=( $(echo ${ITER} | grep ^MVS | cut -d_ -f2 | cut -d: -f1 ))
+    done
 
     _CNT=0
     for ITER in "${_MVS[@]}"
@@ -206,12 +200,8 @@ function _menuSBT()
     declare -a _SBT=( "none" )
     for ITER in "${_SERVICE_ID[@]}"
     do
-        _SBT+=( $(echo ${ITER} \
-            | grep ^SBT \
-            | cut -d_ -f2 \
-            | cut -d: -f1 \
-            ))
-        done
+        _SBT+=( $(echo ${ITER} | grep ^SBT | cut -d_ -f2 | cut -d: -f1 ))
+    done
 
     _CNT=0
     for ITER in "${_SBT[@]}"
@@ -252,12 +242,8 @@ function _menuMUSIC()
     declare -a _MUSIC=( "none" )
     for ITER in "${_SERVICE_ID[@]}"
     do
-        _MUSIC+=( $(echo ${ITER} \
-            | grep ^MUSIC \
-            | cut -d_ -f2 \
-            | cut -d: -f1 \
-            ))
-        done
+        _MUSIC+=( $(echo ${ITER} | grep ^MUSIC | cut -d_ -f2 | cut -d: -f1 ))
+    done
 
     _CNT=0
     for ITER in "${_MUSIC[@]}"
@@ -298,12 +284,8 @@ function _menuDLOAD()
     declare -a _DLOAD=( "none" )
     for ITER in "${_SERVICE_ID[@]}"
     do
-        _DLOAD+=( $(echo ${ITER} \
-            | grep ^DLOAD \
-            | cut -d_ -f2 \
-            | cut -d: -f1 \
-            ))
-        done
+        _DLOAD+=( $(echo ${ITER} | grep ^DLOAD | cut -d_ -f2 | cut -d: -f1 ))
+    done
 
     _CNT=0
     for ITER in "${_DLOAD[@]}"
@@ -344,12 +326,8 @@ function _menuSRCH()
     declare -a _SRCH=( "none" )
     for ITER in "${_SERVICE_ID[@]}"
     do
-        _SRCH+=( $(echo ${ITER} \
-            | grep ^SRCH \
-            | cut -d_ -f2 \
-            | cut -d: -f1 \
-            ))
-        done
+        _SRCH+=( $(echo ${ITER} | grep ^SRCH | cut -d_ -f2 | cut -d: -f1 ))
+    done
 
     _CNT=0
     for ITER in "${_SRCH[@]}"
@@ -390,12 +368,8 @@ function _menuBOOKS()
     declare -a _BOOKS=( "none" )
     for ITER in "${_SERVICE_ID[@]}"
     do
-        _BOOKS+=( $(echo ${ITER} \
-            | grep ^BOOKS \
-            | cut -d_ -f2 \
-            | cut -d: -f1 \
-            ))
-        done
+        _BOOKS+=( $(echo ${ITER} | grep ^BOOKS | cut -d_ -f2 | cut -d: -f1 ))
+    done
 
     _CNT=0
     for ITER in "${_BOOKS[@]}"
@@ -436,12 +410,8 @@ function _menuMSERV()
     declare -a _MSERV=( "none" )
     for ITER in "${_SERVICE_ID[@]}"
     do
-        _MSERV+=( $(echo ${ITER} \
-            | grep ^MSERV \
-            | cut -d_ -f2 \
-            | cut -d: -f1 \
-            ))
-        done
+        _MSERV+=( $(echo ${ITER} | grep ^MSERV | cut -d_ -f2 | cut -d: -f1 ))
+    done
 
     _CNT=0
     for ITER in "${_MSERV[@]}"
@@ -487,12 +457,8 @@ function _menuTTL()
     declare -a _TTL=( "none" )
     for ITER in "${_SERVICE_ID[@]}"
     do
-        _TTL+=( $(echo ${ITER} \
-            | grep ^TTL \
-            | cut -d_ -f2 \
-            | cut -d: -f1 \
-            ))
-        done
+        _TTL+=( $(echo ${ITER} | grep ^TTL | cut -d_ -f2 | cut -d: -f1 ))
+    done
 
     _CNT=0
     for ITER in "${_TTL[@]}"
