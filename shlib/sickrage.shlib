@@ -19,7 +19,7 @@ function _sickrage_install()
     git clone https://github.com/SickRage/SickRage.git /opt/sickrage
     chown -R sickrage:sickrage /opt/sickrage/
 
-    cat <<EOF /etc/systemd/system/sickrage.service
+    cat <<EOF /lib/systemd/system/sickrage.service
     [Unit]
     Description=SickRage Daemon
     After=network-online.target
