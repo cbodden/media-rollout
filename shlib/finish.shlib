@@ -6,7 +6,7 @@ function _finish()
     _PORT_CNT=-1
     _CNT=0
 
-    for ITER in ${_SERVICE_NAME[@]}
+    for ITER in ${_INSTALLED_NAME[@]}
     do
         _SVC=${ITER%:*}
         _PORT=${ITER#*:}
@@ -61,7 +61,7 @@ function _finish_configure()
     _PORT_CNT=-1
     _CNT=0
 
-    for ITER in ${_SERVICE_NAME[@]}
+    for ITER in ${_INSTALLED_NAME[@]}
     do
         _SVC=${ITER%:*}
         _PORT=${ITER#*:}
@@ -90,7 +90,7 @@ function _finish_configure()
 
 function _clean()
 {
-    rm /opt/Lidarr*.tar.gz
-    rm /opt/Radarr*.tar.gz
-    rm /tmp/temp.deb
+    rm /opt/Lidarr*.tar.gz &>/dev/null
+    rm /opt/Radarr*.tar.gz &>/dev/null
+    rm /tmp/temp.deb &>/dev/null
 }
