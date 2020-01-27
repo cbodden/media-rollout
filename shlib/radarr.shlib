@@ -1,4 +1,5 @@
 _SERVICE_NAME+=( "radarr:7878" )
+_SERVICE_ID+=( "MVS_radarr:7878" )
 
 readonly _RD_HOME="/home/radarr/.config/Radarr"
 

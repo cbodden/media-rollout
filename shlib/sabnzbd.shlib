@@ -1,4 +1,5 @@
 _SERVICE_NAME+=( "sabnzbdplus:8080" )
+_SERVICE_ID+=( "DLOAD_sabnzbdplus:8080" )
 
 readonly _SAB_HOME="/home/sabnzbd/.sabnzbd"
 

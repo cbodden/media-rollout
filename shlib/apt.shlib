@@ -14,13 +14,23 @@ function _apt()
         git-core \
         gnupg ca-certificates \
         libchromaprint-tools \
+        libffi-dev \
+        libssl-dev \
+        libssl-dev \
+        libxml2 \
+        libxml2-dev \
+        libxslt1-dev \
+        libxslt1.1 \
         mediainfo \
         openjdk-11-jre-headless \
         python \
+        python-dev \
+        python-pip \
         python-setuptools \
         software-properties-common \
         sqlite3 \
         tzdata \
+        unrar \
         unzip \
         -y
 

@@ -1,41 +1,42 @@
 _SERVICE_NAME+=( "sonarr:8989" )
+_SERVICE_ID+=( "TV_sonarr:8989" )
 
 readonly _SR_HOME="/home/sonarr/.config/NzbDrone"
 
 function _sonarr_install()
 {
-	local _FNC_NAME=$(echo ${FUNCNAME} \
-		| cut -d_ -f2)
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ -f2)
 
     getent group downloads || groupadd downloads
 
-	if [ -z "$(getent passwd ${_FNC_NAME})" ]
-	then
-	    addgroup ${_FNC_NAME}
-	    adduser --system ${_FNC_NAME} --ingroup ${_FNC_NAME}
-	    usermod -a -G downloads ${_FNC_NAME}
-	fi
+    if [ -z "$(getent passwd ${_FNC_NAME})" ]
+    then
+        addgroup ${_FNC_NAME}
+        adduser --system ${_FNC_NAME} --ingroup ${_FNC_NAME}
+        usermod -a -G downloads ${_FNC_NAME}
+    fi
 
-	apt install nzbdrone
-	chown -R sonarr:sonarr /opt/NzbDrone/
+    apt install nzbdrone
+    chown -R sonarr:sonarr /opt/NzbDrone/
 
-	cat <<EOF >/lib/systemd/system/sonarr.service
-	[Unit]
-	Description=Sonarr Daemon
-	After=network.target
+    cat <<EOF >/lib/systemd/system/sonarr.service
+    [Unit]
+    Description=Sonarr Daemon
+    After=network.target
 
-	[Service]
-	User=sonarr
-	Group=sonarr
+    [Service]
+    User=sonarr
+    Group=sonarr
 
-	Type=simple
-	ExecStart=/usr/bin/mono /opt/NzbDrone/NzbDrone.exe -nobrowser
-	TimeoutStopSec=20
-	KillMode=process
-	Restart=on-failure
+    Type=simple
+    ExecStart=/usr/bin/mono /opt/NzbDrone/NzbDrone.exe -nobrowser
+    TimeoutStopSec=20
+    KillMode=process
+    Restart=on-failure
 
-	[Install]
-	WantedBy=multi-user.target
+    [Install]
+    WantedBy=multi-user.target
 EOF
 
     chown -R sonarr:downloads /${_PATH}/tv

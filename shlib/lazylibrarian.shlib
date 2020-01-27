@@ -1,4 +1,5 @@
 _SERVICE_NAME+=( "lazylibrarian:5299" )
+_SERVICE_ID+=( "BOOKS_lazylibrarian:5299" )
 
 readonly _LL_HOME="/home/lazylibrarian/.lazylibrarian"
 
