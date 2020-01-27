@@ -1,4 +1,3 @@
-_SERVICE_NAME+=( "bazarr:6767" )
 _SERVICE_ID+=( "SBT_bazarr:6767" )
 
 function _bazarr_install()
@@ -45,6 +44,7 @@ EOF
 
     systemctl daemon-reload
     systemctl enable ${_FNC_NAME}
+    _INSTALLED_NAME+=( "bazarr:6767" )
 }
 
 function _bazarr_remove()

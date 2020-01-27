@@ -1,4 +1,3 @@
-_SERVICE_NAME+=( "sonarr:8989" )
 _SERVICE_ID+=( "TV_sonarr:8989" )
 
 readonly _SR_HOME="/home/sonarr/.config/NzbDrone"
@@ -42,6 +41,7 @@ EOF
     chown -R sonarr:downloads /${_PATH}/tv
     systemctl daemon-reload
     systemctl enable ${_FNC_NAME}
+    _INSTALLED_NAME+=( "sonarr:8989" )
 }
 
 function _sonarr_configure()
@@ -87,6 +87,7 @@ function _sonarr_configure()
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
 
     fi
+    _CONFIGURED_NAME+=( "sonarr:8989" )
 }
 
 function _sonarr_remove()

@@ -1,4 +1,3 @@
-_SERVICE_NAME+=( "nzbhydra2:5076" )
 _SERVICE_ID+=( "SRCH_nzbhydra2:5076" )
 
 readonly _NH_HOME="/home/hydra/.nzbhydra2_data"
@@ -51,6 +50,7 @@ function _nzbhydra2_install()
     chown -R hydra:hydra /opt/nzbhydra2/
     systemctl daemon-reload
     systemctl enable ${_FNC_NAME}
+    _INSTALLED_NAME+=( "nzbhydra2:5076" )
 }
 
 function _nzbhydra2_configure()
@@ -96,6 +96,7 @@ function _nzbhydra2_configure()
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
 
     fi
+    _CONFIGURED_NAME+=( "nzbhydra2:5076" )
 }
 
 function _nzbhydra2_remove()

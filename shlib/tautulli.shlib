@@ -1,4 +1,3 @@
-_SERVICE_NAME+=( "tautulli:8181" )
 _SERVICE_ID+=( "TTL_tautulli:8181" )
 
 function _tautulli_install()
@@ -42,6 +41,7 @@ EOF
 
     systemctl daemon-reload
     systemctl enable ${_FNC_NAME}
+    _INSTALLED_NAME+=( "tautulli:8181" )
 }
 
 function _tautulli_remove()

@@ -1,4 +1,3 @@
-_SERVICE_NAME+=( "sickchill:8081" )
 _SERVICE_ID+=( "TV_sickchill:8081" )
 
 function _sickchill_install()
@@ -25,6 +24,7 @@ function _sickchill_install()
 
     systemctl daemon-reload
     systemctl enable ${_FNC_NAME}
+    _INSTALLED_NAME+=( "sickchill:8081" )
 }
 
 function _sickchill_remove()

@@ -73,14 +73,19 @@ function _menu()
 
 function _menuCONF()
 {
-    declare -a _CONF=( "sabnzbdplus" "nzbhydra2" "lazylibrarian" "lidarr" )
-    _CONF+=( "sonarr" "radarr" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _CONF+=($(echo ${ITER} | cut -d_ -f2 | cut -d: -f1 ))
+    done
 
     for ITER in "${_CONF[@]}"
     do
         if [[ ! -z $(systemctl status ${ITER} | grep Active) ]]
         then
+            if typeset -f "_${ITER}_configure" > /dev/null
+            then
             _${ITER}_configure
+            fi
         fi
     done
 
