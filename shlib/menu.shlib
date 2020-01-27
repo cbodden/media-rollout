@@ -106,8 +106,15 @@ function _menuTV()
     printf "%s\n" \
         "" "Let's start by selecting a tv show service:"
 
-    ##declare -a _TV=( "none" "sonarr" "sickbeard" "sickrage" )
-    declare -a _TV=( "none" "sonarr"  )
+    declare -a _TV=( "none" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _TV+=( $(echo ${ITER} \
+            | grep ^TV \
+            | cut -d_ -f2 \
+            | cut -d: -f1 \
+            ))
+        done
 
     _CNT=0
     for ITER in "${_TV[@]}"
@@ -145,8 +152,15 @@ function _menuMVS()
     printf "%s\n" \
         "" "Now let's add a movie service:"
 
-    ##declare -a _MVS=( "none" "radarr" "couchpotato" )
-    declare -a _MVS=( "none" "radarr" )
+    declare -a _MVS=( "none" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _MVS+=( $(echo ${ITER} \
+            | grep ^MVS \
+            | cut -d_ -f2 \
+            | cut -d: -f1 \
+            ))
+        done
 
     _CNT=0
     for ITER in "${_MVS[@]}"
@@ -189,7 +203,15 @@ function _menuSBT()
     printf "%s\n" \
         "" "Now let's add subtitle provider:"
 
-    declare -a _SBT=( "none" "bazarr" )
+    declare -a _SBT=( "none" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _SBT+=( $(echo ${ITER} \
+            | grep ^SBT \
+            | cut -d_ -f2 \
+            | cut -d: -f1 \
+            ))
+        done
 
     _CNT=0
     for ITER in "${_SBT[@]}"
@@ -227,8 +249,15 @@ function _menuMUSIC()
     printf "%s\n" \
         "" "Now let's add a music service:"
 
-    ##declare -a _MUSIC=( "none" "lidarr" "headphones" )
-    declare -a _MUSIC=( "none" "lidarr" )
+    declare -a _MUSIC=( "none" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _MUSIC+=( $(echo ${ITER} \
+            | grep ^MUSIC \
+            | cut -d_ -f2 \
+            | cut -d: -f1 \
+            ))
+        done
 
     _CNT=0
     for ITER in "${_MUSIC[@]}"
@@ -266,7 +295,15 @@ function _menuDLOAD()
     printf "%s\n" \
         "" "Now let's add a downloader:"
 
-    declare -a _DLOAD=( "none" "sabnzbdplus" )
+    declare -a _DLOAD=( "none" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _DLOAD+=( $(echo ${ITER} \
+            | grep ^DLOAD \
+            | cut -d_ -f2 \
+            | cut -d: -f1 \
+            ))
+        done
 
     _CNT=0
     for ITER in "${_DLOAD[@]}"
@@ -304,7 +341,15 @@ function _menuSRCH()
     printf "%s\n" \
         "" "Now let's add search services:"
 
-    declare -a _SRCH=( "none" "nzbhydra2" )
+    declare -a _SRCH=( "none" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _SRCH+=( $(echo ${ITER} \
+            | grep ^SRCH \
+            | cut -d_ -f2 \
+            | cut -d: -f1 \
+            ))
+        done
 
     _CNT=0
     for ITER in "${_SRCH[@]}"
@@ -342,7 +387,15 @@ function _menuBOOKS()
     printf "%s\n" \
         "" "Now let's add a book service:"
 
-    declare -a _BOOKS=( "none" "lazylibrarian" )
+    declare -a _BOOKS=( "none" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _BOOKS+=( $(echo ${ITER} \
+            | grep ^BOOKS \
+            | cut -d_ -f2 \
+            | cut -d: -f1 \
+            ))
+        done
 
     _CNT=0
     for ITER in "${_BOOKS[@]}"
@@ -380,7 +433,15 @@ function _menuMSERV()
     printf "%s\n" \
         "" "Now let's add a media server:"
 
-    declare -a _MSERV=( "none" "plexmediaserver" )
+    declare -a _MSERV=( "none" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _MSERV+=( $(echo ${ITER} \
+            | grep ^MSERV \
+            | cut -d_ -f2 \
+            | cut -d: -f1 \
+            ))
+        done
 
     _CNT=0
     for ITER in "${_MSERV[@]}"
@@ -423,7 +484,15 @@ function _menuTTL()
     printf "%s\n" \
         "" "Now let's add metrics for Plex:"
 
-    declare -a _TTL=( "none" "tautulli" )
+    declare -a _TTL=( "none" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _TTL+=( $(echo ${ITER} \
+            | grep ^TTL \
+            | cut -d_ -f2 \
+            | cut -d: -f1 \
+            ))
+        done
 
     _CNT=0
     for ITER in "${_TTL[@]}"
