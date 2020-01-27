@@ -61,7 +61,7 @@ function _finish_configure()
     _PORT_CNT=-1
     _CNT=0
 
-    for ITER in ${_INSTALLED_NAME[@]}
+    for ITER in ${_CONFIGURED_NAME[@]}
     do
         _SVC=${ITER%:*}
         _PORT=${ITER#*:}
