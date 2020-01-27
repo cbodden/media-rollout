@@ -82,9 +82,9 @@ function _menuCONF()
     do
         if [[ ! -z $(systemctl status ${ITER} | grep Active) ]]
         then
-            if typeset -f "_${ITER}_configure" > /dev/null
+            if type _${ITER}_configure &>/dev/null
             then
-            _${ITER}_configure
+                _${ITER}_configure
             fi
         fi
     done
