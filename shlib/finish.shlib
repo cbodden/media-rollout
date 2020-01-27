@@ -6,7 +6,7 @@ function _finish()
     _PORT_CNT=-1
     _CNT=0
 
-    for ITER in ${_SERVICE_NAME[@]}
+    for ITER in ${_INSTALLED_NAME[@]}
     do
         _SVC=${ITER%:*}
         _PORT=${ITER#*:}
@@ -25,7 +25,7 @@ function _finish()
     printf "%s\n" \
         "Services now setup to run on ${_IP} :"
 
-    for ITER in ${_SERVICE_NAME[@]}
+    for ITER in ${_INSTALLED_NAME[@]}
     do
         printf "[%d] %.${_SVC_CNT}s on port: %.${_PORT_CNT}s\n" \
             "$((++_CNT))" "${ITER%:*} ................" "${ITER#*:}"
@@ -35,7 +35,7 @@ function _finish()
     printf "%s\n" \
         "" "Services are not started by default :"
 
-    for ITER in ${_SERVICE_NAME[@]}
+    for ITER in ${_INSTALLED_NAME[@]}
     do
         printf "sudo systemctl restart %.${_SVC_CNT}s\n" \
             "${ITER%:*}"
@@ -51,30 +51,46 @@ function _finish()
         "/${_PATH}/downloads" \
         "/${_PATH}/downloads/complete" \
         "/${_PATH}/downloadsincomplete" "" ""
-
 }
 
 function _finish_configure()
 {
-    # clear
-    printf "%s\n" "" "" \
-        "Services now configured with username / password ${RED}admin${CLR} :" \
-        "Sabnzbd       @ ${_IP}:8080" "" \
-        "Services now configured without username / password :" \
-        "NZBHydra2     @ ${_IP}:5076" \
-        "Lidarr        @ ${_IP}:8686" \
-        "Sonarr        @ ${_IP}:8989" \
-        "Radarr        @ ${_IP}:7878" \
-        "LazyLibrarian @ ${_IP}:5299" "" \
-        "Services not configured  :" \
-        "Tautulli      @ ${_IP}:8181" \
-        "Plex          @ ${_IP}:32400" ""
+     clear
 
+    _SVC_CNT=-1
+    _PORT_CNT=-1
+    _CNT=0
+
+    for ITER in ${_CONFIGURED_NAME[@]}
+    do
+        _SVC=${ITER%:*}
+        _PORT=${ITER#*:}
+
+        if [ ${#_SVC} -gt $_SVC_CNT ]
+        then
+            _SVC_CNT=${#_SVC}
+        fi
+
+        if [ ${#_PORT} -gt $_PORT_CNT ]
+        then
+            _PORT_CNT=${#_PORT}
+        fi
+    done
+
+    printf "%s\n" \
+        "Services now configured :"
+
+    for ITER in ${_CONFIGURED_NAME[@]}
+    do
+        printf "[%d] %.${_SVC_CNT}s on port: %.${_PORT_CNT}s\n" \
+            "$((++_CNT))" "${ITER%:*} ................" "${ITER#*:}"
+
+    done
 }
 
 function _clean()
 {
-    rm /opt/Lidarr*.tar.gz
-    rm /opt/Radarr*.tar.gz
-    rm /tmp/temp.deb
+    rm /opt/Lidarr*.tar.gz &>/dev/null
+    rm /opt/Radarr*.tar.gz &>/dev/null
+    rm /tmp/temp.deb &>/dev/null
 }

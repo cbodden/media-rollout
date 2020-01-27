@@ -73,14 +73,49 @@ function _menu()
 
 function _menuCONF()
 {
-    declare -a _CONF=( "sabnzbdplus" "nzbhydra2" "lazylibrarian" "lidarr" )
-    _CONF+=( "sonarr" "radarr" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _CONF_DLOAD+=($(echo ${ITER} | awk -F'[_:]' '/^DLOAD/ {print $2}' ))
+        _CONF_SRCH+=($(echo ${ITER} | awk -F'[_:]' '/^SRCH/ {print $2}' ))
+        _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^MVS/ {print $2}' ))
+        _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^TV/ {print $2}' ))
+        _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^SBT/ {print $2}' ))
+        _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^TTL/ {print $2}' ))
+        _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^MSERV/ {print $2}' ))
+        _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^BOOKS/ {print $2}' ))
+        _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^MUSIC/ {print $2}' ))
+    done
 
-    for ITER in "${_CONF[@]}"
+    for ITER in "${_CONF_DLOAD[@]}"
     do
         if [[ ! -z $(systemctl status ${ITER} | grep Active) ]]
         then
-            _${ITER}_configure
+            if type _${ITER}_configure &>/dev/null
+            then
+                _${ITER}_configure
+            fi
+        fi
+    done
+
+    for ITER in "${_CONF_SRCH[@]}"
+    do
+        if [[ ! -z $(systemctl status ${ITER} | grep Active) ]]
+        then
+            if type _${ITER}_configure &>/dev/null
+            then
+                _${ITER}_configure
+            fi
+        fi
+    done
+
+    for ITER in "${_CONF_ALL[@]}"
+    do
+        if [[ ! -z $(systemctl status ${ITER} | grep Active) ]]
+        then
+            if type _${ITER}_configure &>/dev/null
+            then
+                _${ITER}_configure
+            fi
         fi
     done
 

@@ -1,4 +1,3 @@
-_SERVICE_NAME+=( "sabnzbdplus:8080" )
 _SERVICE_ID+=( "DLOAD_sabnzbdplus:8080" )
 
 readonly _SAB_HOME="/home/sabnzbd/.sabnzbd"
@@ -36,6 +35,7 @@ function _sabnzbdplus_install()
     chown -R sabnzbd:downloads /${_PATH}/downloads/
     systemctl daemon-reload
     systemctl enable ${_FNC_NAME}
+    _INSTALLED_NAME+=( "sabnzbdplus:8080" )
 }
 
 function _sabnzbdplus_configure()
@@ -109,6 +109,7 @@ function _sabnzbdplus_configure()
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
 
     fi
+    _CONFIGURED_NAME+=( "sabnzbdplus:8080" )
 }
 
 function _sabnzbdplus_remove()

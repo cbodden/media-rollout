@@ -1,4 +1,3 @@
-_SERVICE_NAME+=( "lazylibrarian:5299" )
 _SERVICE_ID+=( "BOOKS_lazylibrarian:5299" )
 
 readonly _LL_HOME="/home/lazylibrarian/.lazylibrarian"
@@ -27,6 +26,7 @@ function _lazylibrarian_install()
     chown -R lazylibrarian:downloads /${_PATH}/books
     chmod a+x /etc/init.d/lazylibrarian
     update-rc.d ${_FNC_NAME} defaults
+    _INSTALLED_NAME+=( "lazylibrarian:5299" )
 }
 
 function _lazylibrarian_configure()
@@ -73,6 +73,7 @@ function _lazylibrarian_configure()
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
 
     fi
+    _CONFIGURED_NAME+=( "lazylibrarian:5299" )
 }
 
 function _lazylibrarian_remove()

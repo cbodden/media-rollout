@@ -1,4 +1,3 @@
-_SERVICE_NAME+=( "lidarr:8686" )
 _SERVICE_ID+=( "MUSIC_lidarr:8686" )
 
 readonly _LR_HOME="/home/lidarr/.config/Lidarr"
@@ -55,6 +54,7 @@ EOF
     chown -R lidarr:downloads /${_PATH}/music
     systemctl daemon-reload
     systemctl enable ${_FNC_NAME}
+    _INSTALLED_NAME+=( "lidarr:8686" )
 }
 
 function _lidarr_configure()
@@ -99,6 +99,7 @@ function _lidarr_configure()
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
 
     fi
+    _CONFIGURED_NAME+=( "lidarr:8686" )
 }
 
 function _lidarr_remove()

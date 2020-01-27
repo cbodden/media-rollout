@@ -1,4 +1,3 @@
-_SERVICE_NAME+=( "plexmediaserver:32400" )
 _SERVICE_ID+=( "MSERV_plexmediaserver:32400" )
 
 function _plexmediaserver_install()
@@ -9,6 +8,7 @@ function _plexmediaserver_install()
         -o /tmp/temp.deb
 
     dpkg -i /tmp/temp.deb
+    _INSTALLED_NAME+=( "plexmediaserver:32400" )
 }
 
 function _plexmediaserver_remove()
