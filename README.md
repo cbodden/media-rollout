@@ -35,6 +35,10 @@ sudo ./media-rollout
   * Install
   * Configure
   * Remove
+* This script was tested on:
+  * Ubuntu 18 desktop and server
+  * Ubuntu 19 desktop and server
+
 
 ## Services supported by this script as of time of writing (27-JAN-20):
 * Sabnzbd
