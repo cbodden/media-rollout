@@ -1,4 +1,4 @@
-_SERVICE_ID+=( "BOOKS_ubooquity:2203" )
+_SERVICE_ID+=( "BSERV_ubooquity:2203" )
 
 function _ubooquity_install()
 {

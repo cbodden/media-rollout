@@ -43,15 +43,11 @@ function _menu()
 
     case ${_SELECT_ACTION} in
         'install')
-            _menuTV
-            _menuMVS
-            _menuSBT
-            _menuMUSIC
-            _menuDLOAD
-            _menuSRCH
-            _menuBOOKS
-            _menuMSERV
-            _menuTTL
+            for ITER in DLOAD SRCH TV MVS SBT MUSIC MSERV TTL BOOKS BSERV
+            do
+                _menu${ITER}
+            done
+
             _menuRUN
             exit 0
             ;;
@@ -81,6 +77,7 @@ function _menuCONF()
         _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^TV/ {print $2}' ))
         _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^SBT/ {print $2}' ))
         _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^TTL/ {print $2}' ))
+        _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^BSERV/ {print $2}' ))
         _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^MSERV/ {print $2}' ))
         _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^BOOKS/ {print $2}' ))
         _CONF_ALL+=($(echo ${ITER} | awk -F'[_:]' '/^MUSIC/ {print $2}' ))
@@ -437,6 +434,48 @@ function _menuBOOKS()
     done
 }
 
+function _menuBSERV()
+{
+    printf "%s\n" \
+        "" "Now let's add a book server:"
+
+    declare -a _BSERV=( "none" )
+    for ITER in "${_SERVICE_ID[@]}"
+    do
+        _BSERV+=( $(echo ${ITER} | grep ^BSERV | cut -d_ -f2 | cut -d: -f1 ))
+    done
+
+    _CNT=0
+    for ITER in "${_BSERV[@]}"
+    do
+        echo "[${_CNT}] $(echo ${ITER})"
+        _CNT=$((_CNT+1))
+    done
+
+    _CNT=$((_CNT-1))
+    while :
+    do
+        read -p "Choose a book server by number (only one): " _BSERV_READ
+        if [[ ! -z ${_BSERV_READ} ]]
+        then
+            if ((_BSERV_READ >= 0 && _BSERV_READ <= ${_CNT}))
+            then
+                if [[ "${_BSERV_READ}" -ge 1 ]]
+                then
+                    _menuINSTALL+=( "${_BSERV[${_BSERV_READ}]}" )
+                fi
+                break
+            else
+                printf "%s\n" \
+                    "Not a menu option. Try again."
+            fi
+        else
+            printf "%s\n" \
+                "Not a menu option. Try again."
+        fi
+    done
+}
+
 function _menuMSERV()
 {
     printf "%s\n" \
@@ -458,7 +497,7 @@ function _menuMSERV()
     _CNT=$((_CNT-1))
     while :
     do
-        read -p "Choose a media service by number (only one): " _MSERV_READ
+        read -p "Choose a media server by number (only one): " _MSERV_READ
         if [[ ! -z ${_MSERV_READ} ]]
         then
             if ((_MSERV_READ >= 0 && _MSERV_READ <= ${_CNT}))
