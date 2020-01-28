@@ -28,7 +28,7 @@ function _ubooquity_install()
     After=syslog.target network.target
 
     [Service]
-    WorkingDirectory=/opt/Ubooquity
+    WorkingDirectory=/opt/ubooquity
     User=ubooquity
     Group=ubooquity
     UMask=0002
@@ -39,7 +39,6 @@ function _ubooquity_install()
     KillSignal=SIGINT
     TimeoutStopSec=20
     SyslogIdentifier=ubooquity
-    ExecStartPre=/bin/sleep 30
 
     [Install]
     WantedBy=multi-user.target
