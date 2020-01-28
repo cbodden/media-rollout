@@ -1,0 +1,82 @@
+_SERVICE_ID+=( "BOOKS_ubooquity:2203" )
+
+function _ubooquity_install()
+{
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ -f2)
+
+    getent group downloads || groupadd downloads
+
+    if [ -z "$(getent passwd ${_FNC_NAME})" ]
+    then
+        addgroup ${_FNC_NAME}
+        adduser --system ${_FNC_NAME} --ingroup ${_FNC_NAME}
+        usermod -a -G downloads ${_FNC_NAME}
+    fi
+
+    cd /opt/
+    mkdir -p /opt/${_FNC_NAME}
+    wget \
+        http://vaemendis.net/ubooquity/service/download.php \
+        -O /tmp/${_FNC_NAME}.zip
+    unzip /tmp/${_FNC_NAME}.zip -d /opt/${_FNC_NAME}/
+    chown -R ${_FNC_NAME}:${_FNC_NAME} /opt/${_FNC_NAME}/
+
+    cat <<EOF >/lib/systemd/system/ubooquity.service
+    [Unit]
+    Description=Ubooquity Daemon
+    After=syslog.target network.target
+
+    [Service]
+    WorkingDirectory=/opt/Ubooquity
+    User=ubooquity
+    Group=ubooquity
+    UMask=0002
+    Restart=on-failure
+    RestartSec=5
+    Type=simple
+    ExecStart=/usr/bin/java -jar /opt/ubooquity/Ubooquity.jar --libraryport 2202 --adminport 2203 --remoteadmin --headless
+    KillSignal=SIGINT
+    TimeoutStopSec=20
+    SyslogIdentifier=ubooquity
+    ExecStartPre=/bin/sleep 30
+
+    [Install]
+    WantedBy=multi-user.target
+EOF
+
+    systemctl daemon-reload
+    systemctl enable ${_FNC_NAME}
+    _INSTALLED_NAME+=( "ubooquity:2203" )
+}
+
+function _ubooquity_remove()
+{
+    local _FNC_NAME=$(echo ${FUNCNAME} \
+        | cut -d_ -f2)
+
+    if [[ -z $(systemctl status ${_FNC_NAME} | grep Active ) ]]
+    then
+        printf "%s\n" \
+            "[${BLU}***${CLR}] ${_FNC_NAME} NOT INSTALLED OR DAMAGED"
+
+    else
+        printf "%s\n" \
+            "[${RED}***${CLR}] ${_FNC_NAME} IS ABOUT TO BE REMOVED"
+
+        systemctl stop ${_FNC_NAME}
+        systemctl kill ${_FNC_NAME}
+        systemctl disable ${_FNC_NAME}
+        sleep 5
+        rm -r /opt/${_FNC_NAME}
+        rm -rf /home/${_FNC_NAME}
+        rm /lib/systemd/system/${_FNC_NAME}.service
+        systemctl daemon-reload
+
+        userdel ${_FNC_NAME}
+
+        printf "%s\n" \
+            "[${BLU}***${CLR}] ${_FNC_NAME} HAS BEEN REMOVED"
+
+    fi
+}
