@@ -1,10 +1,10 @@
 function _apt()
 {
-    add-apt-repository multiverse
-    add-apt-repository universe
-    add-apt-repository ppa:jcfp/nobetas
-    add-apt-repository ppa:jcfp/sab-addons
-    add-apt-repository ppa:deluge-team/stable
+    add-apt-repository -y multiverse
+    add-apt-repository -y universe
+    add-apt-repository -y ppa:jcfp/nobetas
+    add-apt-repository -y ppa:jcfp/sab-addons
+    add-apt-repository -y ppa:deluge-team/stable
     apt update -y
     apt-get dist-upgrade -y
 
@@ -24,11 +24,6 @@ function _apt()
         libxslt1-dev \
         libxslt1.1 \
         mediainfo \
-        openjdk-11-jre-headless \
-        python \
-        python-dev \
-        python-pip \
-        python-setuptools \
         software-properties-common \
         sqlite3 \
         tzdata \
