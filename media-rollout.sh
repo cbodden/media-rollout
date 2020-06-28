@@ -22,37 +22,26 @@ do
     source ${ITER}
 done
 
+clear
+
 ## option selection
 while getopts "CcDdRrGgHhIi" OPT
 do
     case "${OPT}" in
         'C'|'c')
-            main
-            _menuCONF
-            exit 0
+            _menu configure
             ;;
         'D'|'d'|'R'|'r')
-            main
-            _menuREMOVE
-            exit 0
+            _menu remove
             ;;
         'G'|'g')
-            clear
             _info >&2
-            ;;
-        'I'|'i')
-            main
-            _menu
-            for ITER in DLOAD SRCH TV MVS SBT MUSIC MSERV TTL BOOKS BSERV
-            do
-                _menu${ITER}
-            done
-
-            _menuRUN
             exit 0
             ;;
+        'I'|'i')
+            _menu install
+            ;;
         'H'|'h'|*)
-            clear
             _usage >&2
             exit 1
             ;;
@@ -60,7 +49,6 @@ do
 done
 if [[ ${OPTIND} -eq 1 ]]
 then
-    clear
     _usage >&2
     exit 1
 fi

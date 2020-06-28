@@ -1,14 +1,46 @@
-function _menu() {
-    clear
+function _menu()
+{
+    main
+    _MENU_TYPE=$1
 
-    printf "%s\n" \
-        "This script is for deploying, configuring, or deleting either an" \
-        "entire media stack or just bits and pieces of it." \
-        "" \
-        "The following prompts will ask you for options so that your setup " \
-        "can be tailored to your liking" ""
+    case "${_MENU_TYPE}" in
+        'configure')
+            printf "%s\n" \
+                "This option will now configure your install system" \
+                "" \
+            _pause
 
-    _pause
+            _menuCONF
+            exit 0
+            ;;
+         'remove')
+            printf "%s\n" \
+                "${RED}*** THIS WILL REMOVE APPLICATIONS ***${CLR}" \
+                "" \
+            _pause
+
+            _menuREMOVE
+            exit 0
+            ;;
+        'install')
+            printf "%s\n" \
+                "This script is for deploying, configuring, or deleting either an" \
+                "entire media stack or just bits and pieces of it." \
+                "" \
+                "The following prompts will ask you for options so that your setup " \
+                "can be tailored to your liking" ""
+
+            _pause
+
+            for ITER in DLOAD SRCH TV MVS SBT MUSIC MSERV TTL BOOKS BSERV
+            do
+                _menu${ITER}
+            done
+
+            _menuRUN
+            exit 0
+            ;;
+    esac
 }
 
 function _menuCONF()
