@@ -1,4 +1,6 @@
 function _menu() {
+    clear
+
     printf "%s\n" \
         "This script is for deploying, configuring, or deleting either an" \
         "entire media stack or just bits and pieces of it." \
