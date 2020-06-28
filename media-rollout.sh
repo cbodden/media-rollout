@@ -40,11 +40,6 @@ do
             clear
             _info >&2
             ;;
-        'H'|'h'|*)
-            clear
-            _usage >&2
-            exit 1
-            ;;
         'I'|'i')
             main
             _menu
@@ -55,6 +50,11 @@ do
 
             _menuRUN
             exit 0
+            ;;
+        'H'|'h'|*)
+            clear
+            _usage >&2
+            exit 1
             ;;
     esac
 done
