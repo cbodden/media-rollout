@@ -12,19 +12,26 @@ DESCRIPTION
         media stack or bits and pieces.
 
 OPTIONS
-    -h
+    -H, -h
             Help
             This option shows you this help message.
 
-    -i
-            Install / Menu
-            This option brings up the menu to select either:
-            Install, Configure, Delete, or Exit
+    -I, -i
+            Install
+            This option starts the install process.
 
-    -r
+    -C, -c
+            Configure
+            This option configures the installed applications.
+
+    -R, -r, -D, -d
             Remove
             This option goes through all the services and removes them.
             It will also remove the users and groups associated with them.
+
+    -G, -g
+            Git Info
+            This option will give you commit information on this project.
 
 EOF
 }
