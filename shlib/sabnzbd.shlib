@@ -18,7 +18,6 @@ function _sabnzbdplus_install()
 
     apt install \
         sabnzbdplus \
-        python-sabyenc \
         par2-tbb \
         -y
 

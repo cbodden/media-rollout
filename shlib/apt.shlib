@@ -4,12 +4,14 @@ function _apt()
     add-apt-repository universe
     add-apt-repository ppa:jcfp/nobetas
     add-apt-repository ppa:jcfp/sab-addons
+    add-apt-repository ppa:deluge-team/stable
     apt update -y
     apt-get dist-upgrade -y
 
     apt install \
         apt-transport-https \
         curl \
+        default-jre \
         dos2unix \
         git-core \
         gnupg ca-certificates \
@@ -33,6 +35,11 @@ function _apt()
         unrar \
         unzip \
         -y
+
+    if [ ! -f /usr/bin/python ]
+    then
+        ln -s $(which python3) /usr/bin/python
+    fi
 
     apt-key adv \
         --keyserver hkp://keyserver.ubuntu.com:80 \

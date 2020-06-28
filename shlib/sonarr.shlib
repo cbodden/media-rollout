@@ -16,7 +16,7 @@ function _sonarr_install()
         usermod -a -G downloads ${_FNC_NAME}
     fi
 
-    apt install nzbdrone
+    apt install nzbdrone -y
     chown -R sonarr:sonarr /opt/NzbDrone/
 
     cat <<EOF >/lib/systemd/system/sonarr.service

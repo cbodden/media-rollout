@@ -19,6 +19,14 @@ function main()
         exit 1
     fi
 
+    ## check for python3
+    if [ ! -f /usr/bin/python3 ]
+    then
+        clear
+        echo *** PYTHON3 NOT FOUND ***
+        exit 1
+    fi
+
     # if $SHELL == /bin/bash have some default sets
     case "$(echo $SHELL 2>/dev/null)" in
         '/bin/bash')
@@ -32,7 +40,7 @@ function main()
     trap 'echo "${NAME}: Ouch! Quitting." 1>&2 ; exit 1' 1 2 3 9 15
 
     readonly _IP=${_MEDIA_IP:-$(awk '{print $1}' <(hostname -I))}
-    readonly _PATH=${_MEDIA_PATH:-storage}
+    readonly _PATH=${_MEDIA_PATH:-"/opt/"}
     readonly _UNAME=${_CONFIG_UNAME:-admin}
     readonly _PWORD=${_CONFIG_PWORD:-admin}
     readonly _API_GEN="$(head /dev/urandom \

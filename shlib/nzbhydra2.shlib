@@ -45,7 +45,7 @@ function _nzbhydra2_install()
     sed -i "s|^WorkingDirectory=.*|WorkingDirectory=${_NH_LOCAL}|g" /lib/systemd/system/nzbhydra2.service
     sed -i 's/^User=ubuntu.*/User=hydra/' /lib/systemd/system/nzbhydra2.service
     sed -i 's/^Group=vboxsf.*/Group=hydra/' /lib/systemd/system/nzbhydra2.service
-    sed -i 's/^ExecStart=\/home\/nzbhydra\/nzbhydra2\/nzbhydra2 --nobrowser.*/ExecStart=\/usr\/bin\/python \/opt\/nzbhydra2\/nzbhydra2wrapper.py --nobrowser --datafolder \/home\/hydra\/.nzbhydra2_data/' /lib/systemd/system/nzbhydra2.service
+    sed -i 's/^ExecStart=\/home\/nzbhydra\/nzbhydra2\/nzbhydra2 --nobrowser.*/ExecStart=\/usr\/bin\/python3 \/opt\/nzbhydra2\/nzbhydra2wrapperPy3.py --nobrowser --datafolder \/home\/hydra\/.nzbhydra2_data/' /lib/systemd/system/nzbhydra2.service
 
     chown -R hydra:hydra /opt/nzbhydra2/
     systemctl daemon-reload
@@ -68,7 +68,9 @@ function _nzbhydra2_configure()
             "[${RED}***${CLR}] Configuring ${_FNC_NAME}"
 
         systemctl start ${_FNC_NAME}
+        systemctl start ${_FNC_NAME}
         sleep 5
+        systemctl stop ${_FNC_NAME}
         systemctl stop ${_FNC_NAME}
 
         local _SAB_API=$(cat ${_SAB_HOME}/sabnzbd.ini \
@@ -79,6 +81,7 @@ function _nzbhydra2_configure()
             | head -c 26)
 
         rm -rf ${_NH_HOME}/*
+        mkdir -p ${_NH_HOME}
 
         cat ${PROGDIR}/config_files/nzbhydra.yml \
             | sed "s/RM_SH/${_IP}/g" \
