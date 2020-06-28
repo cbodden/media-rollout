@@ -28,20 +28,20 @@ clear
 while getopts "CcDdRrGgHhIi" OPT
 do
     case "${OPT}" in
-        'C'|'c')
+        [Cc])
             _menu configure
             ;;
-        'D'|'d'|'R'|'r')
+        [Dd]|[Rr])
             _menu remove
             ;;
-        'G'|'g')
+        [Gg])
             _info >&2
             exit 0
             ;;
-        'I'|'i')
+        [Ii])
             _menu install
             ;;
-        'H'|'h'|*)
+        [Hh]|*)
             _usage >&2
             exit 1
             ;;
