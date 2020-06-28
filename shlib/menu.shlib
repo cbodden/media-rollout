@@ -69,7 +69,7 @@ function _menuREMOVE()
     printf "%s\n" \
         "" "${RED}***THIS WILL REMOVE ALL APPLICATIONS AND SETTINGS***${CLR} "
 
-    pause
+    _pause
 
     for ITER in "${_SERVICE_ID[@]}"
     do
