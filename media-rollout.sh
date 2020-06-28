@@ -6,7 +6,7 @@
 #   DESCRIPTION: This script rolls out a media stack
 #                Check help for description
 #       OPTIONS: Check help
-#  REQUIREMENTS: fresh ubuntu 18.04 install
+#  REQUIREMENTS: fresh ubuntu server install
 #          BUGS: probably a bunch
 #        AUTHOR: cesar@pissedoffadmins.com
 #  ORGANIZATION: pissedoffadmins.com

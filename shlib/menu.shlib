@@ -8,6 +8,7 @@ function _menu()
             printf "%s\n" \
                 "This option will now configure your install system" \
                 "" \
+
             _pause
 
             _menuCONF
@@ -17,6 +18,7 @@ function _menu()
             printf "%s\n" \
                 "${RED}*** THIS WILL REMOVE APPLICATIONS ***${CLR}" \
                 "" \
+
             _pause
 
             _menuREMOVE
