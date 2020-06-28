@@ -8,8 +8,8 @@ SYNOPSIS
     ${PROGNAME} [OPTION] ...
 
 DESCRIPTION
-    This script is used to either deploy, configure, or remove either the
-        media stack or bits and pieces.
+    This script is used to either deploy, configure, or remove the
+    media stack or bits and pieces.
 
 OPTIONS
     -H, -h
