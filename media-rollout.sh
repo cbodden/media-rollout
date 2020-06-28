@@ -32,7 +32,8 @@ do
             ;;
         'h')
             clear
-            _usage
+            _usage >&2
+            exit 1
             ;;
         'i')
             main
@@ -41,13 +42,14 @@ do
             ;;
         *)
             clear
-            _usage
-            exit 0
+            _usage >&2
+            exit 1
             ;;
     esac
 done
 if [[ ${OPTIND} -eq 1 ]]
 then
-    _usage
-    exit 0
+    clear
+    _usage >&2
+    exit 1
 fi
