@@ -23,30 +23,31 @@ do
 done
 
 ## option selection
-while getopts "CDdhIiRr" OPT
+while getopts "CcDdRrGgHhIi" OPT
 do
     case "${OPT}" in
-        'C')
+        'C'|'c')
             main
             _menuCONF
             exit 0
             ;;
-        'D'|'R'|'r')
+        'D'|'d'|'R'|'r')
             main
             _menuREMOVE
             exit 0
             ;;
-        'd')
+        'G'|'g')
             clear
             _info >&2
             ;;
-        'h')
+        'H'|'h'|*)
             clear
             _usage >&2
             exit 1
             ;;
-        'I')
+        'I'|'i')
             main
+            _menu
             for ITER in DLOAD SRCH TV MVS SBT MUSIC MSERV TTL BOOKS BSERV
             do
                 _menu${ITER}
@@ -54,16 +55,6 @@ do
 
             _menuRUN
             exit 0
-            ;;
-        'i')
-            main
-            clear
-            _menu
-            ;;
-        *)
-            clear
-            _usage >&2
-            exit 1
             ;;
     esac
 done
