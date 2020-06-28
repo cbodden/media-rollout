@@ -30,11 +30,34 @@ sudo ./media-rollout
 ```
 
 ## Usage Description
+```
+DESCRIPTION
+    This script is used to either deploy, configure, or remove the
+    media stack or bits and pieces.
 
-* When this script is run with the "-i" option it will interactively walk you through installation which includes:
-  * Install
-  * Configure
-  * Remove
+OPTIONS
+    -H, -h
+            Help
+            This option shows you this help message.
+
+    -I, -i
+            Install
+            This option starts the install process.
+
+    -C, -c
+            Configure
+            This option configures the installed applications.
+
+    -R, -r, -D, -d
+            Remove
+            This option goes through all the services and removes them.
+            It will also remove the users and groups associated with them.
+
+    -G, -g
+            Git Info
+            This option will give you commit information on this project.
+```
+
 * This script was tested on:
   * Ubuntu 18 desktop and server
   * Ubuntu 19 desktop and server
