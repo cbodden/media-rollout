@@ -64,6 +64,13 @@ function _menuCONF()
 
 function _menuREMOVE()
 {
+    clear
+
+    printf "%s\n" \
+        "" "${RED}***THIS WILL REMOVE ALL APPLICATIONS AND SETTINGS***${CLR} "
+
+    pause
+
     for ITER in "${_SERVICE_ID[@]}"
     do
         _REMOVE+=($(echo ${ITER} | cut -d_ -f2 | cut -d: -f1 ))
