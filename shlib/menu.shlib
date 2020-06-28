@@ -26,8 +26,8 @@ function _menu()
             ;;
         'install')
             printf "%s\n" \
-                "This script is for deploying, configuring, or deleting either an" \
-                "entire media stack or just bits and pieces of it." \
+                "This option will install either all or just bits of the media" \
+                "stack." \
                 "" \
                 "The following prompts will ask you for options so that your setup " \
                 "can be tailored to your liking" ""
