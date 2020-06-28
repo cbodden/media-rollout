@@ -38,6 +38,7 @@ sudo ./media-rollout
 * This script was tested on:
   * Ubuntu 18 desktop and server
   * Ubuntu 19 desktop and server
+  * Ubuntu 20 server
 
 
 ## Services supported by this script as of time of writing (27-JAN-20):
