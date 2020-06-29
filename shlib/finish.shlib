@@ -55,35 +55,77 @@ function _finish()
 
 function _finish_configure()
 {
-     clear
-
     _SVC_CNT=-1
     _PORT_CNT=-1
+    _SVC_U_CNT=1
+    _SVC_P_CNT=1
     _CNT=0
 
     for ITER in ${_CONFIGURED_NAME[@]}
     do
-        _SVC=${ITER%:*}
-        _PORT=${ITER#*:}
+        local _SVC=$(echo ${ITER} \
+            | cut -d: -f1)
+        local _PORT=$(echo ${ITER} \
+            | cut -d: -f2)
+        local _SVC_USER=$(echo ${ITER} \
+            | cut -d: -f3)
+        local _SVC_PASS=$(echo ${ITER} \
+            | cut -d: -f4)
 
         if [ ${#_SVC} -gt $_SVC_CNT ]
         then
-            _SVC_CNT=${#_SVC}
+            local _SVC_CNT=${#_SVC}
         fi
 
         if [ ${#_PORT} -gt $_PORT_CNT ]
         then
-            _PORT_CNT=${#_PORT}
+            local _PORT_CNT=${#_PORT}
         fi
+
+        if [ ${#_SVC_USER} -gt $_SVC_U_CNT ]
+        then
+            local _SVC_U_CNT=${#_SVC_USER}
+        fi
+
+        if [ ${#_SVC_PASS} -gt $_SVC_P_CNT ]
+        then
+            local _SVC_P_CNT=${#_SVC_PASS}
+        fi
+
     done
 
     printf "%s\n" \
-        "Services now configured :"
+        "" "Services now configured :"
 
     for ITER in ${_CONFIGURED_NAME[@]}
     do
+        local _I_SVC=$(echo ${ITER} \
+            | cut -d: -f1)
+        local _I_PORT=$(echo ${ITER} \
+            | cut -d: -f2)
         printf "[%d] %.${_SVC_CNT}s on port: %.${_PORT_CNT}s\n" \
-            "$((++_CNT))" "${ITER%:*} ................" "${ITER#*:}"
+            "$((++_CNT))" "${_I_SVC} ................" "${_I_PORT}"
+
+    done
+
+    _CNT=0
+
+    printf "%s\n" \
+        "" "usernames and password :"
+
+    for ITER in ${_CONFIGURED_NAME[@]}
+    do
+        local _I_SVC=$(echo ${ITER} \
+            | cut -d: -f1)
+        local _I_SVC_USER=$(echo ${ITER} \
+            | cut -d: -f3)
+        local _I_SVC_PASS=$(echo ${ITER} \
+            | cut -d: -f4)
+        printf "[%d] %.${_SVC_CNT}s :: %.${_SVC_U_CNT}s : %.${_SVC_P_CNT}s\n" \
+            "$((++_CNT))" \
+            "${_I_SVC}                 " \
+            "${_I_SVC_USER:-none}      " \
+            "${_I_SVC_PASS:-none}      "
 
     done
 }

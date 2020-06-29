@@ -87,7 +87,7 @@ function _sonarr_configure()
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
 
     fi
-    _CONFIGURED_NAME+=( "sonarr:8989" )
+    _CONFIGURED_NAME+=( "sonarr:8989:none:none" )
 }
 
 function _sonarr_remove()

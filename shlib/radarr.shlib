@@ -100,7 +100,7 @@ function _radarr_configure()
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
 
     fi
-    _CONFIGURED_NAME+=( "radarr:7878" )
+    _CONFIGURED_NAME+=( "radarr:7878::" )
 }
 
 function _radarr_remove()

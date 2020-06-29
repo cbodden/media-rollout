@@ -73,7 +73,11 @@ function _lazylibrarian_configure()
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
 
     fi
-    _CONFIGURED_NAME+=( "lazylibrarian:5299" )
+
+    local _LL_USER=$(awk '/^http_user/ {print $3}' ${_LL_HOME}/config.ini)
+    local _LL_PASS=$(awk '/^http_pass/ {print $3}' ${_LL_HOME}/config.ini)
+
+    _CONFIGURED_NAME+=( "lazylibrarian:5299:${_LL_USER}:${_LL_PASS}" )
 }
 
 function _lazylibrarian_remove()
