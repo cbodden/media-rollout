@@ -57,8 +57,8 @@ function _finish_configure()
 {
     _SVC_CNT=-1
     _PORT_CNT=-1
-    _SVC_USER_CNT=1
-    _SVC_PASS_CNT=1
+    _SVC_U_CNT=1
+    _SVC_P_CNT=1
     _CNT=0
 
     for ITER in ${_CONFIGURED_NAME[@]}
@@ -74,22 +74,22 @@ function _finish_configure()
 
         if [ ${#_SVC} -gt $_SVC_CNT ]
         then
-            _SVC_CNT=${#_SVC}
+            local _SVC_CNT=${#_SVC}
         fi
 
         if [ ${#_PORT} -gt $_PORT_CNT ]
         then
-            _PORT_CNT=${#_PORT}
+            local _PORT_CNT=${#_PORT}
         fi
 
-        if [ ${#_SVC_USER} -gt $_SVC_USER_CNT ]
+        if [ ${#_SVC_USER} -gt $_SVC_U_CNT ]
         then
-            _SVC_USER_CNT=${#_SVC_USER}
+            local _SVC_U_CNT=${#_SVC_USER}
         fi
 
-        if [ ${#_SVC_PASS} -gt $_SVC_PASS_CNT ]
+        if [ ${#_SVC_PASS} -gt $_SVC_P_CNT ]
         then
-            _SVC_PASS_CNT=${#_SVC_PASS}
+            local _SVC_P_CNT=${#_SVC_PASS}
         fi
 
     done
@@ -121,8 +121,11 @@ function _finish_configure()
             | cut -d: -f3)
         local _I_SVC_PASS=$(echo ${ITER} \
             | cut -d: -f4)
-        printf "[%d] %.${_SVC_CNT}s :: %.${_SVC_USER_CNT}s : %.${_SVC_PASS_CNT}s\n" \
-            "$((++_CNT))" "${_I_SVC}                 " "${_I_SVC_USER:-none}      " "${_I_SVC_PASS:-none}"
+        printf "[%d] %.${_SVC_CNT}s :: %.${_SVC_U_CNT}s : %.${_SVC_P_CNT}s\n" \
+            "$((++_CNT))" \
+            "${_I_SVC}                 " \
+            "${_I_SVC_USER:-none}      " \
+            "${_I_SVC_PASS:-none}      "
 
     done
 }
