@@ -45,6 +45,7 @@ EOF
     systemctl daemon-reload
     systemctl enable ${_FNC_NAME}
     _INSTALLED_NAME+=( "bazarr:6767" )
+    _CONFIGURED_NAME+=( "bazarr:6767" )
 }
 
 function _bazarr_remove()

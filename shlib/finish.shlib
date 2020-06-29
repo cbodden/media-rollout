@@ -59,12 +59,20 @@ function _finish_configure()
 
     _SVC_CNT=-1
     _PORT_CNT=-1
+    _SVC_USER_CNT=1
+    _SVC_PASS_CNT=1
     _CNT=0
 
     for ITER in ${_CONFIGURED_NAME[@]}
     do
-        _SVC=${ITER%:*}
-        _PORT=${ITER#*:}
+        local _SVC=$(echo ${ITER} \
+            | cut -d: -f1)
+        local _PORT=$(echo ${ITER} \
+            | cut -d: -f2)
+        local _SVC_USER=$(echo ${ITER} \
+            | cut -d: -f3)
+        local _SVC_PSWD=$(echo ${ITER} \
+            | cut -d: -f4)
 
         if [ ${#_SVC} -gt $_SVC_CNT ]
         then
@@ -75,15 +83,44 @@ function _finish_configure()
         then
             _PORT_CNT=${#_PORT}
         fi
+
+        if [ ${#_SVC_USER} -gt $_SVC_USER_CNT ]
+        then
+            _SVC_USER_CNT=${#_SVC_USER}
+        fi
+
+        if [ ${#_SVC_PASS} -gt $_SVC_PASS_CNT ]
+        then
+            _SVC_PASS_CNT=${#_SVC_PASS}
+        fi
+
     done
 
     printf "%s\n" \
-        "Services now configured :"
+        "" "Services now configured :"
 
     for ITER in ${_CONFIGURED_NAME[@]}
     do
+        local _I_SVC=$(echo ${ITER} \
+            | cut -d: -f1)
+        local _I_PORT=$(echo ${ITER} \
+            | cut -d: -f2)
         printf "[%d] %.${_SVC_CNT}s on port: %.${_PORT_CNT}s\n" \
-            "$((++_CNT))" "${ITER%:*} ................" "${ITER#*:}"
+            "$((++_CNT))" "${_I_SVC} ................" "${_I_PORT}"
+
+    done
+
+    printf "%s\n" \
+        "" "usernames and password :"
+
+    for ITER in ${_CONFIGURED_NAME[@]}
+    do
+        local _I_SVC_USER=$(echo ${ITER} \
+            | cut -d: -f3)
+        local _I_SVC_PSWD=$(echo ${ITER} \
+            | cut -d: -f4)
+        printf "[%d] %.${_SVC_USER_CNT}s : %.${_SVC_PASS_CNT}s\n" \
+            "$((++_CNT))" "${_I_SVC_USER} ................" "${_I_SVC_PASS}"
 
     done
 }

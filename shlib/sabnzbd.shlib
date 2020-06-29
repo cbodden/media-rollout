@@ -108,7 +108,16 @@ function _sabnzbdplus_configure()
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
 
     fi
-    _CONFIGURED_NAME+=( "sabnzbdplus:8080" )
+
+    local _SAB_USER=$(\
+        grep -m 1 username ${_SAB_HOME}/sabnzbd.ini \
+        | awk '{print $3}')
+
+    local _SAB_PASS=$(\
+        grep -m 1 "password =" ${_SAB_HOME}/sabnzbd.ini \
+        | awk '{print $3}')
+
+    _CONFIGURED_NAME+=( "sabnzbdplus:8080:${_SAB_USER}:${_SAB_PASS}" )
 }
 
 function _sabnzbdplus_remove()

@@ -99,7 +99,7 @@ function _lidarr_configure()
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
 
     fi
-    _CONFIGURED_NAME+=( "lidarr:8686" )
+    _CONFIGURED_NAME+=( "lidarr:8686:none:none" )
 }
 
 function _lidarr_remove()

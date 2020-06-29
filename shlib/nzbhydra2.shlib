@@ -99,7 +99,7 @@ function _nzbhydra2_configure()
             "[${BLU}***${CLR}] ${_FNC_NAME} configured"
 
     fi
-    _CONFIGURED_NAME+=( "nzbhydra2:5076" )
+    _CONFIGURED_NAME+=( "nzbhydra2:5076:none:none" )
 }
 
 function _nzbhydra2_remove()
