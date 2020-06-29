@@ -108,6 +108,8 @@ function _finish_configure()
 
     done
 
+    _CNT=0
+
     printf "%s\n" \
         "" "usernames and password :"
 
