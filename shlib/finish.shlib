@@ -69,7 +69,7 @@ function _finish_configure()
             | cut -d: -f2)
         local _SVC_USER=$(echo ${ITER} \
             | cut -d: -f3)
-        local _SVC_PSWD=$(echo ${ITER} \
+        local _SVC_PASS=$(echo ${ITER} \
             | cut -d: -f4)
 
         if [ ${#_SVC} -gt $_SVC_CNT ]
