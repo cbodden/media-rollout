@@ -115,12 +115,14 @@ function _finish_configure()
 
     for ITER in ${_CONFIGURED_NAME[@]}
     do
+        local _I_SVC=$(echo ${ITER} \
+            | cut -d: -f1)
         local _I_SVC_USER=$(echo ${ITER} \
             | cut -d: -f3)
         local _I_SVC_PASS=$(echo ${ITER} \
             | cut -d: -f4)
-        printf "[%d] %.${_SVC_USER_CNT}s : %.${_SVC_PASS_CNT}s\n" \
-            "$((++_CNT))" "${_I_SVC_USER} ................" "${_I_SVC_PASS}"
+        printf "[%d] %.${_SVC_CNT}s :: %.${_SVC_USER_CNT}s : %.${_SVC_PASS_CNT}s\n" \
+            "$((++_CNT))" "${_I_SVC}" "${_I_SVC_USER} ................" "${_I_SVC_PASS}"
 
     done
 }
