@@ -122,7 +122,7 @@ function _finish_configure()
         local _I_SVC_PASS=$(echo ${ITER} \
             | cut -d: -f4)
         printf "[%d] %.${_SVC_CNT}s :: %.${_SVC_USER_CNT}s : %.${_SVC_PASS_CNT}s\n" \
-            "$((++_CNT))" "${_I_SVC} ::::::::::::::::" "${_I_SVC_USER} ::::::" "${_I_SVC_PASS}"
+            "$((++_CNT))" "${_I_SVC}                 " "${_I_SVC_USER}      " "${_I_SVC_PASS}"
 
     done
 }
