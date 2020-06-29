@@ -55,8 +55,6 @@ function _finish()
 
 function _finish_configure()
 {
-     clear
-
     _SVC_CNT=-1
     _PORT_CNT=-1
     _SVC_USER_CNT=1
