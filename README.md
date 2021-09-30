@@ -77,7 +77,7 @@ OPTIONS
 * Tautulli
 
 ## Community
-* <a name="freenode"><img src="https://img.shields.io/badge/style-join%20chat-blue.svg?style=flat.svg&label=freenode"></a>&nbsp;(`irc.freenode.net` channel `#media-rollout`)
+* <a name="libera"><img src="https://img.shields.io/badge/style-join%20chat-blue.svg?style=flat.svg&label=libera"></a>&nbsp;(`libera.chat` channel `#media-rollout`)
 
 For questions, help, comments, or praise but have basic Linux knowledge.
 
