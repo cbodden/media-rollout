@@ -59,7 +59,8 @@ function _pause()
 
 function _chkmnt()
 {
-    local _mntCNT=$(grep -c opt <(df -h))
+    local _mntCNT=$(df -h | grep -c opt)
+
     if [ "${_mntCNT}" -lt 5 ]
     then
 	clear
@@ -71,61 +72,33 @@ function _chkmnt()
 }
 
 
-function _start()
+function _service()
 {
+    main
+    local _TAG=${1}
+    
+    if [ "${_TAG}" = "start" ] || [ "${_TAG}" = "restart" ]
+    then
+	_chkmnt
+    elif [ "${_TAG}" = "test" ]
+    then
+	echo "sudo systemctl ${_TAG} ${_TAG}.service"
+	exit 0
+    fi
+
     for ITER in ${_SVCS}
     do
-	sudo systemctl start ${ITER}.service
+	printf "%s\n" \
+	    "${BLU} Running ${GRN}${_TAG}${BLU} on ${GRN}${ITER}${CLR}"
+	sudo systemctl ${_TAG} ${ITER}.service
     done
 }
 
-
-function _stop()
-{
-    for ITER in ${_SVCS}
-    do
-	sudo systemctl stop ${ITER}.service
-    done
-}
-
-
-function _restart()
-{
-    for ITER in ${_SVCS}
-    do
-	sudo systemctl restart ${ITER}.service
-    done
-}
-
-
-function _enable()
-{
-    for ITER in ${_SVCS}
-    do
-	sudo systemctl enable ${ITER}.service
-    done
-}
-
-
-function _disable()
-{
-    for ITER in ${_SVCS}
-    do
-	sudo systemctl disable ${ITER}.service
-    done
-}
-
-
-function _test()
-{
-    for ITER in ${_SVCS}
-    do
-	echo "sudo systemctl test ${ITER}.service"
-    done
-}
 
 function _usage()
 {
+    clear
+
     cat <<EOF
 NAME
     ${PROGNAME}
@@ -158,6 +131,10 @@ OPTIONS
             Stop
             This option will stop all services.
 
+    -U, -u
+            Status
+            This option will pull up the status for all services.
+
     -R, -r
             Restart
             This option will restart all services.
@@ -167,37 +144,31 @@ EOF
 
 
 ## option selection
-while getopts "EeDdSsTtRrQqHh" OPT
+while getopts "EeDdSsTtRrQqUuHh" OPT
 do
     case "${OPT}" in
 	[Ee])
-	    main
-	    _enable
+	    _service enable
 	    ;;
 	[Dd])
-	    main
-	    _disable
+	    _service disable
 	    ;;
 	[Ss])
-	    main
-	    _chkmnt
-	    _start
+	    _service start
 	    ;;
 	[Tt])
-	    main
-	    _stop
+	    _service stop
 	    ;;
 	[Rr])
-	    main
-	    _chkmnt
-	    _restart
+	    _service restart
 	    ;;
 	[Qq])
-	    _chkmnt
-	    _test
+	    _service test
+	    ;;
+	[Uu])
+	    _service status
 	    ;;
 	[Hh]|*)
-	    clear
 	    _usage >&2
 	    exit 1
 	    ;;
@@ -205,7 +176,6 @@ do
 done
 if [[ ${OPTIND} -eq 1 ]]
 then
-    clear
     _usage >&2
     exit 1
 fi
