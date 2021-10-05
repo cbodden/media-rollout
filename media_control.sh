@@ -92,7 +92,7 @@ function _service()
         printf "%s\n" \
             "${BLU} Running ${GRN}${_TAG}${BLU} on ${GRN}${ITER}${CLR}"
 
-        sudo systemctl ${_TAG} ${ITER}.service
+        systemctl ${_TAG} ${ITER}.service
 
         if [ "${_TAG}" = "stop" ] || [ "${_TAG}" = "restart" ]
         then
