@@ -28,20 +28,20 @@ function main()
     local _R_UID="0"
     if [ "${UID}" -ne "${_R_UID}" ]
     then
-        clear
-        printf "\n%s\n\n" \
-            "${RED}. . .Needs sudo. . .${CLR}"
-        exit 1
+	clear
+	printf "\n%s\n\n" \
+	    "${RED}. . .Needs sudo. . .${CLR}"
+	exit 1
     fi
 
     # if $SHELL == /bin/bash have some default sets
     case "$(echo $SHELL 2>/dev/null)" in
-        '/bin/bash')
-            # set -o nounset
-            set -o pipefail
-            # set -e
-            set -u
-            ;;
+	'/bin/bash')
+	    # set -o nounset
+	    set -o pipefail
+	    # set -e
+	    set -u
+	    ;;
     esac
 
     trap 'echo "${PROGNAME}: Ouch! Quitting." 1>&2 ; exit 1' 1 2 3 9 15
@@ -51,7 +51,7 @@ function main()
 function _pause()
 {
     printf "\n%s\n\n" \
-        "${GRN}. . . .Press enter to continue. . . .${CLR}"
+	"${GRN}. . . .Press enter to continue. . . .${CLR}"
 
     read -p "$*"
 }
@@ -59,16 +59,15 @@ function _pause()
 
 function _chkmnt()
 {
-    local _mntCNT=$(df -h \
-        | grep -c opt)
+    local _mntCNT=$(df -h | grep -c opt)
 
     if [ "${_mntCNT}" -lt 5 ]
     then
-        clear
-        printf "\n%s\n\n" \
-            "${RED}. . .Drives not mounted. . .${CLR}"
+	clear
+	printf "\n%s\n\n" \
+	    "${RED}. . .Drives not mounted. . .${CLR}"
 
-        exit 1
+	exit 1
     fi
 }
 
@@ -77,21 +76,32 @@ function _service()
 {
     main
     local _TAG=${1}
-
+    
     if [ "${_TAG}" = "start" ] || [ "${_TAG}" = "restart" ]
     then
-        _chkmnt
+	_chkmnt
     elif [ "${_TAG}" = "test" ]
     then
-        echo "sudo systemctl ${_TAG} ${_TAG}.service"
-        exit 0
+	echo "sudo systemctl ${_TAG} ${_TAG}.service"
+	exit 0
     fi
 
     for ITER in ${_SVCS}
     do
-        printf "%s\n" \
-            "${BLU} Running ${GRN}${_TAG}${BLU} on ${GRN}${ITER}${CLR}"
-        sudo systemctl ${_TAG} ${ITER}.service
+	printf "%s\n" \
+	    "${BLU} Running ${GRN}${_TAG}${BLU} on ${GRN}${ITER}${CLR}"
+	sudo systemctl ${_TAG} ${ITER}.service
+	if [ "${_TAG}" = "stop" ] || [ "${_TAG}" = "restart" ]
+	then
+	    local _EPID=$(ps -ef \
+		| grep ${ITER} \
+		| grep -v grep \
+		| awk '{print $2}')
+	    if [[ ! -z "${_EPID}" ]]
+	    then
+		kill -9 ${_EPID}
+	    fi
+	fi
     done
 }
 
@@ -148,31 +158,31 @@ EOF
 while getopts "EeDdSsTtRrQqUuHh" OPT
 do
     case "${OPT}" in
-        [Ee])
-            _service enable
-            ;;
-        [Dd])
-            _service disable
-            ;;
-        [Ss])
-            _service start
-            ;;
-        [Tt])
-            _service stop
-            ;;
-        [Rr])
-            _service restart
-            ;;
-        [Qq])
-            _service test
-            ;;
-        [Uu])
-            _service status
-            ;;
-        [Hh]|*)
-            _usage >&2
-            exit 1
-            ;;
+	[Ee])
+	    _service enable
+	    ;;
+	[Dd])
+	    _service disable
+	    ;;
+	[Ss])
+	    _service start
+	    ;;
+	[Tt])
+	    _service stop
+	    ;;
+	[Rr])
+	    _service restart
+	    ;;
+	[Qq])
+	    _service test
+	    ;;
+	[Uu])
+	    _service status
+	    ;;
+	[Hh]|*)
+	    _usage >&2
+	    exit 1
+	    ;;
     esac
 done
 if [[ ${OPTIND} -eq 1 ]]
